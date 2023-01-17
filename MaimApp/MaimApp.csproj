@@ -60,9 +60,9 @@
     </ApplicationDefinition>
     <Compile Include="Class\IpInfo.cs" />
     <Compile Include="Class\MainProductC\ViewProduct.cs" />
-    <Compile Include="Class\ProductInformation.cs" />
+    <Compile Include="Class\HotelInformation.cs" />
     <Compile Include="Parser\BLL\Formatter.cs" />
-    <Compile Include="Parser\Class\ProductInf.cs" />
+    <Compile Include="Parser\Class\HotelInf.cs" />
     <Compile Include="Parser\DAL\MainParser.cs" />
     <Compile Include="Parser\Interfaces\IParser.cs" />
     <Compile Include="Parser\Models\CopyJSON.cs" />

@@ -35,18 +35,20 @@ namespace MaimApp.BLL
             return result.response.hotels.Select(x => x.image.preview_path).ToList();
         }
 
-        public async Task<List<ProductInf>> GetAddressesFromUrl(string url)
+        public async Task<List<HotelInf>> GetAddressesFromUrl(string url)
         {
             var result = await _parser.Parse(url);
 
             return result.response.hotels.Where(x => x.image != null).Select(x => 
-            new ProductInf(x.id,x.name,"dwa",x.image.path,Convert.ToDecimal(x.min_price),false)
+            new HotelInf(x.id,x.name,x.address,x.center_distance.ToString(),x.image.path,Convert.ToDecimal(x.min_price),false,x.rating.ToString())
             {
                 ID= x.id,
                 Name= x.name,
-                Price = Convert.ToDecimal(x.min_price),
+                Adress = x.address,
+                DistanceToCenter = $"До центра { x.center_distance } км",
                 ImagePath= x.image.path,
-                ShortDiscription = x.image.path,
+                Price = Convert.ToDecimal(x.min_price),
+                Reviews= $"{x.rating}/10",
                 IsFavorite = false
             }).ToList();
 

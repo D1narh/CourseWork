@@ -16,27 +16,29 @@ namespace MaimApp.Class.MainProductC
     {
         private readonly Formatter _formatter = new Formatter();
 
-        public ObservableCollection<ProductInf> Products = new ObservableCollection<ProductInf>();
+        public ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
 
-        public async Task<ObservableCollection<ProductInf>> FillCatalog()
+        public async Task<ObservableCollection<HotelInf>> FillCatalog()
         {
             var result = await GetAllSite();
             foreach (var i in result)
             {
-                Products.Add(new ProductInf(i.ID, i.Name, i.ShortDiscription, i.ImagePath, Convert.ToDecimal(i.Price), false)
+                Products.Add(new HotelInf(i.ID, i.Name, i.Adress, i.DistanceToCenter, i.ImagePath, i.Price, false, i.Reviews)
                 {
-                    ID= i.ID,
-                    Name= i.Name,
-                    ShortDiscription = i.ShortDiscription,
+                    ID = i.ID,
+                    Name = i.Name,
+                    Adress = i.Adress,
+                    DistanceToCenter = i.DistanceToCenter,
                     ImagePath = i.ImagePath,
                     Price = i.Price,
-                    IsFavorite= i.IsFavorite,
+                    Reviews = i.Reviews,
+                    IsFavorite = false
                 });
             }
             return Products;
         }
 
-        public async Task<List<ProductInf>> GetAllSite()
+        public async Task<List<HotelInf>> GetAllSite()
         {
             var result = await _formatter.GetAddressesFromUrl(
                  "https://101hotels.com/api/hotel/search?r=0.1345066605085845&params=%7B%22city_ids%22%3A%5B2%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D");
