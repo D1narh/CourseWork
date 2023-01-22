@@ -31,18 +31,11 @@ namespace MaimApp.Views
         {
             InitializeComponent();
 
+            Sortierung();
             AirTickets.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
             BusTickets.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
             Hotels.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
             Adventures.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
-        }
-
-        private async Task GetAllSite()
-        {
-            var result = await _formatter.GetAddressesFromUrl(
-                 "https://101hotels.com/api/hotel/search?r=0.1345066605085845&params=%7B%22city_ids%22%3A%5B2%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D");
-            //"https://101hotels.com/api/hotel/search?r=0.5406233108723135&params=%7B%22city_ids%22%3A%5B75%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D" Астрахань id=75
-            //"https://101hotels.com/api/hotel/search?r=0.8865264677573255&params=%7B%22city_ids%22%3A%5B2%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D" Москва
         }
 
         public static string GetUserCountryByIp()
@@ -117,7 +110,21 @@ namespace MaimApp.Views
             name.BeginAnimation(WidthProperty, anim);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadProduct();
+
+            animation.Visibility = Visibility.Hidden;
+            SearchText.Visibility = Visibility.Hidden;
+        }
+        public async Task LoadProduct()
+        {
+            ViewProduct viewProduct = new ViewProduct();
+
+            list.ItemsSource = await Task.Run(() => viewProduct.FillCatalog());
+        }
+
+        private void Sort_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation anim = new DoubleAnimation();
             if (ComboBoxGrid.Visibility == Visibility.Hidden)
@@ -136,20 +143,22 @@ namespace MaimApp.Views
             }
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        public void Sortierung()
         {
-            await LoadProduct();
+            var i = new List<string> { "По скидке", "Лучшие отзывы", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
 
-            animation.Visibility = Visibility.Hidden;
-            SearchText.Visibility = Visibility.Hidden;
-
-
-        }
-        public async Task LoadProduct()
-        {
-            ViewProduct viewProduct = new ViewProduct();
-
-           list.ItemsSource = await Task.Run(() => viewProduct.FillCatalog());
+            foreach (var item in i)
+            {
+                Button button = new Button
+                {
+                    Content = item,
+                    FontSize = 18,
+                    FontFamily = new FontFamily("Merienda One"),
+                    Padding = new Thickness(10),
+                    Style = (Style)FindResource("ComboBoxButton")
+                };
+                ChangeSity.Children.Add(button);
+            }
         }
     }
 }
