@@ -67,14 +67,14 @@
     <Compile Include="Parser\DAL\MainParser.cs" />
     <Compile Include="Parser\Interfaces\IParser.cs" />
     <Compile Include="Parser\Models\CopyJSON.cs" />
-    <Compile Include="Views\MainProduct.xaml.cs">
+    <Compile Include="Views\MainWindow\MainProduct.xaml.cs">
       <DependentUpon>MainProduct.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MainProduct.xaml">
+    <Page Include="Views\MainWindow\MainProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,6 +129,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\Product\" />
+    <Folder Include="Views\Treaty\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Group 85.png" />

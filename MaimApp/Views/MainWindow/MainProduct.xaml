@@ -39,23 +39,25 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
+            
+            <Label x:Name="ButtonPressSecond" Content="" Visibility="Hidden"/>
+            <Label x:Name="ButtonPressNow" Content="" Visibility="Hidden"/>
             <!--Кнопка Авиа-Билеты-->
-            <Button x:Name="AirTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-95,0,10" MouseEnter="AirTickets_MouseEnter" MouseLeave="AirTickets_MouseLeave">
+            <Button x:Name="AirTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-95,0,10" MouseEnter="AirTickets_MouseEnter" MouseLeave="AirTickets_MouseLeave" Click="AirTickets_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\hotel.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Отели" FontSize="18" FontFamily="Merienda One" Margin="0,2,0,0" Width="53"/>
                 </StackPanel>
             </Button>
             <!--Кнопка Автобусы-->
-            <Button x:Name="BusTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-109,0,10" MouseEnter="BusTickets_MouseEnter" MouseLeave="BusTickets_MouseLeave">
+            <Button x:Name="BusTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-109,0,10" MouseEnter="BusTickets_MouseEnter" MouseLeave="BusTickets_MouseLeave" Click="BusTickets_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\bus.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Автобусы" VerticalAlignment="Center" FontSize="18" FontFamily="Merienda One" Margin="0,3,0,0"/>
                 </StackPanel>
             </Button>
             <!--Кнопка Приключения-->
-            <Button x:Name="Adventures" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-120,0,10" MouseEnter="Adventures_MouseEnter" MouseLeave="Adventures_MouseLeave">
+            <Button x:Name="Adventures" Click="Adventures_Click" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-120,0,10" MouseEnter="Adventures_MouseEnter" MouseLeave="Adventures_MouseLeave">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\hot-air-balloon.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Приключения" VerticalAlignment="Center" FontSize="18" FontFamily="Merienda One" Margin="0,0,0,0"/>
@@ -83,17 +85,17 @@
         <Border Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="10" Grid.Column="5" Background="#EDEDED" Margin="-140,-10,0,0" Grid.ColumnSpan="3" Height="35" Width="160" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Style="{DynamicResource ChangeButton}" x:Name="Sort" Height="35" Width="160" Click="Sort_Click">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Сортировка" FontFamily="Merienda One" FontSize="18" Width="144" Height="40"/>
-                    <Image Height="15" Width="15" Margin="-30,5,0,0" Source="\Image\Vector.png"/>
+                    <Label Content="Сортировка" FontFamily="Merienda One" FontSize="16" Width="144" Height="28"/>
+                    <Image Height="15" Width="14" Margin="-30,5,0,0" Source="\Image\Vector.png"/>
                 </StackPanel>
             </Button>
         </Border>
         <!--Кнопка выбора города-->
         <Border Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="10" Grid.Column="2" Background="#EDEDED" Margin="10,-10,0,0" Grid.ColumnSpan="3" Height="35" Width="230" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Style="{DynamicResource ChangeButton}" x:Name="City" Height="35" Width="230" Click="Sort_Click">
+            <Button Style="{DynamicResource ChangeButton}" x:Name="City" Height="35" Width="230" Click="City_Click">
                 <StackPanel Orientation="Horizontal" Width="230">
-                    <Label Content="Кабардино-Балкарской" FontFamily="Merienda One" FontSize="18" Width="230" Height="40"/>
-                    <Image Height="15" Width="15" Margin="-30,5,0,0" Source="\Image\Vector.png"/>
+                    <Label Margin="5,0,0,0" Padding="5" Content="г.Астрахань" FontFamily="Merienda One" FontSize="16" Width="230" Height="29"/>
+                    <Image Height="14" Width="14" Margin="-40,5,0,0" Source="\Image\Vector.png"/>
                 </StackPanel>
             </Button>
         </Border>
@@ -187,8 +189,8 @@
         </ListView>
 
         <!--Аницамия ожидания-->
-        <Label x:Name="SearchText" Content="Поиск предложений" Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="4" FontSize="22" FontFamily="Merienda One" Foreground="Gray" Margin="41,0,41,50" Grid.RowSpan="2"/>
-        <Image x:Name="animation" Source="\Image\Group 85.png" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Margin="40,0,40,0">
+        <Label x:Name="SearchText" Content="Поиск предложений" Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="3" FontSize="22" FontFamily="Merienda One" Foreground="Gray" Margin="92,50,62,50" Grid.RowSpan="3"/>
+        <Image x:Name="animation" Source="\Image\Group 85.png" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Margin="39,0,41,0">
             <Image.RenderTransform>
                 <RotateTransform x:Name="rotate"
                          CenterX="20"
@@ -207,11 +209,26 @@
             </Image.Triggers>
         </Image>
         <!--Выпадающий список в сортировке-->
-        <Grid x:Name="ComboBoxGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="2,23,0,0" VerticalAlignment="Top" Width="255" Height="0" HorizontalAlignment="Left">
+        <Grid x:Name="ChangeSortGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="2,23,0,0" VerticalAlignment="Top" Width="255" Height="0" HorizontalAlignment="Left">
             <Border CornerRadius="3" HorizontalAlignment="Left" Background="#EDEDED">
-                <StackPanel x:Name="ChangeSity" Orientation="Vertical"/>
+                <StackPanel x:Name="ChangeSort" Orientation="Vertical"/>
             </Border>
         </Grid>
-
+        <!--Выпадающий список городов-->
+        <Grid Visibility="Hidden" x:Name="ChangeCityGrid" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="6" Grid.RowSpan="6" Margin="42,23,15,45" Width="550">
+            <Border CornerRadius="3" HorizontalAlignment="Left" Background="#EDEDED">
+                <Grid x:Name="ChangeCity">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
