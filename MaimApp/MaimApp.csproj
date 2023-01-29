@@ -74,7 +74,35 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\Product\ViewProduct.xaml.cs">
+      <DependentUpon>ViewProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Treaty\HotelSelection.xaml.cs">
+      <DependentUpon>HotelSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Treaty\Paperwork.xaml.cs">
+      <DependentUpon>Paperwork.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Treaty\SettingNumPeople.xaml.cs">
+      <DependentUpon>SettingNumPeople.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow\MainProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Product\ViewProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Treaty\HotelSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Treaty\Paperwork.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Treaty\SettingNumPeople.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,8 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Views\Product\" />
-    <Folder Include="Views\Treaty\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Group 85.png" />
