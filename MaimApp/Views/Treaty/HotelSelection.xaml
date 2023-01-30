@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaimApp.Views.Treaty"
         mc:Ignorable="d"
-        Title="HotelSelection" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="HotelSelection" Height="450" Width="450"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+           >
+    <Border Width ="450" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
+        <Grid>
+            <Label Content="Выбор колличества людей" FontSize="22" Margin="83,45,73,366" Opacity="3"/>
+            <Rectangle Fill="Black" Height="2" Width="250" Margin="100,90,100,358"/>
+        </Grid>
+    </Border>
 </Window>

@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaimApp.Views.Treaty"
         mc:Ignorable="d"
-        Title="Paperwork" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Paperwork" Height="450" Width="450"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+           >
+    <Border Width ="450" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
+        <Grid>
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+    </Border>
 </Window>
