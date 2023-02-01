@@ -28,19 +28,19 @@ namespace MaimApp.Views.Treaty
         private void People_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation anim = new DoubleAnimation();
-            if (NumPeople.Visibility == Visibility.Hidden)
+            if (SelNumPeople.Visibility == Visibility.Hidden)
             {
-                NumPeople.Visibility = Visibility.Visible;
-                anim.To = 156;
+                SelNumPeople.Visibility = Visibility.Visible;
+                anim.To = 134;
                 anim.Duration = TimeSpan.FromSeconds(0.25);
-                NumPeople.BeginAnimation(HeightProperty, anim);
+                SelNumPeople.BeginAnimation(HeightProperty, anim);
             }
             else
             {
                 anim.To = 0;
                 anim.Duration = TimeSpan.FromSeconds(0.1);
-                NumPeople.BeginAnimation(HeightProperty, anim);
-                NumPeople.Visibility = Visibility.Hidden;
+                SelNumPeople.BeginAnimation(HeightProperty, anim);
+                SelNumPeople.Visibility = Visibility.Hidden;
             }
         }
     }
