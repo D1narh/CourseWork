@@ -27,6 +27,10 @@ namespace MaimApp.Views.Treaty
 
         private void People_Click(object sender, RoutedEventArgs e)
         {
+            Animation();
+        }
+        public void Animation()
+        {
             DoubleAnimation anim = new DoubleAnimation();
             if (SelNumPeople.Visibility == Visibility.Hidden)
             {

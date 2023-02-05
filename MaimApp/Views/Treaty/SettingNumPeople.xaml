@@ -75,7 +75,6 @@
                         <Label Content="0" x:Name="CountChild" Height="35" Width="35" FontSize="18" FontFamily="Merienda One" Margin="206,10,79,22" Grid.Row="1"/>
                         <Button x:Name="ChildPlus" Content="+" Width="35" Height="35" Margin="268,10,17,22" FontFamily="Merienda One" FontSize="18" Style="{DynamicResource CornerButton}" Grid.Row="1"/>
                         <Button x:Name="ChildMinus" Content="-" Width="35" Height="35" Margin="142,10,142,22" FontFamily="Merienda One" FontSize="18" Style="{DynamicResource CornerButton}" Grid.Row="1"/>
-
                     </Grid>
                 </Border>
             </Grid>

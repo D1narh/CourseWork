@@ -13,11 +13,62 @@
            >
     <Border Width ="450" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
         <Grid>
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                </LinearGradientBrush>
-            </Grid.Background>
+            <!--header-->
+            <Label Content="Оформление документов" FontSize="22" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="4" FontFamily="Merienda One" Foreground="Gray"/>
+            <Label Content="Клиент №1 (Взрослый)" FontSize="15" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" FontFamily="Merienda One" Foreground="Gray" Grid.Row="1" Margin="0,14,0,0"/>
+            <Rectangle Fill="Gray" Height="2" Width="250" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Row="1" Margin="0,46,0,0"/>
+            <!--Logo-->
+            <Label Content="Maim" FontFamily="Merienda One" FontSize="60" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Margin="75,26,-175,11">
+                <Label.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Label.RenderTransform>
+            </Label>
+            <!--Data-->
+
+            <!--LastName-->
+            <Border Background="#FFD9D9D9" Grid.Row="2" Grid.ColumnSpan="3" Height="40" CornerRadius="8" Margin="18,24,37,49" Grid.RowSpan="2"/>
+            <!--Name-->
+            <Border Background="#FFD9D9D9" Grid.Row="2" Grid.ColumnSpan="3" Height="40" CornerRadius="8" Margin="45,24,10,49" Grid.Column="2" Grid.RowSpan="2"/>
+            <!--Birthday-->
+            <Border Background="#FFD9D9D9" Grid.Row="3" Grid.ColumnSpan="3" Height="40" CornerRadius="8" Margin="45,14,10,2" Grid.Column="2"/>
+            <!--Number Document-->
+            <Border Background="#FFD9D9D9" Grid.Row="4" Grid.ColumnSpan="5" Height="40" CornerRadius="8" Margin="18,5,10,11"/>
+            <!--Telephone Number-->
+            <Border Background="#FFD9D9D9" Grid.Row="3" Grid.ColumnSpan="3" Height="40" CornerRadius="8" Margin="18,14,37,2"/>
+            <!--Mail-->
+            <Border Background="#FFD9D9D9" Grid.Row="4" Grid.ColumnSpan="5" Height="40" CornerRadius="8" Margin="18,52,10,20" Grid.RowSpan="2"/>
+            <!--Gender-->
+            <Label Content="Выбирите пол:" FontFamily="Merienda One" FontSize="15" Grid.Row="6" Grid.ColumnSpan="2" Margin="18,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="122"/>
+            <Border Grid.Column="2" CornerRadius="6" Height="25" Background="#B0BDE9" Grid.Row="6" Margin="0,6,0,26">
+                <Grid Margin="0,0,0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                <Button Content="М" FontFamily="Merienda One" Style="{DynamicResource ChangeButton}" Foreground="White" Grid.Column="0"/>
+                <Button Content="Ж" FontFamily="Merienda One" Style="{DynamicResource ChangeButton}" Foreground="White" Grid.Column="1"/>
+                </Grid>
+            </Border>
+            <Line X1="37" Y1="0" X2="37" Y2="25" Stroke="Black" Grid.Column="2" Grid.Row="6" Margin="1,6,74,26" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
 </Window>
