@@ -13,8 +13,34 @@
            >
     <Border Width ="450" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
         <Grid>
-            <Label Content="Выбор колличества людей" FontSize="22" Margin="83,45,73,366" Opacity="3"/>
-            <Rectangle Fill="Black" Height="2" Width="250" Margin="100,90,100,358"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--header-->
+            <Label Content="Выбор отеля" FontSize="22" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" FontFamily="Merienda One" Foreground="Gray" Margin="0,26,0,0"/>
+            <Rectangle Fill="Gray" Height="2" Width="250" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Row="1" Margin="0,13,0,0"/>
+            <!--Logo-->
+            <Label Content="Maim" FontFamily="Merienda One" FontSize="60" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Margin="75,26,-175,11">
+                <Label.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Label.RenderTransform>
+            </Label>
         </Grid>
     </Border>
 </Window>
