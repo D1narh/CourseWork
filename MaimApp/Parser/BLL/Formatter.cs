@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MaimApp.Models;
+using MaimApp.Parser.Models;
 using MaimApp.Interfaces;
 using MaimApp.DAL;
 using System;
@@ -13,7 +13,7 @@ namespace MaimApp.BLL
     {
         private readonly IParser _parser = new MainParser();
 
-        private Result _cache = null;
+        private Rootobject _cache = null;
 
         public async Task WarmUpCache(string url)
         {
@@ -23,7 +23,7 @@ namespace MaimApp.BLL
 
         public async Task<List<string>> GetImagesFromUrl(string url)
         {
-            Result result;
+            Rootobject result;
 
             if (_cache == null)
             {

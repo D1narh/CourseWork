@@ -71,7 +71,7 @@
             <Line X1="37" Y1="0" X2="37" Y2="35" Stroke="Black" Grid.Column="2" Grid.Row="5" Margin="0,28,0,50" Grid.RowSpan="2" />
             <!--Change Documents-->
             <Border Style="{DynamicResource BorderStyle}" CornerRadius="6" Background="#EDEDED" Height="35" Width="130" Grid.Column="3" Grid.Row="5" Grid.RowSpan="2" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,-11,0,0">
-                <Button Style="{DynamicResource ChangeButton}" x:Name="People" Click="People_Click">
+                <Button Style="{DynamicResource ChangeButton}" x:Name="People">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Паспорт РФ" Width="130" FontFamily="Merienda One" FontSize="15" Height="35"/>
                         <Image Height="18" Width="18" Source="\Image\Vector.png" Margin="-30,0,0,0"/>
