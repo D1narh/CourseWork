@@ -43,7 +43,7 @@
             <Label x:Name="ButtonPressSecond" Content="" Visibility="Hidden"/>
             <Label x:Name="ButtonPressNow" Content="" Visibility="Hidden"/>
             <!--Кнопка Авиа-Билеты-->
-            <Button x:Name="AirTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-95,0,10" MouseEnter="AirTickets_MouseEnter" MouseLeave="AirTickets_MouseLeave" Click="AirTickets_Click">
+            <Button x:Name="Hotels" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-95,0,10" MouseEnter="Hotels_MouseEnter" MouseLeave="Hotels_MouseLeave" Click="Hotels_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\hotel.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Отели" FontSize="18" FontFamily="Merienda One" Margin="0,2,0,0" Width="53"/>
@@ -64,7 +64,7 @@
                 </StackPanel>
             </Button>
             <!--Кнопка Личного кабинета-->
-            <Button x:Name="Hotels" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="3" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-8,0,10" MouseEnter="Hotels_MouseEnter" MouseLeave="Hotels_MouseLeave">
+            <Button x:Name="PersonalArea" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="3" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-8,0,10" MouseEnter="PersonalArea_MouseEnter" MouseLeave="PersonalArea_MouseLeave" Click="PersonalArea_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\user (3).png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Профиль" FontSize="18" FontFamily="Merienda One" Margin="0,2,0,0" Width="76"/>
