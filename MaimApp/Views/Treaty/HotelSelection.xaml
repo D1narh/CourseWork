@@ -41,6 +41,26 @@
                     <RotateTransform Angle="90"/>
                 </Label.RenderTransform>
             </Label>
+
+            <!--Список товаров-->
+            <ListView x:Name="list" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="6" Margin="10,56,10,56">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl>
+                            <Border Width ="250" Height="50" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6">
+                                <Grid x:Name="grd">
+                                    
+                                </Grid>
+                            </Border>
+                        </ContentControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--Кнопки перехода и отмены-->
+            <Button x:Name="Back" Style="{DynamicResource CornerButton}" Content="Назад" Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="128" Height="44" Margin="18,40,0,0"/>
+            <Button x:Name="NextStep" Style="{DynamicResource CornerButton}" Content="Продолжить" Grid.Row="6" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="194" Height="44" Margin="31,40,0,0"/>
+
         </Grid>
     </Border>
 </Window>

@@ -86,6 +86,9 @@
     <Compile Include="Views\Treaty\SettingNumPeople.xaml.cs">
       <DependentUpon>SettingNumPeople.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Treaty\ViewHotel.xaml.cs">
+      <DependentUpon>ViewHotel.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow\MainProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Treaty\SettingNumPeople.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Treaty\ViewHotel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

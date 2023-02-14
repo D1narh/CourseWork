@@ -15,18 +15,13 @@ using System.Windows.Shapes;
 namespace MaimApp.Views.Treaty
 {
     /// <summary>
-    /// Логика взаимодействия для Paperwork.xaml
+    /// Логика взаимодействия для ViewHotel.xaml
     /// </summary>
-    public partial class Paperwork : Window
+    public partial class ViewHotel : Window
     {
-        public Paperwork()
+        public ViewHotel()
         {
             InitializeComponent();
-        }
-
-        private void People_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
