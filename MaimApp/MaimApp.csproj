@@ -61,6 +61,7 @@
     <Compile Include="Class\IpInfo.cs" />
     <Compile Include="Class\MainProductC\ViewProduct.cs" />
     <Compile Include="Class\HotelInformation.cs" />
+    <Compile Include="Class\RegistrC\MessageSend.cs" />
     <Compile Include="Class\Sortierung.cs" />
     <Compile Include="Parser\BLL\Formatter.cs" />
     <Compile Include="Parser\Class\HotelInf.cs" />
@@ -73,6 +74,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\PersonalArea\Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalArea\Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Product\ViewProduct.xaml.cs">
       <DependentUpon>ViewProduct.xaml</DependentUpon>
@@ -90,6 +97,14 @@
       <DependentUpon>ViewHotel.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow\MainProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\Profile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
