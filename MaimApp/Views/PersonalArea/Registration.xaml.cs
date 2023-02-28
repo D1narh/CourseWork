@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaimApp.Parser.Models;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,14 @@ namespace MaimApp.Views.PersonalArea
         public Registration()
         {
             InitializeComponent();
+            buttonBackgroung();
+        }
+        public void buttonBackgroung()
+        {
+            Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+            Login.Background = new SolidColorBrush(color) { Opacity = 0.5 };
+            Passwork.Background = new SolidColorBrush(color) { Opacity = 0.5 };
+            Mail.Background = new SolidColorBrush(color) { Opacity = 0.5 };
         }
     }
 }

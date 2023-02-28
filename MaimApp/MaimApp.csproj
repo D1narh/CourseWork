@@ -184,5 +184,8 @@
   <ItemGroup>
     <Resource Include="Image\Group 85.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Ddroschi_appalachian_trail_landscape_with_heart_shape._young_bl_66e98030-4746-499d-a11c-9aba9fde1485 %282%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

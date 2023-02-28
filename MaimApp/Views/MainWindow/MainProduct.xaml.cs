@@ -1,12 +1,6 @@
-﻿using MaimApp.Class;
-using MaimApp.Class.MainProductC;
-using Newtonsoft.Json;
+﻿using MaimApp.Class.MainProductC;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using MaimApp.BLL;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows.Media.Imaging;
-using Newtonsoft.Json.Linq;
-using System.Runtime.InteropServices;
 using MaimApp.Class.RegistrC;
 
 namespace MaimApp.Views
@@ -36,9 +26,12 @@ namespace MaimApp.Views
         {
             InitializeComponent();
 
-            SendMessage();
             Sortierung();
             ChangeSitys();
+            buttonBackgroung();
+        }
+        public void buttonBackgroung()
+        {
             Hotels.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
             BusTickets.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
             PersonalArea.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
@@ -155,12 +148,6 @@ namespace MaimApp.Views
 
 
                                                                             //Учтасток кода с логикой =(
-
-        public void SendMessage()
-        {
-            MessageSend message = new MessageSend("dunis.guryanov@mail.ru", "D1narh");
-            message.SendMessage2();
-        }
 
 
         //Метод для убирания лишней ширины
