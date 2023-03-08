@@ -219,6 +219,21 @@ namespace MaimApp.Views
         //Метод для заполнения кнопками Грид ChangeSity
         public void ChangeSitys()
         {
+            var County = new List<string> { "Дальневосточный", "Приволжский", "Северо - Западный", "Северо - Кавказский", "Сибирский", "Уральский", "Центральный", "Южный" };
+            foreach(var item in County)
+            {
+                Button button = new Button
+                {
+                    Content = item,
+                    FontSize = 15,
+                    Height = 25.5,
+                    FontFamily = new FontFamily("Merienda One"),
+                    Style = (Style)FindResource("ComboBoxButton")
+                };
+                CountySP.Children.Add(button);
+            }
+
+
             //var count = 0;
             //var gg = 1;
 
