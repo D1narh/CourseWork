@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="06286dd0a8934f15846b3e307694fb33" Name="Diagram1">
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Approval" Width="1.5" PointX="7.5" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Approval_request" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.BascetLine" Width="1.5" PointX="7.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Basket" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.City" Width="1.5" PointX="12.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.County" Width="1.5" PointX="7.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Link" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.PersonDataInRequest" Width="1.5" PointX="10.5" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Product" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.ProductCategory" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.ProductComment" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Region" Width="1.5" PointX="10" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Request" Width="1.5" PointX="8.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.Role" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.User" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.UserFavProduct" Width="1.5" PointX="10.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_a96b40_maimfModel.UserPrData" Width="1.5" PointX="5.25" PointY="22.125" IsExpanded="true" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Approval__Approv__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Approval___UserI__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__BascetLin__Baske__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__BascetLin__Produ__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Basket__UserId__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__City__RegionId__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Region__CountyId__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__PersonDat__Reque__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Product__Categor__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__ProductCo__Produ__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Request__Product__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__UserFavPr__Produ__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__ProductCo__UserI__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__Request__UserId__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__User__RoleId__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__UserFavPr__UserI__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="db_a96b40_maimfModel.FK__UserPrDat__UserI__3C69FB99" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

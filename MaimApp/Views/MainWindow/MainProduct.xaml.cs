@@ -8,7 +8,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using MaimApp.BLL;
-using MaimApp.Class.RegistrC;
+using System.Linq;
+using System.Threading;
+using MaimApp.DataModels;
+using System.Data;
+using System.Data.Entity;
+using System.Runtime.InteropServices;
 
 namespace MaimApp.Views
 {
@@ -19,16 +24,15 @@ namespace MaimApp.Views
     {
         private readonly Formatter _formatter = new Formatter();
 
-        object senderNow;
-        object senderSecond;
+        //Блок с временными переменными которые отслеживают нажатые кнопки
+        object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou;
 
+
+
+        //Основной блок программы
         public MainProduct()
         {
             InitializeComponent();
-
-            Sortierung();
-            ChangeSitys();
-            buttonBackgroung();
         }
         public void buttonBackgroung()
         {
@@ -80,10 +84,14 @@ namespace MaimApp.Views
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ChangeSitys();
+            Sortierung();
             await LoadProduct();
 
             animation.Visibility = Visibility.Hidden;
             SearchText.Visibility = Visibility.Hidden;
+
+            buttonBackgroung();
 
             GC.Collect();
         }
@@ -147,19 +155,19 @@ namespace MaimApp.Views
         }
 
 
-                                                                            //Учтасток кода с логикой =(
+        //Учтасток кода с логикой =(
 
 
         //Метод для убирания лишней ширины
         public void Senderar(object sender)
         {
             //Запись в глобальные переменные кнопок
-            senderSecond = senderNow;
-            senderNow = sender;
+            senderSecondLeftP = senderNowLeftP;
+            senderNowLeftP = sender;
 
-            if (senderSecond != null)//Если жмякнули на другую кнопку, где не было ВЫДВИНУТО
+            if (senderSecondLeftP != null)//Если жмякнули на другую кнопку, где не было ВЫДВИНУТО
             {
-                AnimationLeave(senderSecond);
+                AnimationLeave(senderSecondLeftP);
             }//Т.к. анимация сворачивания не сработает, у кнопки будет Width = 140
         }
 
@@ -170,13 +178,16 @@ namespace MaimApp.Views
             anim.To = 140;
             anim.Duration = TimeSpan.FromSeconds(0.1);
             name.BeginAnimation(WidthProperty, anim);
+            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
+            SolidColorBrush brush = new SolidColorBrush(color);
+            name.Background = brush;
         }
 
         //Анимация сворачивания
         public void AnimationLeave(object sender)
         {
             //Идет проверка на то, стоит ли выполнять сворачивание кнопки ?
-            if (senderNow == sender) //Если нажал два раза на одну и туже кнопку то сработает это <-
+            if (senderNowLeftP == sender) //Если нажал два раза на одну и туже кнопку то сработает это <-
             {
                 return;
             }
@@ -185,7 +196,10 @@ namespace MaimApp.Views
                 DoubleAnimation anim = new DoubleAnimation();
                 anim.To = 130;
                 anim.Duration = TimeSpan.FromSeconds(0.1);
-                (sender as Button).BeginAnimation(WidthProperty, anim);
+                ((Button)sender).BeginAnimation(WidthProperty, anim);
+                Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+                SolidColorBrush brush = new SolidColorBrush(color);
+                ((Button)sender).Background = brush;
             }
         }
 
@@ -193,15 +207,14 @@ namespace MaimApp.Views
         public async Task LoadProduct()
         {
             ViewProduct viewProduct = new ViewProduct();
-
             list.ItemsSource = await Task.Run(() => viewProduct.FillCatalog());
         }
 
         //Метод для заполнения кнопками Грид ChangeSort
         public void Sortierung()
         {
-            var i = new List<string> { "По скидке", "Лучшие отзывы", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
 
+            var i = new List<string> { "По скидке", "Лучшие отзывы", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
             foreach (var item in i)
             {
                 Button button = new Button
@@ -217,46 +230,63 @@ namespace MaimApp.Views
         }
 
         //Метод для заполнения кнопками Грид ChangeSity
-        public void ChangeSitys()
+        private void ChangeSitys() //Какаха, нужно править асинхронщину !!!!
         {
-            var County = new List<string> { "Дальневосточный", "Приволжский", "Северо - Западный", "Северо - Кавказский", "Сибирский", "Уральский", "Центральный", "Южный" };
-            foreach(var item in County)
+            new Thread(() =>
             {
-                Button button = new Button
+                Dispatcher.InvokeAsync((Action) (() =>
                 {
-                    Content = item,
-                    FontSize = 15,
-                    Height = 25.5,
-                    FontFamily = new FontFamily("Merienda One"),
-                    Style = (Style)FindResource("ComboBoxButton")
-                };
-                CountySP.Children.Add(button);
+                    var count = 0;
+                    var County = new List<string> { "Дальневосточный", "Приволжский", "Северо - Западный", "Северо - Кавказский", "Сибирский", "Уральский", "Центральный", "Южный" };
+                    foreach (var item in App.Entity.County)
+                    {
+                        Button button = new Button
+                        {
+                            Name = "County" + count,
+                            Content = item.Name,
+                            FontSize = 15,
+                            Height = 25.5,
+                            FontFamily = new FontFamily("Merienda One"),
+                            Style = (Style)FindResource("ComboBoxButton"),
+
+                        };
+                        button.Click += Button_Click;
+                        count++;
+                        CountySP.Children.Add(button);
+                    }
+                }));
+            }).Start();
+        }
+
+        public void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //Запись в глобальные переменные кнопок
+            senderSecondCou = senderNowCou;
+            senderNowCou = sender;
+
+            if (senderSecondCou != null)
+            {
+                if (senderSecondCou == sender)
+                {
+                    return;
+                }
+                else
+                {
+                    Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+                    SolidColorBrush brush = new SolidColorBrush(color);
+                    ((Button)sender).Foreground = brush;
+
+                    Color color2 = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
+                    SolidColorBrush brush2 = new SolidColorBrush(color2);
+                    ((Button)senderSecondCou).Foreground = brush2;
+                }
             }
-
-
-            //var count = 0;
-            //var gg = 1;
-
-            //var i = new List<string> { "Абакан", "Азов", "Александров", "Алексин", "Альметьевск", "Анапа", "Ангарск", "Анжеро-Судженск", "Апатиты", "Арзамас", "Армавир", "Арсеньев", "Артем", "Архангельск", "Асбест", "Астрахань", "Ачинск", "Балаково", "Балахна", "Балашиха", "Балашов", "Барнаул", " Батайск", "Белгород", "Белебей", "Белово", "Белогорск (Амурская область)", "Белорецк,Белореченск", "Бердск", "Березники", "Березовский (Свердловская область)", "Бийск", "Биробиджан", "Благовещенск (Амурская область)", "Бор", "Борисоглебск", "Боровичи", "Братск", "Брянск", "Бугульма", "Буденновск", "Бузулук", "Буйнакск", "Великие Луки", "Великий Новгород", "Верхняя Пышма", "Видное", "Владивосток", "Владикавказ", "Владимир", "Волгоград", "Волгодонск", "Волжск", "Волжский", "Вологда", "Вольск", "Воркута", "Воронеж", "Воскресенск", "Воткинск", "Всеволожск", "Выборг", "Выкса", "Вязьма", "Гатчина", "Геленджик", "Георгиевск", "Глазов", "Горно-Алтайск", "Грозный", "Губкин", "Гудермес", "Гуково", "Гусь-Хрустальный", "Дербент", "Дзержинск", "Димитровград", "Дмитров", "Долгопрудный", "Домодедово", "Донской", "Дубна", "Евпатория", "Егорьевск", "Ейск", "Екатеринбург", "Елабуга", "Елец", "Ессентуки", "Железногорск (Красноярский край)", "Железногорск (Курская область)", "Жигулевск", "Жуковский,Заречный", "Зеленогорск", "Зеленодольск", "Златоуст", "Иваново", "Ивантеевка", "Ижевск", "Избербаш", "Иркутск", "Искитим", "Ишим", "Ишимбай", "Йошкар-Ола", "Казань,Калининград", "Калуга", "Каменск-Уральский", "Каменск-Шахтинский", "Камышин", "Канск", "Каспийск", "Кемерово", "Керчь", "Кинешма", "Кириши", "Киров (Кировская область)", "Кирово-Чепецк", "Киселевск", "Кисловодск", "Клин", "Клинцы", "Ковров", "Когалым", "Коломна", "Комсомольск-на-Амуре", "Копейск", "Королев", "Кострома", "Котлас", "Красногорск", "Краснодар", "Краснокаменск", "Краснокамск", "Краснотурьинск", "Красноярск", "Кропоткин", "Крымск", "Кстово", "Кузнецк", "Кумертау", "Кунгур", "Курган", "Курск", "Кызыл", "Лабинск", "Лениногорск", "Ленинск-Кузнецкий", "Лесосибирск", "Липецк", "Лиски", "Лобня", "Лысьва", "Лыткарино", "Люберцы", "Магадан", "Магнитогорск", "Майкоп", "Махачкала", "Междуреченск", "Мелеуз", "Миасс", "Минеральные Воды", "Минусинск", "Михайловка", "Михайловск (Ставропольский край)", "Мичуринск", "Москва", "Мурманск", "Муром", "Мытищи", "Набережные Челны", "Назарово", "Назрань", "Нальчик", "Наро-Фоминск", "Находка", "Невинномысск", "Нерюнгри", "Нефтекамск", "Нефтеюганск", "Нижневартовск", "Нижнекамск", "Нижний Новгород", "Нижний Тагил", "Новоалтайск", "Новокузнецк", "Новокуйбышевск", "Новомосковск", "Новороссийск", "Новосибирск", "Новотроицк", "Новоуральск", "Новочебоксарск", "Новочеркасск", "Новошахтинск", "Новый Уренгой", "Ногинск", "Норильск", "Ноябрьск", "Нягань", "Обнинск", "Одинцово", "Озерск (Челябинская область)", "Октябрьский", "Омск", "Орел", "Оренбург", "Орехово-Зуево", "Орск", "Павлово,Павловский Посад", "Пенза", "Первоуральск", "Пермь", "Петрозаводск", "Петропавловск-Камчатский", "Подольск", "Полевской", "Прокопьевск", "Прохладный", "Псков", "Пушкино", "Пятигорск", "Раменское", "Ревда", "Реутов", "Ржев", "Рославль", "Россошь", "Ростов-на-Дону", "Рубцовск", "Рыбинск", "Рязань", "Салават", "Сальск", "Самара", "Санкт-Петербург", "Саранск", "Сарапул", "Саратов", "Саров", "Свободный", "Севастополь", "Северодвинск", "Северск", "Сергиев Посад", "Серов,Серпухов", "Сертолово", "Сибай", "Симферополь", "Славянск-на-Кубани", "Смоленск", "Соликамск", "Солнечногорск", "Сосновый Бор", "Сочи", "Ставрополь", "Старый Оскол", "Стерлитамак", "Ступино", "Сургут", "Сызрань", "Сыктывкар", "Таганрог", "Тамбов", "Тверь", "Тимашевск", "Тихвин", "Тихорецк", "Тобольск", "Тольятти", "Томск", "Троицк", "Туапсе", "Туймазы", "Тула", "Тюмень", "Узловая", "Улан-Удэ", "Ульяновск", "Урус-Мартан", "Усолье-Сибирское", "Уссурийск", "Усть-Илимск", "Уфа", "Ухта", "Феодосия", "Фрязино", "Хабаровск", "Ханты-Мансийск", "Хасавюрт", "Химки", "Чайковский", "Чапаевск", "Чебоксары", "Челябинск", "Черемхово", "Череповец", "Черкесск", "Черногорск", "Чехов", "Чистополь", "Чита", "Шадринск", "Шали", "Шахты", "Шуя", "Щекино", "Щелково", "Электросталь", "Элиста", "Энгельс", "Южно-Сахалинск", "Юрга", "Якутск", "Ялта", "Ярославль" };
-            //var ir = new List<StackPanel> { Stack1,Stack2,Stack3 };
-
-            //foreach (var item in i)
-            //{
-            //    if(gg % 70 == 0)
-            //    {
-            //        count++;
-            //    }
-            //    Button button = new Button
-            //    {
-            //        Content = item,
-            //        FontSize = 12,
-            //        FontFamily = new FontFamily("Merienda One"),
-            //        Padding = new Thickness(3),
-            //        Style = (Style)FindResource("ComboBoxButton")
-            //    };
-            //    gg++;
-            //    ir[count].Children.Add(button);
-            //}
+            else
+            {
+                Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+                SolidColorBrush brush = new SolidColorBrush(color);
+                ((Button)sender).Foreground = brush;
+            }
         }
     }
 }

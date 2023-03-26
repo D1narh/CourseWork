@@ -1,0 +1,1140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище db_a96b40_maimfModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Approval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsOk" Type="int" Nullable="false" />
+          <Property Name="Approval_request_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Approval_request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BascetLine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BasketId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DateIns" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="County">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonDataInRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestId" Type="int" />
+          <Property Name="Who" Type="bit" Nullable="false" />
+          <Property Name="Document" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="TelNumber" Type="int" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="HotelAdress" Type="nvarchar" MaxLength="150" />
+          <Property Name="HotelName" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="ShorDescription" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CategoriId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="400" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="CountyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="People" Type="int" Nullable="false" />
+          <Property Name="Child" Type="int" />
+          <Property Name="Adult" Type="int" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DateReg" Type="date" Nullable="false" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserFavProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date_add" Type="date" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPrData">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="60" />
+          <Property Name="TelNumber" Type="int" />
+        </EntityType>
+        <Association Name="FK__Approval___UserI__5AEE82B9">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Approval_request" Type="Self.Approval_request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval_request">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Approval__Approv__5DCAEF64">
+          <End Role="Approval_request" Type="Self.Approval_request" Multiplicity="1" />
+          <End Role="Approval" Type="Self.Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Approval_request">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval">
+              <PropertyRef Name="Approval_request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BascetLin__Baske__4AB81AF0">
+          <End Role="Basket" Type="Self.Basket" Multiplicity="1" />
+          <End Role="BascetLine" Type="Self.BascetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Basket">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BascetLine">
+              <PropertyRef Name="BasketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BascetLin__Produ__4BAC3F29">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="BascetLine" Type="Self.BascetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BascetLine">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Basket__UserId__47DBAE45">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__City__RegionId__656C112C">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonDat__Reque__5629CD9C">
+          <End Role="Request" Type="Self.Request" Multiplicity="0..1" />
+          <End Role="PersonDataInRequest" Type="Self.PersonDataInRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDataInRequest">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Categor__412EB0B6">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductCo__Produ__44FF419A">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductComment" Type="Self.ProductComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductComment">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductCo__UserI__440B1D61">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ProductComment" Type="Self.ProductComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Region__CountyId__628FA481">
+          <End Role="County" Type="Self.County" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="County">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CountyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__Product__534D60F1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__UserId__52593CB8">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__RoleId__398D8EEE">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFavPr__Produ__4F7CD00D">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="UserFavProduct" Type="Self.UserFavProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFavProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFavPr__UserI__4E88ABD4">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserFavProduct" Type="Self.UserFavProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFavProduct">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrDat__UserI__3C69FB99">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserPrData" Type="Self.UserPrData" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPrData">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище db_a96b40_maimfModelContainer">
+          <EntitySet Name="Approval" EntityType="Self.Approval" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Approval_request" EntityType="Self.Approval_request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BascetLine" EntityType="Self.BascetLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Basket" EntityType="Self.Basket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="County" EntityType="Self.County" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Link" EntityType="Self.Link" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonDataInRequest" EntityType="Self.PersonDataInRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductComment" EntityType="Self.ProductComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFavProduct" EntityType="Self.UserFavProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPrData" EntityType="Self.UserPrData" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Approval___UserI__5AEE82B9" Association="Self.FK__Approval___UserI__5AEE82B9">
+            <End Role="User" EntitySet="User" />
+            <End Role="Approval_request" EntitySet="Approval_request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Approval__Approv__5DCAEF64" Association="Self.FK__Approval__Approv__5DCAEF64">
+            <End Role="Approval_request" EntitySet="Approval_request" />
+            <End Role="Approval" EntitySet="Approval" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BascetLin__Baske__4AB81AF0" Association="Self.FK__BascetLin__Baske__4AB81AF0">
+            <End Role="Basket" EntitySet="Basket" />
+            <End Role="BascetLine" EntitySet="BascetLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BascetLin__Produ__4BAC3F29" Association="Self.FK__BascetLin__Produ__4BAC3F29">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="BascetLine" EntitySet="BascetLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Basket__UserId__47DBAE45" Association="Self.FK__Basket__UserId__47DBAE45">
+            <End Role="User" EntitySet="User" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__City__RegionId__656C112C" Association="Self.FK__City__RegionId__656C112C">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonDat__Reque__5629CD9C" Association="Self.FK__PersonDat__Reque__5629CD9C">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="PersonDataInRequest" EntitySet="PersonDataInRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Categor__412EB0B6" Association="Self.FK__Product__Categor__412EB0B6">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductCo__Produ__44FF419A" Association="Self.FK__ProductCo__Produ__44FF419A">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductComment" EntitySet="ProductComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductCo__UserI__440B1D61" Association="Self.FK__ProductCo__UserI__440B1D61">
+            <End Role="User" EntitySet="User" />
+            <End Role="ProductComment" EntitySet="ProductComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Region__CountyId__628FA481" Association="Self.FK__Region__CountyId__628FA481">
+            <End Role="County" EntitySet="County" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__Product__534D60F1" Association="Self.FK__Request__Product__534D60F1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__UserId__52593CB8" Association="Self.FK__Request__UserId__52593CB8">
+            <End Role="User" EntitySet="User" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__RoleId__398D8EEE" Association="Self.FK__User__RoleId__398D8EEE">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFavPr__Produ__4F7CD00D" Association="Self.FK__UserFavPr__Produ__4F7CD00D">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="UserFavProduct" EntitySet="UserFavProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFavPr__UserI__4E88ABD4" Association="Self.FK__UserFavPr__UserI__4E88ABD4">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserFavProduct" EntitySet="UserFavProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrDat__UserI__3C69FB99" Association="Self.FK__UserPrDat__UserI__3C69FB99">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserPrData" EntitySet="UserPrData" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_a96b40_maimfModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Approval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsOk" Type="Int32" Nullable="false" />
+          <Property Name="Approval_request_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Approval_request" Relationship="Self.FK__Approval__Approv__5DCAEF64" FromRole="Approval" ToRole="Approval_request" />
+        </EntityType>
+        <EntityType Name="Approval_request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Approval" Relationship="Self.FK__Approval__Approv__5DCAEF64" FromRole="Approval_request" ToRole="Approval" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Approval___UserI__5AEE82B9" FromRole="Approval_request" ToRole="User" />
+        </EntityType>
+        <EntityType Name="BascetLine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BasketId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Basket" Relationship="Self.FK__BascetLin__Baske__4AB81AF0" FromRole="BascetLine" ToRole="Basket" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__BascetLin__Produ__4BAC3F29" FromRole="BascetLine" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Basket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DateIns" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="BascetLine" Relationship="Self.FK__BascetLin__Baske__4AB81AF0" FromRole="Basket" ToRole="BascetLine" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Basket__UserId__47DBAE45" FromRole="Basket" ToRole="User" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Region" Relationship="Self.FK__City__RegionId__656C112C" FromRole="City" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="County">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Region" Relationship="Self.FK__Region__CountyId__628FA481" FromRole="County" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Link1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonDataInRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="Int32" />
+          <Property Name="Who" Type="Boolean" Nullable="false" />
+          <Property Name="Document" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TelNumber" Type="Int32" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="HotelAdress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="HotelName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__PersonDat__Reque__5629CD9C" FromRole="PersonDataInRequest" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShorDescription" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CategoriId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BascetLine" Relationship="Self.FK__BascetLin__Produ__4BAC3F29" FromRole="Product" ToRole="BascetLine" />
+          <NavigationProperty Name="ProductCategory" Relationship="Self.FK__Product__Categor__412EB0B6" FromRole="Product" ToRole="ProductCategory" />
+          <NavigationProperty Name="ProductComment" Relationship="Self.FK__ProductCo__Produ__44FF419A" FromRole="Product" ToRole="ProductComment" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__Request__Product__534D60F1" FromRole="Product" ToRole="Request" />
+          <NavigationProperty Name="UserFavProduct" Relationship="Self.FK__UserFavPr__Produ__4F7CD00D" FromRole="Product" ToRole="UserFavProduct" />
+        </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Product__Categor__412EB0B6" FromRole="ProductCategory" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__ProductCo__Produ__44FF419A" FromRole="ProductComment" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="Self.FK__ProductCo__UserI__440B1D61" FromRole="ProductComment" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK__City__RegionId__656C112C" FromRole="Region" ToRole="City" />
+          <NavigationProperty Name="County" Relationship="Self.FK__Region__CountyId__628FA481" FromRole="Region" ToRole="County" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="People" Type="Int32" Nullable="false" />
+          <Property Name="Child" Type="Int32" />
+          <Property Name="Adult" Type="Int32" />
+          <NavigationProperty Name="PersonDataInRequest" Relationship="Self.FK__PersonDat__Reque__5629CD9C" FromRole="Request" ToRole="PersonDataInRequest" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Request__Product__534D60F1" FromRole="Request" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Request__UserId__52593CB8" FromRole="Request" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__User__RoleId__398D8EEE" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mail" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateReg" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="Approval_request" Relationship="Self.FK__Approval___UserI__5AEE82B9" FromRole="User" ToRole="Approval_request" />
+          <NavigationProperty Name="Basket" Relationship="Self.FK__Basket__UserId__47DBAE45" FromRole="User" ToRole="Basket" />
+          <NavigationProperty Name="ProductComment" Relationship="Self.FK__ProductCo__UserI__440B1D61" FromRole="User" ToRole="ProductComment" />
+          <NavigationProperty Name="Request" Relationship="Self.FK__Request__UserId__52593CB8" FromRole="User" ToRole="Request" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__User__RoleId__398D8EEE" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="UserFavProduct" Relationship="Self.FK__UserFavPr__UserI__4E88ABD4" FromRole="User" ToRole="UserFavProduct" />
+          <NavigationProperty Name="UserPrData" Relationship="Self.FK__UserPrDat__UserI__3C69FB99" FromRole="User" ToRole="UserPrData" />
+        </EntityType>
+        <EntityType Name="UserFavProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date_add" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__UserFavPr__Produ__4F7CD00D" FromRole="UserFavProduct" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserFavPr__UserI__4E88ABD4" FromRole="UserFavProduct" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserPrData">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="TelNumber" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserPrDat__UserI__3C69FB99" FromRole="UserPrData" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__Approval__Approv__5DCAEF64">
+          <End Role="Approval_request" Type="Self.Approval_request" Multiplicity="1" />
+          <End Role="Approval" Type="Self.Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Approval_request">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval">
+              <PropertyRef Name="Approval_request_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Approval___UserI__5AEE82B9">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Approval_request" Type="Self.Approval_request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Approval_request">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BascetLin__Baske__4AB81AF0">
+          <End Role="Basket" Type="Self.Basket" Multiplicity="1" />
+          <End Role="BascetLine" Type="Self.BascetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Basket">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BascetLine">
+              <PropertyRef Name="BasketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BascetLin__Produ__4BAC3F29">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="BascetLine" Type="Self.BascetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BascetLine">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Basket__UserId__47DBAE45">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Basket" Type="Self.Basket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Basket">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__City__RegionId__656C112C">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Region__CountyId__628FA481">
+          <End Role="County" Type="Self.County" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="County">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="CountyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonDat__Reque__5629CD9C">
+          <End Role="Request" Type="Self.Request" Multiplicity="0..1" />
+          <End Role="PersonDataInRequest" Type="Self.PersonDataInRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonDataInRequest">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Categor__412EB0B6">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductCo__Produ__44FF419A">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductComment" Type="Self.ProductComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductComment">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__Product__534D60F1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFavPr__Produ__4F7CD00D">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="UserFavProduct" Type="Self.UserFavProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFavProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductCo__UserI__440B1D61">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ProductComment" Type="Self.ProductComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Request__UserId__52593CB8">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User__RoleId__398D8EEE">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserFavPr__UserI__4E88ABD4">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserFavProduct" Type="Self.UserFavProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFavProduct">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrDat__UserI__3C69FB99">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserPrData" Type="Self.UserPrData" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPrData">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MaimfEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Approval" EntityType="Self.Approval" />
+          <EntitySet Name="Approval_request" EntityType="Self.Approval_request" />
+          <EntitySet Name="BascetLine" EntityType="Self.BascetLine" />
+          <EntitySet Name="Basket" EntityType="Self.Basket" />
+          <EntitySet Name="City" EntityType="Self.City" />
+          <EntitySet Name="County" EntityType="Self.County" />
+          <EntitySet Name="Link" EntityType="Self.Link" />
+          <EntitySet Name="PersonDataInRequest" EntityType="Self.PersonDataInRequest" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" />
+          <EntitySet Name="ProductComment" EntityType="Self.ProductComment" />
+          <EntitySet Name="Region" EntityType="Self.Region" />
+          <EntitySet Name="Request" EntityType="Self.Request" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserFavProduct" EntityType="Self.UserFavProduct" />
+          <EntitySet Name="UserPrData" EntityType="Self.UserPrData" />
+          <AssociationSet Name="FK__Approval__Approv__5DCAEF64" Association="Self.FK__Approval__Approv__5DCAEF64">
+            <End Role="Approval_request" EntitySet="Approval_request" />
+            <End Role="Approval" EntitySet="Approval" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Approval___UserI__5AEE82B9" Association="Self.FK__Approval___UserI__5AEE82B9">
+            <End Role="User" EntitySet="User" />
+            <End Role="Approval_request" EntitySet="Approval_request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BascetLin__Baske__4AB81AF0" Association="Self.FK__BascetLin__Baske__4AB81AF0">
+            <End Role="Basket" EntitySet="Basket" />
+            <End Role="BascetLine" EntitySet="BascetLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BascetLin__Produ__4BAC3F29" Association="Self.FK__BascetLin__Produ__4BAC3F29">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="BascetLine" EntitySet="BascetLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Basket__UserId__47DBAE45" Association="Self.FK__Basket__UserId__47DBAE45">
+            <End Role="User" EntitySet="User" />
+            <End Role="Basket" EntitySet="Basket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__City__RegionId__656C112C" Association="Self.FK__City__RegionId__656C112C">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Region__CountyId__628FA481" Association="Self.FK__Region__CountyId__628FA481">
+            <End Role="County" EntitySet="County" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonDat__Reque__5629CD9C" Association="Self.FK__PersonDat__Reque__5629CD9C">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="PersonDataInRequest" EntitySet="PersonDataInRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Categor__412EB0B6" Association="Self.FK__Product__Categor__412EB0B6">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductCo__Produ__44FF419A" Association="Self.FK__ProductCo__Produ__44FF419A">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductComment" EntitySet="ProductComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__Product__534D60F1" Association="Self.FK__Request__Product__534D60F1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFavPr__Produ__4F7CD00D" Association="Self.FK__UserFavPr__Produ__4F7CD00D">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="UserFavProduct" EntitySet="UserFavProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductCo__UserI__440B1D61" Association="Self.FK__ProductCo__UserI__440B1D61">
+            <End Role="User" EntitySet="User" />
+            <End Role="ProductComment" EntitySet="ProductComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Request__UserId__52593CB8" Association="Self.FK__Request__UserId__52593CB8">
+            <End Role="User" EntitySet="User" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User__RoleId__398D8EEE" Association="Self.FK__User__RoleId__398D8EEE">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserFavPr__UserI__4E88ABD4" Association="Self.FK__UserFavPr__UserI__4E88ABD4">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserFavProduct" EntitySet="UserFavProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrDat__UserI__3C69FB99" Association="Self.FK__UserPrDat__UserI__3C69FB99">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserPrData" EntitySet="UserPrData" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище db_a96b40_maimfModelContainer" CdmEntityContainer="MaimfEntities">
+          <EntitySetMapping Name="Approval">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Approval">
+              <MappingFragment StoreEntitySet="Approval">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IsOk" ColumnName="IsOk" />
+                <ScalarProperty Name="Approval_request_id" ColumnName="Approval_request_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Approval_request">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Approval_request">
+              <MappingFragment StoreEntitySet="Approval_request">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BascetLine">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.BascetLine">
+              <MappingFragment StoreEntitySet="BascetLine">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BasketId" ColumnName="BasketId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Basket">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Basket">
+              <MappingFragment StoreEntitySet="Basket">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DateIns" ColumnName="DateIns" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="County">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.County">
+              <MappingFragment StoreEntitySet="County">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Link">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Link">
+              <MappingFragment StoreEntitySet="Link">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Link1" ColumnName="Link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonDataInRequest">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.PersonDataInRequest">
+              <MappingFragment StoreEntitySet="PersonDataInRequest">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="Who" ColumnName="Who" />
+                <ScalarProperty Name="Document" ColumnName="Document" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="HotelAdress" ColumnName="HotelAdress" />
+                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShorDescription" ColumnName="ShorDescription" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CategoriId" ColumnName="CategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategory">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductComment">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.ProductComment">
+              <MappingFragment StoreEntitySet="ProductComment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountyId" ColumnName="CountyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Request">
+              <MappingFragment StoreEntitySet="Request">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="People" ColumnName="People" />
+                <ScalarProperty Name="Child" ColumnName="Child" />
+                <ScalarProperty Name="Adult" ColumnName="Adult" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="DateReg" ColumnName="DateReg" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserFavProduct">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.UserFavProduct">
+              <MappingFragment StoreEntitySet="UserFavProduct">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date_add" ColumnName="Date_add" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPrData">
+            <EntityTypeMapping TypeName="db_a96b40_maimfModel.UserPrData">
+              <MappingFragment StoreEntitySet="UserPrData">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

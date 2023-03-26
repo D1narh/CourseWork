@@ -15,5 +15,8 @@ namespace MaimApp
     public partial class App : Application
     {
         public static HttpClient HttpClient = new HttpClient();
+
+        public static DataModels.MaimfEntities Entity = new DataModels.MaimfEntities();
+
     }
 }
