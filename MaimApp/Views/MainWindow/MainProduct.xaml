@@ -1,0 +1,283 @@
+﻿<Window x:Class="MaimApp.Views.MainProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MaimApp.Views"
+        mc:Ignorable="d"
+        Title="MainProduct" Height="525" Width="960"
+        Background="#F6F6F6" Loaded="Window_Loaded">
+    <Grid>
+        <Grid x:Name="Panel" Width="141" HorizontalAlignment="Left"  Background="#B0BDE9">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="ButtonPressSecond" Content="" Visibility="Hidden"/>
+            <Label x:Name="ButtonPressNow" Content="" Visibility="Hidden"/>
+            <!--Кнопка Авиа-Билеты-->
+            <Button x:Name="Hotels" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-95,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="Hotels_Click">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="\Image\hotel.png" Width="70" Height="70" Margin="0,-4,0,0"/>
+                    <TextBlock Text="Отели" FontSize="18" FontFamily="Merienda One" Margin="0,2,0,0" Width="53"/>
+                </StackPanel>
+            </Button>
+            <!--Кнопка Автобусы-->
+            <Button x:Name="BusTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-109,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="BusTickets_Click">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="\Image\bus.png" Width="70" Height="70" Margin="0,-4,0,0"/>
+                    <TextBlock Text="Автобусы" VerticalAlignment="Center" FontSize="18" FontFamily="Merienda One" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Button>
+            <!--Кнопка Приключения-->
+            <Button x:Name="Adventures" Click="Adventures_Click" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-120,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="\Image\hot-air-balloon.png" Width="70" Height="70" Margin="0,-4,0,0"/>
+                    <TextBlock Text="Приключения" VerticalAlignment="Center" FontSize="18" FontFamily="Merienda One" Margin="0,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <!--Кнопка Личного кабинета-->
+            <Button x:Name="PersonalArea" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="3" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-5,-8,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="PersonalArea_Click">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="\Image\user (3).png" Width="70" Height="70" Margin="0,-4,0,0"/>
+                    <TextBlock Text="Профиль" FontSize="18" FontFamily="Merienda One" Margin="0,2,0,0" Width="76"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <!--Logo-->
+        <Label Content="Maim" FontWeight="Bold" FontFamily="Merienda One" FontSize="58" Grid.Column="8" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="80" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,-9,10,0"/>
+        <Grid x:Name="HotelsG" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70.5"/>
+                <ColumnDefinition Width="70.5"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <!--Поисковая строка-->
+            <TextBox x:Name="SearchBox" Padding="10" FontFamily="Merienda One" Text="Поиск по приложению" Foreground="#A09D9D" VerticalContentAlignment="Center" FontSize="20" Grid.Column="2" Grid.ColumnSpan="6" Grid.RowSpan="2" Width="550" Height="50" Margin="40,16,17,36" BorderThickness="0" Background="#EDEDED">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            <!--Кнопка выбора сортировки-->
+            <Border Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="10" Grid.Column="5" Background="#EDEDED" Margin="-140,-10,0,0" Grid.ColumnSpan="3" Height="35" Width="160" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Style="{DynamicResource ChangeButton}" x:Name="Sort" Height="35" Width="160" Click="Sort_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Сортировка" FontFamily="Merienda One" FontSize="16" Width="158" Height="34"/>
+                        <Image Height="15" Width="14" Margin="-30,5,0,0" Source="\Image\Vector.png"/>
+                    </StackPanel>
+                </Button>
+            </Border>
+            <!--Кнопка выбора Города-->
+            <Border Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="10" Grid.Column="2" Background="#EDEDED" Margin="10,-10,0,0" Grid.ColumnSpan="3" Height="35" Width="230" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Style="{DynamicResource ChangeButton}" x:Name="City" Height="35" Width="230" Click="City_Click">
+                    <StackPanel Orientation="Horizontal" Width="230">
+                        <Label Padding="5" Content="г.Астрахань" FontFamily="Merienda One" FontSize="16" Width="230" Height="34"/>
+                        <Image Height="14" Width="14" Margin="-55,5,0,0" Source="\Image\Vector.png"/>
+                    </StackPanel>
+                </Button>
+            </Border>
+            <!--Вид вывода товаров-->
+            <!--По вертикали-->
+            <Border Grid.Column="9" Background="#B0BDE9" Grid.Row="1" Grid.RowSpan="2" Height="35" Width="35" Margin="0,-15,0,0" CornerRadius="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#B0BDE9"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Button Style="{DynamicResource ChangeButton}">
+                    <StackPanel Orientation="Vertical" Width="35" Height="35">
+                        <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="3" Margin="0,5,0,0"/>
+                        <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="3" Margin="0,4,0,0"/>
+                        <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="3" Margin="0,4,0,0"/>
+                        <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="3" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Button>
+            </Border>
+            <!--Кубами-->
+            <Border Grid.Column="8" Grid.ColumnSpan="2" Background="#D9D9D9" Grid.Row="1" Grid.RowSpan="2" Height="35" Width="35" Margin="-1,-15,0,0" CornerRadius="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#B0BDE9"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Button Style="{DynamicResource ChangeButton}">
+                    <Grid Width="35" Height="35">
+                        <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="-17,-17,0,0"/>
+                        <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="-17,16,0,0"/>
+                        <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="17,-17,0,0"/>
+                        <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="17,16,0,0"/>
+                    </Grid>
+                </Button>
+            </Border>
+            <!--Список товаров-->
+            <ListView x:Name="list" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="8" Grid.RowSpan="8" Width="730" Margin="34,23,40,0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl>
+                            <Border Width ="701" Height="115" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6">
+                                <Grid x:Name="grd">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="180"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border CornerRadius="10" Width="150" Height="100" Grid.Column="1" Margin="-20,0,0,0">
+                                        <Border.Background>
+                                            <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
+                                        </Border.Background>
+                                    </Border>
+                                    <Label Content="{Binding ID}" Visibility="Hidden" FontFamily="Merienda One"/>
+                                    <Label Content="{Binding Name}" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,5,0,0" FontFamily="Merienda One"/>
+                                    <Label Content="{Binding Adress}" Margin="0,25,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontFamily="Merienda One"/>
+                                    <Label Content="{Binding DistanceToCenter}" Margin="0,45,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontFamily="Merienda One"/>
+                                    <Label Content="{Binding Price}" Grid.Column="4" FontFamily="Merienda One" Margin="75,40,0,0" FontSize="18"/>
+                                    <Border Margin="-110,60,0,0" Grid.Column="2"  Background="White" BorderBrush="#A09D9D" BorderThickness="2" CornerRadius="7" Width="65" Height="35">
+                                        <Label Content="{Binding Reviews}" FontFamily="Merienda One" FontSize="17" HorizontalAlignment="Center"/>
+                                    </Border>
+                                    <Button x:Name="View" Content="Просмотреть" Width="135" Height="32" FontFamily="Merienda One" FontSize="20" Foreground="#FFFFFF" Grid.Column="4" Margin="20,54,0,0" Background="#B0BDE9" BorderThickness="0">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="9"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                    <Button x:Name="Favorite" Grid.Column="4" Width="30" Height="30" BorderThickness="0" Margin="130,-80,0,0">
+                                        <StackPanel>
+                                            <Image Source="{Binding ImageFavorite}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </ContentControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--Аницамия ожидания-->
+            <Label x:Name="SearchText" Content="Поиск предложений" FontFamily="Merienda One" Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="3" FontSize="22" Foreground="Gray" Margin="92,50,62,50" Grid.RowSpan="3"/>
+            <Image x:Name="animation" Source="\Image\Group 85.png" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Margin="39,0,41,0">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="rotate"
+                         CenterX="20"
+                         CenterY="22"/>
+                </Image.RenderTransform>
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard x:Name="storyboard">
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetName="rotate"
+                                     Storyboard.TargetProperty="Angle"
+                                     By="360" Duration="0:0:1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+            <!--Выпадающий список в сортировке-->
+            <Grid x:Name="ChangeSortGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="2,23,0,0" VerticalAlignment="Top" Width="255" Height="0" HorizontalAlignment="Left">
+                <Border CornerRadius="3" HorizontalAlignment="Left" Background="#EDEDED">
+                    <StackPanel x:Name="ChangeSort" Orientation="Vertical"/>
+                </Border>
+            </Grid>
+            <!--Выпадающий список городов-->
+            <Grid x:Name="ChangeCityGrid" Visibility="Visible" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="7" Margin="43,25,0,0" VerticalAlignment="Top" Width="673" Height="305" HorizontalAlignment="Left" Grid.RowSpan="7">
+                <Border CornerRadius="3" Background="#EDEDED">
+                    <Grid x:Name="ChangeSity">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="71*"/>
+                            <RowDefinition Height="28*"/>
+                            <RowDefinition Height="206*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" x:Name="CountySP" Grid.Column="0" Grid.Row="2" Background="#EDEDED" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="200" Height="204"/>
+                        <StackPanel Orientation="Vertical" x:Name="RegionSP" Grid.Row="2" Grid.Column="1" Background="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Width="200" Height="204"/>
+                        <StackPanel Orientation="Vertical" x:Name="CitySP" Grid.Column="2" Grid.Row="2" Background="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Width="200" Height="204"/>
+                        <!--Search-->
+                        <Label Content="Ваш город : " FontFamily="Merienda One" Margin="5,0,0,0" FontSize="13" VerticalAlignment="Top"/>
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Width="630" HorizontalAlignment="Left" Height="30" CornerRadius="3" VerticalAlignment="Center" BorderThickness="2,2,2,2" BorderBrush="#FF7998FF" Margin="5,25,0,0">
+                            <TextBox x:Name="Search" BorderThickness="0" FontSize="18"/>
+                        </Border>
+
+                        <Label Content="Округ" Grid.Column="0" Grid.Row="1" FontFamily="Merienda One" FontSize="13" Foreground="Gray" Margin="5,0,0,0"/>
+                        <Label Content="Регион" Grid.Column="1" Grid.Row="1" FontFamily="Merienda One" FontSize="13" Foreground="Gray" Margin="5,0,0,0"/>
+                        <Label Content="Город" Grid.Column="2" Grid.Row="1" FontFamily="Merienda One" FontSize="13" Foreground="Gray" Margin="5,0,0,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid x:Name="PersonalAreaG" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70.5"/>
+                <ColumnDefinition Width="70.5"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="ABOBA" FontSize="25" Grid.Row="3" Grid.Column="3"/>
+        </Grid>
+        <Grid x:Name="BusTicketsG" Visibility="Hidden">
+
+        </Grid>
+        <Grid x:Name="AdventuresG" Visibility="Hidden">
+
+        </Grid>
+    </Grid>
+</Window>
