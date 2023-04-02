@@ -39,10 +39,19 @@ namespace MaimApp.Views
             LeaveFromButton(sender);
         }
 
+        public void ButtonBackgroung()
+        {
+            Hotels.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
+            BusTickets.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
+            PersonalArea.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
+            Adventures.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ChangeSitys();
             Sortierung();
+            ButtonBackgroung();
             await LoadProduct();
 
             animation.Visibility = Visibility.Hidden;
@@ -144,9 +153,9 @@ namespace MaimApp.Views
             anim.To = 140;
             anim.Duration = TimeSpan.FromSeconds(0.1);
             name.BeginAnimation(WidthProperty, anim);
-            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            name.Background = brush;
+            //Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
+            //SolidColorBrush brush = new SolidColorBrush(color);
+            //name.Background = brush;
         }
 
         //Общий функционал для двух методов (анимация задвигания*)
@@ -156,9 +165,9 @@ namespace MaimApp.Views
             anim.To = 130;
             anim.Duration = TimeSpan.FromSeconds(0.1);
             ((Button)sender).BeginAnimation(WidthProperty, anim);
-            Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            ((Button)sender).Background = brush;
+            //Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
+            //SolidColorBrush brush = new SolidColorBrush(color);
+            //((Button)sender).Background = brush;
         }
 
         //Метод для проверки стоит ли делать Грид невидимым при нажатии кнопки
@@ -195,14 +204,14 @@ namespace MaimApp.Views
 
         private void ImageEl_MouseEnter(object sender, MouseEventArgs e)
         {
-            Shape img = (Shape)sender;
+            Button img = (Button)sender;
             img.Height = img.ActualHeight * 1.1;
             img.Width = img.ActualHeight * 1.1;
         }
 
         private void ImageEl_MouseLeave(object sender, MouseEventArgs e)
         {
-            Shape img = ((Shape)sender);
+            Button img = ((Button)sender);
             img.Height /= 1.1;
             img.Width /= 1.1;
         }
@@ -218,7 +227,6 @@ namespace MaimApp.Views
                 {
                     Content = item,
                     FontSize = 18,
-                    FontFamily = new FontFamily("Merienda One"),
                     Padding = new Thickness(10),
                     Style = (Style)FindResource("ComboBoxButton")
                 };
@@ -239,7 +247,6 @@ namespace MaimApp.Views
                     Content = item,
                     FontSize = 15,
                     Height = 25.5,
-                    FontFamily = new FontFamily("Merienda One"),
                     Style = (Style)FindResource("ComboBoxButton"),
 
                 };

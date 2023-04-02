@@ -4,78 +4,86 @@
              xmlns:local="clr-namespace:MaimApp"
              StartupUri="Views\MainWindow\MainProduct.xaml">
     <Application.Resources>
-        
-        <!--Для кнопок в "ComboBox"-->
-        <Style x:Key="ComboBoxButton" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Width" Value="260"/>
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="CornerRadius" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="#B0BDE9"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <!--Для кнопок по бокам-->
-        <Style x:Key="ChangeButton" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="CornerRadius" CornerRadius="5" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#E0E0E0"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <!--Для Border-->
-        <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="#B0BDE9"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+            <!--Для кнопок в "ComboBox"-->
+            <Style x:Key="ComboBoxButton" TargetType="Button">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Width" Value="260"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="CornerRadius" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="#B0BDE9"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        <!--Для кнопки с CornerRadius-->
-        <Style x:Key="CornerButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#B0BDE9"/>
-            <Setter Property="FontFamily" Value="Merienda One"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="CornerRadius" CornerRadius="12" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#A1AEDA"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <!--Для кнопок по бокам-->
+            <Style x:Key="ChangeButton" TargetType="Button">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="CornerRadius" CornerRadius="5" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#E0E0E0"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--Для Border-->
+            <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#B0BDE9"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!--Для кнопки с CornerRadius-->
+            <Style x:Key="CornerButton" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#B0BDE9"/>
+                <Setter Property="FontFamily" Value="Merienda One"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="CornerRadius" CornerRadius="12" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#A1AEDA"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
  
