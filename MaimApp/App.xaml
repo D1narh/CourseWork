@@ -53,6 +53,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
             <!--Для Border-->
             <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
                 <Style.Triggers>

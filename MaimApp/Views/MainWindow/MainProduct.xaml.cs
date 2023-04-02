@@ -202,19 +202,19 @@ namespace MaimApp.Views
             list.ItemsSource = await Task.Run(() => viewProduct.FillCatalog());
         }
 
-        private void ImageEl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Button img = (Button)sender;
-            img.Height = img.ActualHeight * 1.1;
-            img.Width = img.ActualHeight * 1.1;
-        }
+        //private void ImageEl_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    Button img = (Button)sender;
+        //    img.Height = img.ActualHeight * 1.1;
+        //    img.Width = img.ActualHeight * 1.1;
+        //}
 
-        private void ImageEl_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Button img = ((Button)sender);
-            img.Height /= 1.1;
-            img.Width /= 1.1;
-        }
+        //private void ImageEl_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Button img = ((Button)sender);
+        //    img.Height /= 1.1;
+        //    img.Width /= 1.1;
+        //}
 
         //Метод для заполнения кнопками Грид ChangeSort
         public void Sortierung()
