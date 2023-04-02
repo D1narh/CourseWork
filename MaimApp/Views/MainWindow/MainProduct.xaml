@@ -3,12 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:MaimApp.Views"
         mc:Ignorable="d"
         Title="MainProduct" Height="525" Width="960"
         Background="#F6F6F6" Loaded="Window_Loaded">
     <Grid>
-        <Grid x:Name="Panel" Width="141" HorizontalAlignment="Left"  Background="#B0BDE9">
+        <Grid x:Name="Panel" Width="141" HorizontalAlignment="Left"  Background="White">
+            <!--#B0BDE9-->
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -48,7 +50,8 @@
             </Button>
         </Grid>
         <!--Logo-->
-        <Label Content="Maim" FontWeight="Bold" FontFamily="Merienda One" FontSize="58" Grid.Column="8" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="80" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,-9,10,0"/>
+        <Image Source="/Image/Logo.png" Height="96" HorizontalAlignment="Right" VerticalAlignment="Top" Width="217"/>
+
         <Grid x:Name="HotelsG" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70.5"/>
@@ -74,7 +77,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            
+
             <!--Поисковая строка-->
             <TextBox x:Name="SearchBox" Padding="10" FontFamily="Merienda One" Text="Поиск по приложению" Foreground="#A09D9D" VerticalContentAlignment="Center" FontSize="20" Grid.Column="2" Grid.ColumnSpan="6" Grid.RowSpan="2" Width="550" Height="50" Margin="40,16,17,36" BorderThickness="0" Background="#EDEDED">
                 <TextBox.Resources>
@@ -246,7 +249,7 @@
                 </Border>
             </Grid>
         </Grid>
-        <Grid x:Name="PersonalAreaG" Visibility="Hidden">
+        <Grid x:Name="PersonalAreaG" Visibility="Visible">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70.5"/>
                 <ColumnDefinition Width="70.5"/>
@@ -271,7 +274,15 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Content="ABOBA" FontSize="25" Grid.Row="3" Grid.Column="3"/>
+            <!--Avatar-->
+            <Ellipse x:Name="ImageEl" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Stretch" MouseEnter="ImageEl_MouseEnter" MouseLeave="ImageEl_MouseLeave">
+                <Ellipse.Fill>
+                    <ImageBrush x:Name="ImageI" ImageSource="/Image/IqGjWuAdGoQ.jpg" />
+                </Ellipse.Fill>
+            </Ellipse>
+            <Label x:Name="FIO"  Content="Ababov Aboba Abobovich" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="17" FontFamily="Merienda One"/>
+            <Label x:Name="Birthday" Content="12.12.2023" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12" FontFamily="Merienda One" VerticalAlignment="Bottom"/>
+
         </Grid>
         <Grid x:Name="BusTicketsG" Visibility="Hidden">
 

@@ -7,14 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using MaimApp.BLL;
-using System.Linq;
-using System.Threading;
-using System.Data;
-using System.Data.Entity;
-using System.Runtime.InteropServices;
-using DataModels;
-using MaimApp.Parser.Models;
+using System.Windows.Shapes;
 
 namespace MaimApp.Views
 {
@@ -172,7 +165,7 @@ namespace MaimApp.Views
         public void LeaveFromButton(object sender, Grid gridName)
         {
             //Идет проверка на то, стоит ли выполнять сворачивание кнопки ?
-             if (((Button)senderSecondLeftP).Name + "G" != SecondGrid.ToString()) //Если нажал два раза на одну и туже кнопку то сработает это <-
+            if (((Button)senderNowLeftP).Name + "G" != SecondGrid.Name) //Если нажал два раза на одну и туже кнопку то сработает это <-
             {
                 Leave(sender);
                 SecondGrid.Visibility = Visibility.Hidden;
@@ -198,6 +191,20 @@ namespace MaimApp.Views
         {
             ViewProduct viewProduct = new ViewProduct();
             list.ItemsSource = await Task.Run(() => viewProduct.FillCatalog());
+        }
+
+        private void ImageEl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Shape img = (Shape)sender;
+            img.Height = img.ActualHeight * 1.1;
+            img.Width = img.ActualHeight * 1.1;
+        }
+
+        private void ImageEl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Shape img = ((Shape)sender);
+            img.Height /= 1.1;
+            img.Width /= 1.1;
         }
 
         //Метод для заполнения кнопками Грид ChangeSort

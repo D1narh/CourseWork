@@ -27,7 +27,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--Для кнопок по бокам-->
         <Style x:Key="ChangeButton" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -55,7 +55,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <!--Для кнопки с CornerRadius-->
         <Style x:Key="CornerButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#B0BDE9"/>
@@ -76,8 +76,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-
     </Application.Resources>
 </Application>
  
