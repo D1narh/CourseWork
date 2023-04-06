@@ -234,8 +234,8 @@
     <Compile Include="Views\PersonalArea\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Product\ViewProduct.xaml.cs">
-      <DependentUpon>ViewProduct.xaml</DependentUpon>
+    <Compile Include="Views\Product\InProduct.xaml.cs">
+      <DependentUpon>InProduct.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Treaty\HotelSelection.xaml.cs">
       <DependentUpon>HotelSelection.xaml</DependentUpon>
@@ -257,7 +257,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Product\ViewProduct.xaml">
+    <Page Include="Views\Product\InProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

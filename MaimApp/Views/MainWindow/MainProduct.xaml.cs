@@ -1,13 +1,15 @@
 ﻿using MaimApp.Class.MainProductC;
+using MaimApp.Parser.Class;
+using MaimApp.Views.Product;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace MaimApp.Views
 {
@@ -20,6 +22,8 @@ namespace MaimApp.Views
         //Блок с временными переменными которые отслеживают нажатые кнопки
         static Grid SecondGrid;
         object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou;
+
+        public ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
 
 
 
@@ -52,6 +56,8 @@ namespace MaimApp.Views
             ChangeSitys();
             Sortierung();
             ButtonBackgroung();
+            getCityClient();
+            NumberStroke(null);
             await LoadProduct();
 
             animation.Visibility = Visibility.Hidden;
@@ -153,9 +159,6 @@ namespace MaimApp.Views
             anim.To = 140;
             anim.Duration = TimeSpan.FromSeconds(0.1);
             name.BeginAnimation(WidthProperty, anim);
-            //Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
-            //SolidColorBrush brush = new SolidColorBrush(color);
-            //name.Background = brush;
         }
 
         //Общий функционал для двух методов (анимация задвигания*)
@@ -165,9 +168,6 @@ namespace MaimApp.Views
             anim.To = 130;
             anim.Duration = TimeSpan.FromSeconds(0.1);
             ((Button)sender).BeginAnimation(WidthProperty, anim);
-            //Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
-            //SolidColorBrush brush = new SolidColorBrush(color);
-            //((Button)sender).Background = brush;
         }
 
         //Метод для проверки стоит ли делать Грид невидимым при нажатии кнопки
@@ -195,11 +195,65 @@ namespace MaimApp.Views
             }
         }
 
+        public void getCityClient()
+        {
+            ViewProduct viewProduct = new ViewProduct();
+            var ip = viewProduct.GetUserCountryByIp();
+            City.Content = $"Ваш город : {ip.City}";
+        }
+
         //Метод загрузки товаров
         public async Task LoadProduct()
         {
             ViewProduct viewProduct = new ViewProduct();
-            list.ItemsSource = await Task.Run(() => viewProduct.FillCatalog());
+            Products = await Task.Run(() => viewProduct.Load40Product(1));
+            list.ItemsSource= Products;
+        }
+
+        private void View_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
+            SolidColorBrush brush = new SolidColorBrush(color);
+            ((Button)sender).Background = brush;
+        }
+
+        private void View_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+            SolidColorBrush brush = new SolidColorBrush(color);
+            ((Button)sender).Background = brush;
+        }
+
+        private void CubePrB_Click(object sender, RoutedEventArgs e)
+        {
+            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
+            SolidColorBrush brush = new SolidColorBrush(color);
+            VerticalPrB.Background = brush;
+            list.Visibility = Visibility.Hidden;
+
+            Color color2 = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+            SolidColorBrush brush2 = new SolidColorBrush(color2);
+            CubePrB.Background = brush2;
+            Cubelist.Visibility = Visibility.Visible;
+
+            list.ItemsSource = null;
+            Cubelist.ItemsSource = Products;
+        }
+
+        private void VerticalPrB_Click(object sender, RoutedEventArgs e)
+        {
+            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
+            SolidColorBrush brush = new SolidColorBrush(color);
+            CubePrB.Background = brush;
+            Cubelist.Visibility = Visibility.Hidden;
+
+            Color color2 = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
+            SolidColorBrush brush2 = new SolidColorBrush(color2);
+            VerticalPrB.Background = brush2;
+            list.Visibility = Visibility.Visible;
+
+            Cubelist.ItemsSource = null;
+            list.ItemsSource = Products;
         }
 
         //private void ImageEl_MouseEnter(object sender, MouseEventArgs e)
@@ -285,6 +339,49 @@ namespace MaimApp.Views
                 SolidColorBrush brush = new SolidColorBrush(color);
                 ((Button)sender).Foreground = brush;
             }
+        }
+
+        public void NumberStroke(int? a)
+        {
+            if (a == null)//Проверяется, только ли мы открыли программу или нет
+            {
+                a = 1;
+            }
+
+            var nowNumber = a;
+            while (nowNumber < a + 10)
+            {
+                Button button = new Button
+                {
+                    Name = "Number" + nowNumber,
+                    Content = nowNumber,
+                    FontSize = 19,
+                    Height = 30,
+                    Width= 30,
+                    Style = (Style)FindResource("CornerButton"),
+                    Margin = new Thickness(5, 2, 0, 0),
+                };
+                if (nowNumber == a + 8)
+                {
+                    button.Content = "...";
+                }
+                button.Click += Button2_Click;
+                nowNumber++;
+                StrokeNumber.Children.Add(button);
+            }
+        }
+
+        public async void Button2_Click(object sender, RoutedEventArgs e)
+        {
+            list.ItemsSource = null;
+            Cubelist.ItemsSource = null;
+
+            ViewProduct viewProduct = new ViewProduct();
+            var i = Convert.ToInt32(((Button)sender).Content.ToString());
+            Products = await Task.Run(() => viewProduct.Load40Product(i));
+
+            list.ItemsSource = Products;
+            Cubelist.ItemsSource = Products;
         }
     }
 }

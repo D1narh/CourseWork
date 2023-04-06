@@ -17,9 +17,9 @@ namespace MaimApp.Views.Product
     /// <summary>
     /// Логика взаимодействия для ViewProduct.xaml
     /// </summary>
-    public partial class ViewProduct : Window
+    public partial class InProduct : Window
     {
-        public ViewProduct()
+        public InProduct()
         {
             InitializeComponent();
         }

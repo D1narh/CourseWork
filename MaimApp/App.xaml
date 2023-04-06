@@ -67,12 +67,11 @@
             <!--Для кнопки с CornerRadius-->
             <Style x:Key="CornerButton" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="#B0BDE9"/>
-                <Setter Property="FontFamily" Value="Merienda One"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border x:Name="CornerRadius" CornerRadius="12" Background="{TemplateBinding Background}">
+                            <Border x:Name="CornerRadius" CornerRadius="4" Background="{TemplateBinding Background}">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
