@@ -38,7 +38,7 @@ namespace MaimApp.Class.MainProductC
                     Adress = i.Adress,
                     DistanceToCenter = i.DistanceToCenter,
                     ImagePath = i.ImagePath,
-                    Price = i.Price,
+                    Price = i.Price + "₽",
                     Reviews = i.Reviews,
                     IsFavorite = false
                 });

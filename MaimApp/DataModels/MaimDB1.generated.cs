@@ -399,10 +399,12 @@ namespace DataModels
 	[Table(Schema="dbo", Name="User")]
 	public partial class User
 	{
-		[PrimaryKey, Identity   ] public int      Id      { get; set; } // int
-		[Column,     NotNull    ] public string   Mail    { get; set; } // nvarchar(60)
-		[Column,     NotNull    ] public DateTime DateReg { get; set; } // date
-		[Column,        Nullable] public int?     RoleId  { get; set; } // int
+		[PrimaryKey, Identity   ] public int      Id       { get; set; } // int
+		[Column,     NotNull    ] public string   Mail     { get; set; } // nvarchar(60)
+		[Column,     NotNull    ] public DateTime DateReg  { get; set; } // date
+		[Column,        Nullable] public int?     RoleId   { get; set; } // int
+		[Column,     NotNull    ] public string   Login    { get; set; } // nvarchar(50)
+		[Column,     NotNull    ] public string   Password { get; set; } // nvarchar(50)
 
 		#region Associations
 

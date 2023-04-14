@@ -16,7 +16,7 @@ namespace MaimApp
     {
         public static HttpClient HttpClient = new HttpClient();
 
-        //public static DataModels.MaimfEntities Entity = new DataModels.MaimfEntities();
+        public static DataModels.DbA96b40MaimfDB Entity = new DataModels.DbA96b40MaimfDB();
 
     }
 }

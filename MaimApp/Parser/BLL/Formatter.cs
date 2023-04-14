@@ -40,14 +40,14 @@ namespace MaimApp.BLL
             var result = await _parser.Parse(url);
 
             return result.response.hotels.Where(x => x.image != null).Select(x => 
-            new HotelInf(x.id,x.name,x.address,x.center_distance.ToString(),x.image.path,Convert.ToDecimal(x.min_price),false,x.rating.ToString())
+            new HotelInf(x.id,x.name,x.address,x.center_distance.ToString(),x.image.path,x.min_price.ToString(),false,x.rating.ToString())
             {
                 ID= x.id,
                 Name= x.name,
                 Adress = x.address,
                 DistanceToCenter = $"До центра { x.center_distance } км",
                 ImagePath= x.image.path,
-                Price = Convert.ToDecimal(x.min_price),
+                Price = x.min_price.ToString(),
                 Reviews= $"{x.rating}/10",
                 IsFavorite = false
             }).ToList();

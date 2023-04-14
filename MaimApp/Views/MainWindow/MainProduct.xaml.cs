@@ -1,15 +1,24 @@
-﻿using MaimApp.Class.MainProductC;
+﻿using DataModels;
+using MaimApp.Class.MainProductC;
+using MaimApp.Class.User;
 using MaimApp.Parser.Class;
+using MaimApp.Views.MessageView;
+using MaimApp.Views.PersonalArea;
 using MaimApp.Views.Product;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using static LinqToDB.Reflection.Methods.LinqToDB;
 
 namespace MaimApp.Views
 {
@@ -22,8 +31,9 @@ namespace MaimApp.Views
         //Блок с временными переменными которые отслеживают нажатые кнопки
         static Grid SecondGrid;
         object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou;
-
         public ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
+        private static BrushConverter brushConverter = new BrushConverter();
+        int LineCount = 0;
 
 
 
@@ -57,8 +67,10 @@ namespace MaimApp.Views
             Sortierung();
             ButtonBackgroung();
             getCityClient();
-            NumberStroke(null);
             await LoadProduct();
+            LineCount = Line_count_hotel(Products);
+            NumberStroke(null, LineCount);
+            await FillCatalog();
 
             animation.Visibility = Visibility.Hidden;
             SearchText.Visibility = Visibility.Hidden;
@@ -85,6 +97,77 @@ namespace MaimApp.Views
             }
         }
 
+        public void Button_Click(object sender, RoutedEventArgs e)//Используется в методе ChangeSitys
+        {
+            //Запись в глобальные переменные кнопок в выподающем списке городов
+            senderSecondCou = senderNowCou;
+            senderNowCou = sender;
+
+            if (senderSecondCou != null)
+            {
+                if (senderSecondCou == sender)
+                {
+                    return;
+                }
+                else
+                {
+                    ((Button)sender).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+                    ((Button)senderSecondCou).Foreground = (Brush)brushConverter.ConvertFrom("#000000");
+                }
+            }
+            else
+            {
+                ((Button)sender).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            }
+        }
+
+        private void l_exit_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void l_exit_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (((Label)sender).Name.ToString() == "l_exit")
+            {
+                SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(246, 62, 62));
+                ((Label)sender).Background = brush;
+            }
+            else
+            {
+                SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(255, 250, 250));
+                ((Label)sender).Background = brush;
+            }
+        }
+
+        private void l_exit_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ((Label)sender).Background = Brushes.Gray;
+        }
+
+        private void l_exit_minimize(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        public async void Button2_Click(object sender, RoutedEventArgs e)//Используется в методе NumberStroke
+        {
+
+            list.ItemsSource = null;
+            Cubelist.ItemsSource = null;
+
+            ViewProduct viewProduct = new ViewProduct();
+            var i = Convert.ToInt32(((Button)sender).Content.ToString());
+            Products = await Task.Run(() => viewProduct.Load40Product(i));
+
+            list.ItemsSource = Products;
+            Cubelist.ItemsSource = Products;
+
+            StrokeNumber.Children.Clear();
+            NumberStroke(i, LineCount);
+            GC.Collect();
+        }
+
         private void City_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation anim = new DoubleAnimation();
@@ -106,27 +189,85 @@ namespace MaimApp.Views
 
         private void PersonalArea_Click(object sender, RoutedEventArgs e)
         {
+            HelloPanel.Visibility = Visibility.Hidden;
             PersonalAreaG.Visibility = Visibility.Visible;
-            Senderar(sender, PersonalAreaG);
+            AuthUser authUser = new AuthUser();
+            if (authUser.AuthOrNo())
+            {
+                Senderar(sender, PersonalAreaG);
+                TakePersonInfo();
+            }
+            else
+            {
+                Authorization authorization = new Authorization();
+                authorization.Show();
+                this.Close();
+            }
         }
 
         private void Adventures_Click(object sender, RoutedEventArgs e)
         {
+            HelloPanel.Visibility = Visibility.Hidden;
             AdventuresG.Visibility = Visibility.Visible;
             Senderar(sender, AdventuresG);
         }
 
         private void BusTickets_Click(object sender, RoutedEventArgs e)
         {
+            HelloPanel.Visibility = Visibility.Hidden;
             BusTicketsG.Visibility = Visibility.Visible;
             Senderar(sender, BusTicketsG);
         }
 
         private void Hotels_Click(object sender, RoutedEventArgs e)
         {
+            HelloPanel.Visibility = Visibility.Hidden;
             HotelsG.Visibility = Visibility.Visible;
             Senderar(sender, HotelsG);
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void View_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (sender != null)
+            {
+                var a = ((Grid)sender).DataContext;
+                var myValue = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
+                InProduct product = new InProduct(myValue.ToString());
+                product.Show();
+                this.Close();
+            }
+        }
+
+        private void CubePrB_Click(object sender, RoutedEventArgs e)
+        {
+            VerticalPrB.Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
+            list.Visibility = Visibility.Hidden;
+
+            CubePrB.Background = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            Cubelist.Visibility = Visibility.Visible;
+
+            list.ItemsSource = null;
+            Cubelist.ItemsSource = Products;
+        }
+
+        private void VerticalPrB_Click(object sender, RoutedEventArgs e)
+        {
+            CubePrB.Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
+            Cubelist.Visibility = Visibility.Hidden;
+
+            VerticalPrB.Background = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            list.Visibility = Visibility.Visible;
+
+            Cubelist.ItemsSource = null;
+            list.ItemsSource = Products;
+        }
+
+
 
 
         //Учтасток кода с логикой =(
@@ -182,8 +323,7 @@ namespace MaimApp.Views
         }
 
         //Метод когда просто навелись на кнопку (без нажатия на нее сделали focus) и вышли , т.е. потеряли focus
-        //Используется в методах с название MouseLeave
-        public void LeaveFromButton(object sender)
+        public void LeaveFromButton(object sender)//Используется в методах с название MouseLeave
         {
             if (senderNowLeftP == sender) //Если нажал два раза на одну и туже кнопку то сработает это <-
             {
@@ -206,74 +346,29 @@ namespace MaimApp.Views
         public async Task LoadProduct()
         {
             ViewProduct viewProduct = new ViewProduct();
+            Products = await Task.Run(() => viewProduct.FillCatalog());
+        }
+        //Метод для заполнения каталога
+        public async Task FillCatalog()
+        {
+            ViewProduct viewProduct = new ViewProduct();
             Products = await Task.Run(() => viewProduct.Load40Product(1));
-            list.ItemsSource= Products;
+            list.ItemsSource = Products;
         }
 
         private void View_MouseEnter(object sender, MouseEventArgs e)
         {
-            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            ((Button)sender).Background = brush;
+            ((Button)sender).Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
         }
 
         private void View_MouseLeave(object sender, MouseEventArgs e)
         {
-            Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            ((Button)sender).Background = brush;
+            ((Button)sender).Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
         }
-
-        private void CubePrB_Click(object sender, RoutedEventArgs e)
-        {
-            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            VerticalPrB.Background = brush;
-            list.Visibility = Visibility.Hidden;
-
-            Color color2 = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
-            SolidColorBrush brush2 = new SolidColorBrush(color2);
-            CubePrB.Background = brush2;
-            Cubelist.Visibility = Visibility.Visible;
-
-            list.ItemsSource = null;
-            Cubelist.ItemsSource = Products;
-        }
-
-        private void VerticalPrB_Click(object sender, RoutedEventArgs e)
-        {
-            Color color = Color.FromArgb(0xFF, 0xE0, 0xE0, 0xE0);
-            SolidColorBrush brush = new SolidColorBrush(color);
-            CubePrB.Background = brush;
-            Cubelist.Visibility = Visibility.Hidden;
-
-            Color color2 = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
-            SolidColorBrush brush2 = new SolidColorBrush(color2);
-            VerticalPrB.Background = brush2;
-            list.Visibility = Visibility.Visible;
-
-            Cubelist.ItemsSource = null;
-            list.ItemsSource = Products;
-        }
-
-        //private void ImageEl_MouseEnter(object sender, MouseEventArgs e)
-        //{
-        //    Button img = (Button)sender;
-        //    img.Height = img.ActualHeight * 1.1;
-        //    img.Width = img.ActualHeight * 1.1;
-        //}
-
-        //private void ImageEl_MouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    Button img = ((Button)sender);
-        //    img.Height /= 1.1;
-        //    img.Width /= 1.1;
-        //}
 
         //Метод для заполнения кнопками Грид ChangeSort
         public void Sortierung()
         {
-
             var i = new List<string> { "По скидке", "Лучшие отзывы", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
             foreach (var item in i)
             {
@@ -281,6 +376,7 @@ namespace MaimApp.Views
                 {
                     Content = item,
                     FontSize = 18,
+                    Height= 30,
                     Padding = new Thickness(10),
                     Style = (Style)FindResource("ComboBoxButton")
                 };
@@ -310,46 +406,36 @@ namespace MaimApp.Views
             }
         }
 
-        public void Button_Click(object sender, RoutedEventArgs e)
+        //Для вывода нумерации товаров
+        public void NumberStroke(int? a, int? Stroke)
         {
-            //Запись в глобальные переменные кнопок в выподающем списке городов
-            senderSecondCou = senderNowCou;
-            senderNowCou = sender;
-
-            if (senderSecondCou != null)
+            int? nowNumber = 1;
+            if (a == null)//Проверяется, только ли мы открыли программу или нет
             {
-                if (senderSecondCou == sender)
+                if (Stroke < a + 8)
                 {
-                    return;
+                    a = Stroke;
                 }
                 else
                 {
-                    Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
-                    SolidColorBrush brush = new SolidColorBrush(color);
-                    ((Button)sender).Foreground = brush;
-
-                    Color color2 = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
-                    SolidColorBrush brush2 = new SolidColorBrush(color2);
-                    ((Button)senderSecondCou).Foreground = brush2;
+                    a = 1;
+                }
+            }
+            else if (a >= 5)
+            {
+                nowNumber = a - 4;
+                a = a - 4;
+                if (Stroke <= a + 8)
+                {
+                    a = Stroke - 8;
+                    nowNumber = a;
                 }
             }
             else
             {
-                Color color = Color.FromArgb(0xFF, 0xB0, 0xBD, 0xE9);
-                SolidColorBrush brush = new SolidColorBrush(color);
-                ((Button)sender).Foreground = brush;
-            }
-        }
-
-        public void NumberStroke(int? a)
-        {
-            if (a == null)//Проверяется, только ли мы открыли программу или нет
-            {
                 a = 1;
             }
-
-            var nowNumber = a;
-            while (nowNumber < a + 10)
+            while (nowNumber < a + 8)
             {
                 Button button = new Button
                 {
@@ -357,31 +443,29 @@ namespace MaimApp.Views
                     Content = nowNumber,
                     FontSize = 19,
                     Height = 30,
-                    Width= 30,
+                    Width = 30,
                     Style = (Style)FindResource("CornerButton"),
                     Margin = new Thickness(5, 2, 0, 0),
                 };
-                if (nowNumber == a + 8)
-                {
-                    button.Content = "...";
-                }
                 button.Click += Button2_Click;
                 nowNumber++;
                 StrokeNumber.Children.Add(button);
             }
         }
-
-        public async void Button2_Click(object sender, RoutedEventArgs e)
+        public int Line_count_hotel(ObservableCollection<HotelInf> values)
         {
-            list.ItemsSource = null;
-            Cubelist.ItemsSource = null;
+            var count = values.Count / 40;
+            return count;
+        }
 
-            ViewProduct viewProduct = new ViewProduct();
-            var i = Convert.ToInt32(((Button)sender).Content.ToString());
-            Products = await Task.Run(() => viewProduct.Load40Product(i));
-
-            list.ItemsSource = Products;
-            Cubelist.ItemsSource = Products;
+        public void TakePersonInfo()
+        {
+            AuthUser authUser = new AuthUser();
+            using (var db = new DbA96b40MaimfDB())
+            {
+               var i = db.UserPrData.FirstOrDefault(x => x.User.Login == authUser.GetUserLogin());
+                FIO.Content = i.Name + " " + i.LastName;
+            }
         }
     }
 }

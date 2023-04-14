@@ -7,10 +7,21 @@
         xmlns:local="clr-namespace:MaimApp.Views"
         mc:Ignorable="d"
         Title="MainProduct" Height="525" Width="960"
-        Background="#FAF9F9" Loaded="Window_Loaded">
+        MaxWidth="525" MinHeight="565" MinWidth="960" MaxHeight="525" 
+        Background="#FAF9F9" Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        >
 
     <Grid>
-        <Grid x:Name="Panel" Width="145" HorizontalAlignment="Left"  Background="#B0BDE9">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="Black" Opacity="0.3"/>
+        <Label x:Name="l_exit" Content="✖" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="1,2" Cursor="Hand" MouseDown="l_exit_MouseDown" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="926,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+        <Label x:Name="l_minimized" Content="━" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="7,4" Cursor="Hand" MouseDown="l_exit_minimize" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="903,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+
+        <Grid x:Name="Panel" Width="145" HorizontalAlignment="Left"  Background="#B0BDE9" Grid.Row="1">
             <!--#B0BDE9-->
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -22,28 +33,28 @@
             <Label x:Name="ButtonPressSecond" Content="" Visibility="Hidden"/>
             <Label x:Name="ButtonPressNow" Content="" Visibility="Hidden"/>
             <!--Кнопка Отели-->
-            <Button x:Name="Hotels" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,-95,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="Hotels_Click">
+            <Button x:Name="Hotels" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-2,20,0,125" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="Hotels_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\hotel.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Отели" FontSize="18"  Foreground="Black" Margin="0,2,0,0" Width="53" FontWeight="DemiBold"/>
                 </StackPanel>
             </Button>
             <!--Кнопка Автобусы-->
-            <Button x:Name="BusTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,-109,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="BusTickets_Click">
+            <Button x:Name="BusTickets" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="1" HorizontalAlignment="Left" Margin="-2,13,0,5" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="BusTickets_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\bus.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Автобусы" VerticalAlignment="Center" Foreground="Black" FontSize="18"  Margin="0,3,0,0" FontWeight="DemiBold"/>
                 </StackPanel>
             </Button>
             <!--Кнопка Приключения-->
-            <Button x:Name="Adventures" Click="Adventures_Click" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,-120,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave">
+            <Button x:Name="Adventures" Click="Adventures_Click" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="2" HorizontalAlignment="Left" Margin="-2,7,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\hot-air-balloon.png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Приключения" VerticalAlignment="Center" FontSize="18" Foreground="Black"  Margin="0,0,0,0" FontWeight="DemiBold"/>
                 </StackPanel>
             </Button>
             <!--Кнопка Личного кабинета-->
-            <Button x:Name="PersonalArea" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="3" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,-8,0,10" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="PersonalArea_Click">
+            <Button x:Name="PersonalArea" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-2,126,0,18" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="PersonalArea_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\user (3).png" Width="70" Height="70" Margin="0,-4,0,0"/>
                     <TextBlock Text="Профиль" FontSize="18" Foreground="Black"  Margin="0,2,0,0" Width="84" FontWeight="DemiBold"/>
@@ -51,9 +62,15 @@
             </Button>
         </Grid>
         <!--Logo-->
-        <Image Source="/Image/Logo.png" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Width="217" Margin="0,-5,0,0"/>
+        <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="1"/>
 
-        <Grid x:Name="HotelsG" Visibility="Hidden">
+        <Grid x:Name="HelloPanel" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Width="562" Height="300" Margin="40,0,0,0" Grid.Row="1">
+            <Label Content="Добро пожаловать!" FontSize="28" FontWeight="Bold" Margin="162,75,80,177"/>
+            <Label Content="Это стартовая страница" FontSize="22" Margin="178,128,95,128"/>
+            <Label Content="Выберите один из элементов с лева" FontSize="20" Margin="132,177,50,81"/>
+        </Grid>
+
+        <Grid x:Name="HotelsG" Visibility="Hidden" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70.5"/>
                 <ColumnDefinition Width="70.5"/>
@@ -138,7 +155,7 @@
                     <DataTemplate>
                         <ContentControl>
                             <Border x:Name="VerticalProd" Width ="701" Height="125" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6">
-                                <Grid x:Name="VerticalGr">
+                                <Grid x:Name="VerticalGr" MouseDown="View_Click">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="24"/>
                                         <ColumnDefinition Width="160"/>
@@ -151,16 +168,15 @@
                                             <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Label Content="{Binding ID}" Visibility="Hidden" />
-                                    <Label Content="{Binding Name}" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,5,0,0" FontSize="15" />
+                                    <Label x:Name="ID" Content="{Binding ID}" Visibility="Hidden" />
+                                    <Label Content="{Binding Name}" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,5,0,0" FontSize="15" FontWeight="Bold"/>
                                     <Label Content="{Binding Adress}" Margin="0,25,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="13" />
                                     <Label Content="{Binding DistanceToCenter}" Margin="0,55,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="13" />
-                                    <Label Content="{Binding Price}" Grid.Column="4"  Margin="75,40,0,0" FontSize="18"/>
+                                    <Label Content="{Binding Price}" Grid.Column="4"  Margin="75,40,0,0" FontSize="18" FontWeight="Bold"/>
                                     <Border Margin="-100,80,0,0" Grid.Column="2"  Background="White" BorderBrush="#A09D9D" BorderThickness="2" CornerRadius="7" Width="65" Height="30">
                                         <Label Content="{Binding Reviews}"  FontSize="16" HorizontalAlignment="Center" Margin="0,-3,0,0"/>
                                     </Border>
-                                    <Button x:Name="View" Style="{DynamicResource ChangeButton}" Content="Просмотреть" Width="135" Height="32"  FontSize="20" Foreground="#FFFFFF" Grid.Column="4" Margin="20,54,0,0" Background="#B0BDE9" BorderThickness="0" MouseEnter="View_MouseEnter" MouseLeave="View_MouseLeave" >
-                                    </Button>
+                                    <!--<Button x:Name="View" Style="{DynamicResource ChangeButton}" Content="Просмотреть" Width="135" Height="32"  FontSize="20" Foreground="#FFFFFF" Grid.Column="4" Margin="20,54,0,0" Background="#B0BDE9" BorderThickness="0" MouseEnter="View_MouseEnter" MouseLeave="View_MouseLeave" Click="View_Click" />-->
                                     <Button x:Name="Favorite" Style="{x:Null}" Grid.Column="4" Width="30" Height="30" BorderThickness="0" Margin="130,-80,0,0">
                                         <StackPanel>
                                             <Image Source="{Binding ImageFavorite}"/>
@@ -187,20 +203,38 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ContentControl>
-                            <Border Width ="201" Height="290" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6">
-                                <Grid x:Name="VerticalGr">
+                            <Border Width ="227" Height="290" Background="#FFFFFF" BorderThickness="1" BorderBrush="#B0BDE9" CornerRadius="6,6,6,6">
+                                <Grid x:Name="VerticalGr" MouseDown="View_Click">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="37"/>
+                                        <RowDefinition Height="85"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Border CornerRadius="10" Width="170" Height="110" Grid.Column="1" Margin="-20,0,0,0">
+                                    <Border CornerRadius="10" Width="210" Height="100" Grid.Column="1" Margin="0,4,0,0">
                                         <Border.Background>
                                             <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
                                         </Border.Background>
                                     </Border>
+                                    <Label Content="{Binding ID}" Visibility="Hidden" />
+                                    <Label Content="{Binding Name}" Grid.Row="1" Margin="5,0,0,0" FontSize="13" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Adress}" TextWrapping="Wrap" Margin="9,0,0,0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="13" />
+                                    <Label Content="{Binding DistanceToCenter}" Margin="5,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" FontSize="13" />
+                                    <Label Content="{Binding Price}" Grid.Row="4" Margin="5,-15,0,0" FontSize="18" FontWeight="Bold"/>
+                                    <Border Margin="-150,10,0,0" Grid.Row="3" Background="White" BorderBrush="#A09D9D" BorderThickness="2" CornerRadius="7" Width="65" Height="30">
+                                        <Label Content="{Binding Reviews}" FontSize="16" HorizontalAlignment="Center" Margin="0,-3,0,0"/>
+                                    </Border>
+                                    <Button x:Name="xxx" Width="35" Height="35" Style="{DynamicResource SpecialCorner}" Grid.Row="4" Margin="60,-30,0,0">
+                                        <Grid>
+                                            <Image Source="\Image\heart.png" Width="30" Height="30" Margin="1,0,0,0"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="xxx2" Width="35" Height="35" Style="{DynamicResource SpecialCorner}" Grid.Row="4" Margin="150,-30,0,0">
+                                        <Grid>
+                                            <Image Source="\Image\add-to-basket.png" Width="30" Height="30" Margin="1,0,0,0"/>
+                                        </Grid>
+                                    </Button>
                                 </Grid>
                             </Border>
                         </ContentControl>
@@ -214,7 +248,7 @@
             </ListView>
 
             <!--Нумерация страниц-->
-            <StackPanel x:Name="StrokeNumber" Orientation="Horizontal" Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,10,0,0"/>
+            <StackPanel x:Name="StrokeNumber" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,10,0,0"/>
 
             <!--Аницамия ожидания-->
             <Label x:Name="SearchText" Content="Поиск предложений"  Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="3" FontSize="22" Foreground="Gray" Margin="92,50,62,50" Grid.RowSpan="3"/>
@@ -225,7 +259,7 @@
                          CenterY="22"/>
                 </Image.RenderTransform>
                 <Image.Triggers>
-                    <EventTrigger RoutedEvent="Loaded">
+                    <EventTrigger x:Name="animTrigger" RoutedEvent="Loaded">
                         <BeginStoryboard x:Name="storyboard">
                             <Storyboard RepeatBehavior="Forever">
                                 <DoubleAnimation Storyboard.TargetName="rotate"
@@ -237,9 +271,9 @@
                 </Image.Triggers>
             </Image>
             <!--Выпадающий список в сортировке-->
-            <Grid x:Name="ChangeSortGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="2,23,0,0" VerticalAlignment="Top" Width="255" Height="0" HorizontalAlignment="Left">
+            <Grid x:Name="ChangeSortGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="2,23,0,0" VerticalAlignment="Top" Width="255" Height="120" HorizontalAlignment="Left">
                 <Border CornerRadius="3" HorizontalAlignment="Left" Background="#EDEDED">
-                    <StackPanel x:Name="ChangeSort" Orientation="Vertical"/>
+                    <StackPanel x:Name="ChangeSort" Orientation="Vertical" Height="120"/>
                 </Border>
             </Grid>
             <!--Выпадающий список городов-->
@@ -280,7 +314,7 @@
                 </Border>
             </Grid>
         </Grid>
-        <Grid x:Name="PersonalAreaG" Visibility="Visible">
+        <Grid x:Name="PersonalAreaG" Visibility="Hidden" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70.5"/>
                 <ColumnDefinition Width="70.5"/>
@@ -311,9 +345,9 @@
                     <ImageBrush x:Name="ImageI" ImageSource="/Image/IqGjWuAdGoQ.jpg" />
                 </Ellipse.Fill>
             </Ellipse>
-            <Label x:Name="FIO"  Content="Ababov Aboba Abobovich" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="17" />
-            <Label x:Name="Birthday" Content="12.12.2023" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12"  VerticalAlignment="Bottom"/>
-            <Label x:Name="Approved" Content="Статус : Одобренный" FontSize="15" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3" />
+            <Label x:Name="FIO"  Content="FIO" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="17" />
+            <Label x:Name="Birthday" Content="Не указано" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12"  VerticalAlignment="Bottom"/>
+            <Label x:Name="Approved" Content="Статус : Не одобрен" FontSize="15" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3" />
             <Button x:Name="RedactProfile" Style="{DynamicResource CornerButton}" Content="Редактировать" FontSize="15" Grid.Column="4" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Row="2" Width="130" Height="30"/>
             <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="6" Grid.ColumnSpan="8" HorizontalAlignment="Center" Width="764" Background="#FFE48282" CornerRadius="8,8,0,0">
                 <Grid>

@@ -53,7 +53,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+         
             <!--Для Border-->
             <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
                 <Style.Triggers>
@@ -72,6 +72,24 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="CornerRadius" CornerRadius="4" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#A1AEDA"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SpecialCorner" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="CornerRadius" CornerRadius="8" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="#B0BDE9">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>

@@ -13,11 +13,11 @@ namespace MaimApp.Parser.Class
         public string Adress { get; set; }
         public string DistanceToCenter { get; set; }
         public string ImagePath { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
         public bool IsFavorite { get; set; }
         public string Reviews { get; set; }
 
-        public HotelInf(int iD, string name, string adress, string distanceToCenter, string imagePath, decimal price, bool isFavorite, string reviews)
+        public HotelInf(int iD, string name, string adress, string distanceToCenter, string imagePath, string price, bool isFavorite, string reviews)
         {
             ID = iD;
             Name = name;

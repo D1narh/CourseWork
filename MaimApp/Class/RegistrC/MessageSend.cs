@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Mail;
+using System.Windows;
 
 namespace MaimApp.Class.RegistrC
 {
@@ -12,14 +13,14 @@ namespace MaimApp.Class.RegistrC
 
         public MessageSend(string mail) => Mail = mail;
 
-        public static string RandomString()
+        string RandomString()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, 5)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public void SendMessage()
+        public string SendMessage()
         {
             try
             {
@@ -47,12 +48,15 @@ namespace MaimApp.Class.RegistrC
                 myMail.SubjectEncoding = System.Text.Encoding.UTF8;
 
                 // set body-message and encoding
-                myMail.Body = $"<b>КОД ПОДТВЕРЖДЕНИЯ</b><br>{RandomString()}</b>";
+                var code = RandomString();
+                myMail.Body = $"<b>КОД ПОДТВЕРЖДЕНИЯ</b><br>{code}</b>";
                 myMail.BodyEncoding = System.Text.Encoding.UTF8;
                 // text or html
                 myMail.IsBodyHtml = true;
 
                 mySmtpClient.Send(myMail);
+
+                return code;
             }
 
             catch (SmtpException ex)
@@ -62,7 +66,8 @@ namespace MaimApp.Class.RegistrC
             }
             catch (Exception ex)
             {
-                throw ex;
+               MessageBox.Show("Что-то не так с адресом почты");
+                return null;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace MaimApp.Views.Product
     /// </summary>
     public partial class InProduct : Window
     {
-        public InProduct()
+        public InProduct(string productId)
         {
             InitializeComponent();
         }

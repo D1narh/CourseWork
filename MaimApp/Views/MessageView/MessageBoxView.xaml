@@ -1,0 +1,37 @@
+﻿<Window x:Class="MaimApp.Views.MessageView.MessageBoxView"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MaimApp.Views.MessageView"
+        mc:Ignorable="d"
+        Title="MessageBoxView" Height="180" Width="300"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent">
+    <Border CornerRadius="8" Background="White">
+        <Grid>
+            <Label Content="Подтверждение почты" FontSize="18" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top"/>
+
+            <TextBox x:Name="emailCode"
+                BorderBrush="LightGray"
+                Foreground="Gray"
+                FontSize="14"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                Background="White"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                MaxWidth="170"
+                MaxHeight="50"
+                materialDesign:HintAssist.Hint="Код"
+                materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                materialDesign:HintAssist.Foreground="#B0BDE9"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Margin="64,16,64,46"/>
+            <Button x:Name="Back" FontSize="14" Content="Вернуться назад" Style="{DynamicResource CornerButton}" Width="130" Margin="25,113,145,30" Click="Back_Click"/>
+            <Button x:Name="Confirm" FontSize="14" Content="Подтвердить" Style="{DynamicResource CornerButton}" Width="100" Margin="162,113,38,30" Click="Confirm_Click"/>
+        </Grid>
+    </Border>
+</Window>
