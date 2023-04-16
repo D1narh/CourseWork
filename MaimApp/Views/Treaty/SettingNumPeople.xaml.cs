@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaimApp.Parser.Class;
+using MaimApp.Views.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,13 @@ namespace MaimApp.Views.Treaty
     /// </summary>
     public partial class SettingNumPeople : Window
     {
-        public SettingNumPeople()
+        HotelInf Hotel;
+        public SettingNumPeople(HotelInf a)
         {
             InitializeComponent();
+
+            Hotel = a;
+
         }
 
         private void People_Click(object sender, RoutedEventArgs e)
@@ -46,6 +52,51 @@ namespace MaimApp.Views.Treaty
                 SelNumPeople.BeginAnimation(HeightProperty, anim);
                 SelNumPeople.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            InProduct inProduct = new InProduct(Hotel);
+            inProduct.Show();
+            this.Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Name.Content = Hotel.Name;
+            PeopleCount.Content = "Колличество людей: " + (int.Parse(CountChild.Content.ToString()) + int.Parse(CountOld.Content.ToString())).ToString();
+        }
+
+        private void OldPlus_Click(object sender, RoutedEventArgs e)
+        {
+            CountOld.Content = int.Parse(CountOld.Content.ToString()) + 1;
+            PeopleCount.Content = "Колличество людей: " + (int.Parse(CountChild.Content.ToString()) + int.Parse(CountOld.Content.ToString())).ToString();
+        }
+
+        private void OldMinus_Click(object sender, RoutedEventArgs e)
+        {
+            if(int.Parse(CountOld.Content.ToString()) - 1 <= 0)
+            {
+                return;
+            }
+            CountOld.Content = int.Parse(CountOld.Content.ToString()) - 1;
+            PeopleCount.Content = "Колличество людей: " + (int.Parse(CountChild.Content.ToString()) + int.Parse(CountOld.Content.ToString())).ToString();
+        }
+
+        private void ChildPlus_Click(object sender, RoutedEventArgs e)
+        {
+            CountChild.Content = int.Parse(CountChild.Content.ToString()) + 1;
+            PeopleCount.Content = "Колличество людей: " + (int.Parse(CountChild.Content.ToString()) + int.Parse(CountOld.Content.ToString())).ToString();
+        }
+
+        private void ChildMinus_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.Parse(CountChild.Content.ToString()) - 1 < 0)
+            {
+                return;
+            }
+            CountChild.Content = int.Parse(CountChild.Content.ToString()) -1;
+            PeopleCount.Content = "Колличество людей: " + (int.Parse(CountChild.Content.ToString()) + int.Parse(CountOld.Content.ToString())).ToString();
         }
     }
 }

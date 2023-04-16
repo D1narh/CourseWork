@@ -2,14 +2,12 @@
 using MaimApp.Class.MainProductC;
 using MaimApp.Class.User;
 using MaimApp.Parser.Class;
-using MaimApp.Views.MessageView;
 using MaimApp.Views.PersonalArea;
 using MaimApp.Views.Product;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,8 +15,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using static LinqToDB.Reflection.Methods.LinqToDB;
 
 namespace MaimApp.Views
 {
@@ -30,10 +26,12 @@ namespace MaimApp.Views
 
         //Блок с временными переменными которые отслеживают нажатые кнопки
         static Grid SecondGrid;
-        object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou;
+        static object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou;
         public ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
         private static BrushConverter brushConverter = new BrushConverter();
         int LineCount = 0;
+
+
 
 
 
@@ -236,8 +234,9 @@ namespace MaimApp.Views
             if (sender != null)
             {
                 var a = ((Grid)sender).DataContext;
-                var myValue = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
-                InProduct product = new InProduct(myValue.ToString());
+                var IdProduct = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
+                var Product = Products.FirstOrDefault(x => x.ID == Convert.ToInt32(IdProduct));
+                InProduct product = new InProduct(Product);
                 product.Show();
                 this.Close();
             }
@@ -450,6 +449,7 @@ namespace MaimApp.Views
                 button.Click += Button2_Click;
                 nowNumber++;
                 StrokeNumber.Children.Add(button);
+                GC.Collect();
             }
         }
         public int Line_count_hotel(ObservableCollection<HotelInf> values)

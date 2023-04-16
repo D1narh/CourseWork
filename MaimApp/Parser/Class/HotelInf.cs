@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaimApp.Parser.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,9 @@ namespace MaimApp.Parser.Class
         public string Price { get; set; }
         public bool IsFavorite { get; set; }
         public string Reviews { get; set; }
+        public Image1[] Images { get; set; }
 
-        public HotelInf(int iD, string name, string adress, string distanceToCenter, string imagePath, string price, bool isFavorite, string reviews)
+        public HotelInf(int iD, string name, string adress, string distanceToCenter, string imagePath, string price, bool isFavorite, string reviews, Image1[] images)
         {
             ID = iD;
             Name = name;
@@ -27,6 +29,7 @@ namespace MaimApp.Parser.Class
             Price = price;
             IsFavorite = isFavorite;
             Reviews = reviews;
+            Images = images;
         }
     }
 }

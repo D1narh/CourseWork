@@ -1,6 +1,7 @@
 ﻿using DataModels;
 using MaimApp.BLL;
 using MaimApp.Parser.Class;
+using MaimApp.Parser.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace MaimApp.Class.MainProductC
 {
     public class ViewProduct
     {
+        ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
         private readonly Formatter _formatter = new Formatter();
 
         public static List<HotelInf> result;
@@ -31,7 +34,7 @@ namespace MaimApp.Class.MainProductC
             while (count < numerical * 40)
             {
                 var i = result[count];
-                Products.Add(new HotelInf(i.ID, i.Name, i.Adress, i.DistanceToCenter, i.ImagePath, i.Price, false, i.Reviews)
+                Products.Add(new HotelInf(i.ID, i.Name, i.Adress, i.DistanceToCenter, i.ImagePath, i.Price, false, i.Reviews, i.Images)
                 {
                     ID = i.ID,
                     Name = i.Name,
@@ -40,7 +43,8 @@ namespace MaimApp.Class.MainProductC
                     ImagePath = i.ImagePath,
                     Price = i.Price + "₽",
                     Reviews = i.Reviews,
-                    IsFavorite = false
+                    IsFavorite = false,
+                    Images = i.Images
                 });
                 count++;
             }
@@ -49,21 +53,25 @@ namespace MaimApp.Class.MainProductC
 
         public async Task<ObservableCollection<HotelInf>> FillCatalog()
         {
-            ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
-            await GetAllSite();
-            foreach (var i in result)
+            if (result == null)
             {
-                Products.Add(new HotelInf(i.ID, i.Name, i.Adress, i.DistanceToCenter, i.ImagePath, i.Price, false, i.Reviews)
+                await GetAllSite();
+                foreach (var i in result)
                 {
-                    ID = i.ID,
-                    Name = i.Name,
-                    Adress = i.Adress,
-                    DistanceToCenter = i.DistanceToCenter,
-                    ImagePath = i.ImagePath,
-                    Price = i.Price,
-                    Reviews = i.Reviews,
-                    IsFavorite = false
-                });
+                    Products.Add(new HotelInf(i.ID, i.Name, i.Adress, i.DistanceToCenter, i.ImagePath, i.Price, false, i.Reviews, i.Images)
+                    {
+                        ID = i.ID,
+                        Name = i.Name,
+                        Adress = i.Adress,
+                        DistanceToCenter = i.DistanceToCenter,
+                        ImagePath = i.ImagePath,
+                        Price = i.Price,
+                        Reviews = i.Reviews,
+                        IsFavorite = false,
+                        Images = i.Images
+                    });
+                }
+                return Products;
             }
             return Products;
         }

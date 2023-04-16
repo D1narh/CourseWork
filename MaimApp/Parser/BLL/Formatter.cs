@@ -40,7 +40,7 @@ namespace MaimApp.BLL
             var result = await _parser.Parse(url);
 
             return result.response.hotels.Where(x => x.image != null).Select(x => 
-            new HotelInf(x.id,x.name,x.address,x.center_distance.ToString(),x.image.path,x.min_price.ToString(),false,x.rating.ToString())
+            new HotelInf(x.id,x.name,x.address,x.center_distance.ToString(),x.image.path,x.min_price.ToString(),false,x.rating.ToString(),x.images)
             {
                 ID= x.id,
                 Name= x.name,
@@ -49,7 +49,8 @@ namespace MaimApp.BLL
                 ImagePath= x.image.path,
                 Price = x.min_price.ToString(),
                 Reviews= $"{x.rating}/10",
-                IsFavorite = false
+                IsFavorite = false,
+                Images = x.images
             }).ToList();
 
         }
