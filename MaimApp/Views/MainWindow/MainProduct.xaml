@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:MaimApp.Views"
         mc:Ignorable="d"
         Title="MainProduct" Height="525" Width="960"
-        MaxWidth="525" MinHeight="565" MinWidth="960" MaxHeight="525" 
+        MaxWidth="960" MinHeight="565" MinWidth="960" MaxHeight="525" 
         Background="#FAF9F9" Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseLeftButtonDown"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         >
@@ -17,12 +17,16 @@
             <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="Black" Opacity="0.3"/>
-        <Label x:Name="l_exit" Content="✖" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="1,2" Cursor="Hand" MouseDown="l_exit_MouseDown" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="926,0,0,0" RenderTransformOrigin="0.5,0.5"/>
-        <Label x:Name="l_minimized" Content="━" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="7,4" Cursor="Hand" MouseDown="l_exit_minimize" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="903,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Background="#FAF9F9" Opacity="0.3" Grid.ColumnSpan="2"/>
+        <Label x:Name="l_exit" Content="✖" Grid.Column="1" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="1,2" Cursor="Hand" MouseDown="l_exit_MouseDown" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="781,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+        <Label x:Name="l_minimized" Content="━" Grid.Column="1" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="7,4" Cursor="Hand" MouseDown="l_exit_minimize" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="760,0,0,0" RenderTransformOrigin="0.5,0.5"/>
 
+        <!--Panel-->
         <Grid x:Name="Panel" Width="145" HorizontalAlignment="Left"  Background="#B0BDE9" Grid.Row="1">
-            <!--#B0BDE9-->
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -36,7 +40,7 @@
             <Button x:Name="Hotels" Style="{DynamicResource ChangeButton}" BorderThickness="0" Width="130" Height="110" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="-2,20,0,125" MouseEnter="LeftPMouseEnter" MouseLeave="LeftPMouseLeave" Click="Hotels_Click">
                 <StackPanel Orientation="Vertical">
                     <Image Source="\Image\hotel.png" Width="70" Height="70" Margin="0,-4,0,0"/>
-                    <TextBlock Text="Отели" FontSize="18"  Foreground="Black" Margin="0,2,0,0" Width="53" FontWeight="DemiBold"/>
+                    <TextBlock Text="Отели" FontSize="18" Foreground="Black" Margin="0,2,0,0" Width="53" FontWeight="DemiBold"/>
                 </StackPanel>
             </Button>
             <!--Кнопка Автобусы-->
@@ -62,15 +66,15 @@
             </Button>
         </Grid>
         <!--Logo-->
-        <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="1"/>
+        <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="1" Grid.Column="1"/>
 
-        <Grid x:Name="HelloPanel" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Width="562" Height="300" Margin="40,0,0,0" Grid.Row="1">
+        <Grid x:Name="HelloPanel" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Width="562" Height="300" Margin="40,0,0,0" Grid.Row="1" Grid.Column="1">
             <Label Content="Добро пожаловать!" FontSize="28" FontWeight="Bold" Margin="162,75,80,177"/>
             <Label Content="Это стартовая страница" FontSize="22" Margin="178,128,95,128"/>
             <Label Content="Выберите один из элементов с лева" FontSize="20" Margin="132,177,50,81"/>
         </Grid>
-
-        <Grid x:Name="HotelsG" Visibility="Hidden" Grid.Row="1">
+        <!--Hotels-->
+        <Grid x:Name="HotelsG" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70.5"/>
                 <ColumnDefinition Width="70.5"/>
@@ -100,34 +104,29 @@
             <TextBox x:Name="SearchBox" BorderBrush="LightGray" BorderThickness="0" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                     Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
                     materialDesign:HintAssist.Hint="Название отеля" materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.Foreground="#A09D9D"
-                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="10" Foreground="Black" VerticalContentAlignment="Center" FontSize="20" Grid.Column="2" Grid.ColumnSpan="6" Grid.RowSpan="2" Width="550" Height="50" Margin="44,6,20,46">
-                <TextBox.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
-                    </Style>
-                </TextBox.Resources>
+                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="10" Foreground="Black" VerticalContentAlignment="Center" FontSize="20" Grid.ColumnSpan="8" Grid.RowSpan="2" Width="550" Height="50" Margin="-15,2,20,46">
             </TextBox>
             <!--Кнопка выбора сортировки-->
-            <Border Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="5" Grid.Column="5" Background="#EDEDED" Margin="-140,-30,0,0" Grid.ColumnSpan="3" Height="35" Width="160" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource ChangeButton}" x:Name="Sort" Height="35" Width="160" Click="Sort_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Сортировка"  FontSize="16" Width="158" Height="34"/>
-                        <Image Height="15" Width="14" Margin="-30,5,0,0" Source="\Image\Vector.png"/>
+            <Border x:Name="Sorting" Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="5" Grid.Column="3" Background="#EDEDED" Margin="42,18,0,0" Grid.ColumnSpan="3" Height="36" Width="200" Grid.RowSpan="1">
+                <Button Style="{DynamicResource ChangeButton}" x:Name="Sort" Height="35" Width="200" Click="Sort_Click">
+                    <StackPanel Orientation="Horizontal" Width="200">
+                        <Label Content="Сортировка"  FontSize="16" Width="180" Height="34" Margin="0,0,0,0"/>
+                        <Image Height="15" Width="14" Margin="-00,0,0,0" Source="\Image\Vector.png"/>
                     </StackPanel>
                 </Button>
             </Border>
             <!--Кнопка выбора Города-->
-            <Border Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="5" Grid.Column="2" Background="#EDEDED" Margin="10,-30,0,0" Grid.ColumnSpan="3" Height="35" Width="230" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource ChangeButton}" x:Name="City" Height="35" Width="230" Click="City_Click">
-                    <StackPanel Orientation="Horizontal" Width="230">
-                        <Label Padding="5" Content="г.Астрахань"  FontSize="16" Width="230" Height="34"/>
-                        <Image Height="14" Width="14" Margin="-55,5,0,0" Source="\Image\Vector.png"/>
+            <Border x:Name="SearchCity" Style="{DynamicResource BorderStyle}" Grid.Row="1" CornerRadius="5" Background="#EDEDED" Margin="-16,18,6,52" Grid.ColumnSpan="4" Width="230" Height="35" Grid.RowSpan="2">
+                <Button Style="{DynamicResource ChangeButton}" x:Name="City" Height="35" Width="230" Click="ChangeCity_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Padding="5" x:Name="UserCity" Margin="5,0,0,0" FontSize="16" Width="230" Height="34"/>
+                        <Image Height="14" Width="14" Margin="-55,0,0,0" Source="\Image\Vector.png"/>
                     </StackPanel>
                 </Button>
             </Border>
             <!--Вид вывода товаров-->
             <!--По вертикали-->
-            <Border x:Name="VerticalBor" Grid.Column="9" Grid.Row="1" Grid.RowSpan="2" Height="35" Width="34" Margin="20,21,0,0" CornerRadius="3" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Border x:Name="VerticalBor" Grid.Column="8" Grid.Row="1" Height="35" Width="34" Margin="84,18,0,0" CornerRadius="3" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <Button x:Name="VerticalPrB" Background="#B0BDE9" Style="{DynamicResource ChangeButton}" Click="VerticalPrB_Click">
                     <StackPanel Orientation="Vertical" Width="33" Height="34">
                         <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="1" Margin="0,5,0,0"/>
@@ -138,7 +137,7 @@
                 </Button>
             </Border>
             <!--Кубами-->
-            <Border x:Name="CubeBor" Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" Height="35" Width="35" Margin="79,21,0,0" CornerRadius="3" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Border x:Name="CubeBor" Grid.Column="8" Grid.Row="1" Height="35" Width="36" Margin="44,18,0,0" CornerRadius="3" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <Button x:Name="CubePrB" Style="{DynamicResource ChangeButton}" Background="#D9D9D9" Click="CubePrB_Click">
                     <StackPanel Width="35" Height="35">
                         <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="-16,2.5,0,0"/>
@@ -150,7 +149,7 @@
             </Border>
             <!--Список товаров-->
             <!--По вертикали-->
-            <ListView x:Name="list" Visibility="Visible" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="8" Grid.RowSpan="8" Width="730" Margin="34,10,40,40">
+            <ListView x:Name="list" Visibility="Visible" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.ColumnSpan="10" Grid.RowSpan="8" Margin="22,10,51,40">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ContentControl>
@@ -177,9 +176,9 @@
                                         <Label Content="{Binding Reviews}"  FontSize="16" HorizontalAlignment="Center" Margin="0,-3,0,0"/>
                                     </Border>
                                     <!--<Button x:Name="View" Style="{DynamicResource ChangeButton}" Content="Просмотреть" Width="135" Height="32"  FontSize="20" Foreground="#FFFFFF" Grid.Column="4" Margin="20,54,0,0" Background="#B0BDE9" BorderThickness="0" MouseEnter="View_MouseEnter" MouseLeave="View_MouseLeave" Click="View_Click" />-->
-                                    <Button x:Name="Favorite" Style="{x:Null}" Grid.Column="4" Width="30" Height="30" BorderThickness="0" Margin="130,-80,0,0">
+                                    <Button x:Name="Favorite" Background="#FFFFFF" Style="{x:Null}" Grid.Column="4" Width="30" Height="30" BorderThickness="0" Margin="130,-80,0,0" Click="Favorite_Click" >
                                         <StackPanel>
-                                            <Image Source="{Binding ImageFavorite}"/>
+                                            <Image Source="{Binding IsFavorite}"/>
                                         </StackPanel>
                                     </Button>
                                 </Grid>
@@ -194,7 +193,7 @@
                 </ListView.ItemContainerStyle>
             </ListView>
             <!--Кубами-->
-            <ListView x:Name="Cubelist" Visibility="Hidden" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="8" Grid.RowSpan="8" Width="730" Margin="34,10,40,40">
+            <ListView x:Name="Cubelist" Visibility="Hidden" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.ColumnSpan="10" Grid.RowSpan="8" Margin="22,10,51,40">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="3"/>
@@ -248,11 +247,11 @@
             </ListView>
 
             <!--Нумерация страниц-->
-            <StackPanel x:Name="StrokeNumber" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,10,0,0"/>
+            <StackPanel x:Name="StrokeNumber" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="6" Margin="0,10,0,0"/>
 
             <!--Аницамия ожидания-->
-            <Label x:Name="SearchText" Content="Поиск предложений"  Grid.Column="4" Grid.ColumnSpan="4" Grid.Row="3" FontSize="22" Foreground="Gray" Margin="92,50,62,50" Grid.RowSpan="3"/>
-            <Image x:Name="animation" Source="\Image\Group 85.png" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Margin="39,0,41,0">
+            <Label x:Name="SearchText" Content="Поиск предложений"  Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="3" FontSize="22" Foreground="Gray" Margin="132,50,62,50" Grid.RowSpan="3"/>
+            <Image x:Name="animation" Source="\Image\Group 85.png" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="4" Margin="39,0,41,0">
                 <Image.RenderTransform>
                     <RotateTransform x:Name="rotate"
                          CenterX="20"
@@ -271,13 +270,13 @@
                 </Image.Triggers>
             </Image>
             <!--Выпадающий список в сортировке-->
-            <Grid x:Name="ChangeSortGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="2,23,0,0" VerticalAlignment="Top" Width="255" Height="120" HorizontalAlignment="Left">
+            <Grid x:Name="ChangeSortGrid" Visibility="Visible" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="48,10,0,0" VerticalAlignment="Top" Height="120"  Width="255" HorizontalAlignment="Left">
                 <Border CornerRadius="3" HorizontalAlignment="Left" Background="#EDEDED">
-                    <StackPanel x:Name="ChangeSort" Orientation="Vertical" Height="120"/>
+                    <StackPanel x:Name="ChangeSort" Orientation="Vertical" Width="255"/>
                 </Border>
             </Grid>
             <!--Выпадающий список городов-->
-            <Grid x:Name="ChangeCityGrid" Visibility="Hidden" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="7" Margin="43,25,0,0" VerticalAlignment="Top" Width="673" Height="305" HorizontalAlignment="Left" Grid.RowSpan="7">
+            <Grid x:Name="ChangeCityGrid" Visibility="Hidden" Grid.Row="2" Grid.ColumnSpan="9" Margin="27,10,0,0" VerticalAlignment="Top" Width="673" Height="305" HorizontalAlignment="Left" Grid.RowSpan="7">
                 <Border CornerRadius="3" Background="#EDEDED">
                     <Grid x:Name="ChangeSity">
                         <Grid.ColumnDefinitions>
@@ -290,16 +289,21 @@
                             <RowDefinition Height="28*"/>
                             <RowDefinition Height="206*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" x:Name="CountySP" Grid.Column="0" Grid.Row="2" Background="#EDEDED" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="200" Height="204"/>
-                        <StackPanel Orientation="Vertical" x:Name="RegionSP" Grid.Row="2" Grid.Column="1" Background="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Width="200" Height="204"/>
-                        <StackPanel Orientation="Vertical" x:Name="CitySP" Grid.Column="2" Grid.Row="2" Background="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Width="200" Height="204"/>
+                        <StackPanel Orientation="Vertical" x:Name="CountySP" Grid.Column="0" Grid.Row="2" Background="#EDEDED" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="212" Height="204"/>
+                        <ScrollViewer HorizontalAlignment="Left" Background="Transparent" Width="212" Height="204" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Margin="10,0,0,0">
+                            <StackPanel Orientation="Vertical" x:Name="RegionSP" Grid.Row="2" Grid.Column="1" Background="#EDEDED" VirtualizingPanel.ScrollUnit="Pixel" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        </ScrollViewer>
+                        <ScrollViewer HorizontalAlignment="Left" Background="Transparent" Width="212" Height="204" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Margin="10,0,0,0">
+                            <StackPanel Orientation="Vertical" x:Name="CitySP" Background="#EDEDED" VirtualizingPanel.ScrollUnit="Pixel" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        </ScrollViewer>
+
                         <!--Search-->
-                        <Label x:Name="CityL"  Content="Ваш город : "  Margin="5,0,0,0" FontSize="13" VerticalAlignment="Top"/>
+                        <Label x:Name="CityL" Content="Ваш город : "  Margin="5,0,0,0" FontSize="13" VerticalAlignment="Top"/>
 
                         <TextBox x:Name="SearchSity" BorderBrush="LightGray" BorderThickness="1" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                 Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="#EDEDED"
                                 materialDesign:HintAssist.Hint="Название города" materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.Foreground="#A09D9D"
-                                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" HorizontalAlignment="Left" Foreground="Black" FontSize="15" Grid.ColumnSpan="3" Width="550" Height="30" Margin="5,33,0,0">
+                                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" HorizontalAlignment="Left" Foreground="Black" FontSize="15" Grid.ColumnSpan="5" Width="650" Height="34" Margin="5,30,0,0" TextChanged="SearchSity_TextChanged">
                             <TextBox.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10"/>
@@ -307,54 +311,32 @@
                             </TextBox.Resources>
                         </TextBox>
 
-                        <Label Content="Округ" Grid.Column="0" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="5,0,0,0"/>
-                        <Label Content="Регион" Grid.Column="1" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="5,0,0,0"/>
-                        <Label Content="Город" Grid.Column="2" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="5,0,0,0"/>
+                        <Label Content="Округ" Grid.Column="0" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="10,0,0,0"/>
+                        <Line Grid.Column="1" Grid.Row="2"  
+                         X1="2" Y1="10"  
+                         X2="2" Y2="190"  
+                         Stroke="Gray"  
+                         StrokeThickness="2" />
+                        <Label Content="Регион" Grid.Column="1" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="10,0,0,0"/>
+                        <Line Grid.Column="2" Grid.Row="2"  
+                         X1="2" Y1="10"  
+                         X2="2" Y2="190"  
+                         Stroke="Gray"  
+                         StrokeThickness="2" />
+                        <Label Content="Город" Grid.Column="2" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="10,0,0,0"/>
+
+                        <StackPanel Visibility="Hidden" x:Name="CityInDBSP" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="Transparent"/>
                     </Grid>
                 </Border>
             </Grid>
         </Grid>
-        <Grid x:Name="PersonalAreaG" Visibility="Hidden" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="70.5"/>
-                <ColumnDefinition Width="70.5"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <!--Avatar-->
-            <Ellipse x:Name="ImageEl" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="4" Width="150" Height="150" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
-                <Ellipse.Fill>
-                    <ImageBrush x:Name="ImageI" ImageSource="/Image/IqGjWuAdGoQ.jpg" />
-                </Ellipse.Fill>
-            </Ellipse>
-            <Label x:Name="FIO"  Content="FIO" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="17" />
-            <Label x:Name="Birthday" Content="Не указано" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="12"  VerticalAlignment="Bottom"/>
-            <Label x:Name="Approved" Content="Статус : Не одобрен" FontSize="15" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3" />
-            <Button x:Name="RedactProfile" Style="{DynamicResource CornerButton}" Content="Редактировать" FontSize="15" Grid.Column="4" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Row="2" Width="130" Height="30"/>
-            <Border Grid.Column="2" Grid.Row="4" Grid.RowSpan="6" Grid.ColumnSpan="8" HorizontalAlignment="Center" Width="764" Background="#FFE48282" CornerRadius="8,8,0,0">
-                <Grid>
+        <!--PersonalArea-->
+        <Grid x:Name="ManagerAreaGFrame" Grid.Column="1" Visibility="Hidden" Grid.Row="1">
+            <Frame x:Name="ManagerPersonalAreaFrame" NavigationUIVisibility="Hidden"/>
+        </Grid>
 
-                </Grid>
-            </Border>
-
+        <Grid x:Name="UserAreaGFrame" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
+            <Frame x:Name="UserPersonalAreaFrame" NavigationUIVisibility="Hidden"/>
         </Grid>
         <Grid x:Name="BusTicketsG" Visibility="Hidden">
 

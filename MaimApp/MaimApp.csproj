@@ -56,6 +56,9 @@
     <Reference Include="Azure.Core, Version=1.30.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Azure.Core.1.30.0\lib\net461\Azure.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Catharsis.Commons, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Catharsis.Commons.4.0.0\lib\net472\Catharsis.Commons.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -116,6 +119,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -144,6 +150,9 @@
       <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Json, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Json.5.0.0\lib\net461\System.Net.Http.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WinHttpHandler, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.WinHttpHandler.7.0.0\lib\net462\System.Net.Http.WinHttpHandler.dll</HintPath>
@@ -204,6 +213,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -226,9 +236,9 @@
     </ApplicationDefinition>
     <Compile Include="Class\IpInfo.cs" />
     <Compile Include="Class\MainProductC\ViewProduct.cs" />
-    <Compile Include="Class\HotelInformation.cs" />
     <Compile Include="Class\RegistrC\MessageSend.cs" />
-    <Compile Include="Class\Sortierung.cs" />
+    <Compile Include="Class\Translator\Translator.cs" />
+    <Compile Include="Class\UserFavoriteProductC.cs" />
     <Compile Include="Class\User\AuthUser.cs" />
     <Compile Include="DataModels\MaimDB1.generated.cs">
       <AutoGen>True</AutoGen>
@@ -247,14 +257,35 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\MainWindow\ManagerPersonalArea.xaml.cs">
+      <DependentUpon>ManagerPersonalArea.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MessageView\MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageView\NoAuthUserMessageBox.xaml.cs">
+      <DependentUpon>NoAuthUserMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PersonalArea\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PersonalArea\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalArea\UpdateUserData\UpdateData.xaml.cs">
+      <DependentUpon>UpdateData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalArea\UserPersonalArea.xaml.cs">
+      <DependentUpon>UserPersonalArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalArea\UserPersonalAreaFrame\Consideration.xaml.cs">
+      <DependentUpon>Consideration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalArea\UserPersonalAreaFrame\MyOrder.xaml.cs">
+      <DependentUpon>MyOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PersonalArea\UserPersonalAreaFrame\UnderConsideration.xaml.cs">
+      <DependentUpon>UnderConsideration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Product\InProduct.xaml.cs">
       <DependentUpon>InProduct.xaml</DependentUpon>
@@ -275,7 +306,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainWindow\ManagerPersonalArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MessageView\MessageBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageView\NoAuthUserMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,6 +323,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PersonalArea\Registration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\UpdateUserData\UpdateData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\UserPersonalArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\UserPersonalAreaFrame\Consideration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\UserPersonalAreaFrame\MyOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\UserPersonalAreaFrame\UnderConsideration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

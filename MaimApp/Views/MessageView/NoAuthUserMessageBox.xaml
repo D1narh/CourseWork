@@ -1,0 +1,23 @@
+﻿<Window x:Class="MaimApp.Views.MessageView.NoAuthUserMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MaimApp.Views.MessageView"
+        mc:Ignorable="d"
+        Title="NoAuthUserMessageBox" MaxHeight="166" MaxWidth="550"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent">
+    <Border CornerRadius="8" Background="White">
+        <Grid>
+            <Label Content="Вы не можете добавить в избранное пока не авторизируетесь" FontWeight="Bold" FontSize="17" Margin="10,10,10,121"/>
+            <Label Content="Хотите ли вы авторизироваться?" FontWeight="Bold" FontSize="17" Margin="132,47,132,86"/>
+
+            <Button x:Name="Back" FontSize="14" Content="Продолжить просмотр без авторизации" Style="{DynamicResource CornerButton}" Margin="10,90,267,32" Click="Back_Click"/>
+            <Button x:Name="Confirm" FontSize="14" Content="Авторизироваться" Style="{DynamicResource CornerButton}" Margin="319,90,10,32" Click="Confirm_Click"/>
+        </Grid>
+    </Border>
+</Window>

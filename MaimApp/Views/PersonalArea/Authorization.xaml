@@ -39,8 +39,8 @@
                     TextWrapping="Wrap"
                     MaxWidth="400"
                     materialDesign:HintAssist.Hint="Логин"
-                    materialDesign:TextFieldAssist.UnderlineBrush="#8983ff"
-                    materialDesign:HintAssist.Foreground="#8983ff"
+                    materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                    materialDesign:HintAssist.Foreground="#B0BDE9"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Height="50" Margin="0,30,0,0"/>
                 <PasswordBox x:Name="tb_password"
                     Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
@@ -48,8 +48,8 @@
                     Foreground="Gray"
                     Background="White"
                     FontSize="15px"
-                    materialDesign:TextFieldAssist.UnderlineBrush="#8983ff"
-                    materialDesign:HintAssist.Foreground="#8983ff"
+                    materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                    materialDesign:HintAssist.Foreground="#B0BDE9"
                     VerticalAlignment="Top"
                     materialDesign:HintAssist.Hint="Пароль" Margin="0,25,0,0"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}" Height="50"/>

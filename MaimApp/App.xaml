@@ -35,6 +35,22 @@
                 </Setter>
             </Style>
 
+            <!--Для Label-->
+            <Style x:Key="LableMouse" TargetType="Label">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Label">
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#B0BDE9"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
             <!--Для кнопок по бокам-->
             <Style x:Key="ChangeButton" TargetType="Button">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>

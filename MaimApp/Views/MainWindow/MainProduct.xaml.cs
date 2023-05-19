@@ -1,12 +1,15 @@
 ﻿using DataModels;
+using LinqToDB;
+using MaimApp.Class;
 using MaimApp.Class.MainProductC;
+using MaimApp.Class.Translator;
 using MaimApp.Class.User;
-using MaimApp.Parser.Class;
+using MaimApp.Views.MainWindow;
+using MaimApp.Views.MessageView;
 using MaimApp.Views.PersonalArea;
 using MaimApp.Views.Product;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,14 +29,13 @@ namespace MaimApp.Views
 
         //Блок с временными переменными которые отслеживают нажатые кнопки
         static Grid SecondGrid;
-        static object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou;
-        public ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
+        static object senderNowLeftP, senderSecondLeftP, senderNowCou, senderSecondCou, senderNowReg, senderSecondReg, senderNowCity, senderSecondCity, senderNowSort, senderSecondSort;
         private static BrushConverter brushConverter = new BrushConverter();
-        int LineCount = 0;
-
-
-
-
+        int NowSort = 0;
+        private ListView ChangeListNow;
+        List<string> RegionL = new List<string>();
+        ViewProduct viewProduct = new ViewProduct();
+        AuthUser authUser = new AuthUser();
 
         //Основной блок программы
         public MainProduct()
@@ -59,21 +61,33 @@ namespace MaimApp.Views
             Adventures.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ChangeSitys();
+            StartMethod();
+        }
+        async void StartMethod()
+        {
+
+            //При открытии всегда заполняется первым этот лист
+            ChangeListNow = list;
+
+            //Проверим стоит ли показывать приветствии при открытии окна 
+            if (authUser.AuthOrNo())
+            {
+                HelloPanel.Visibility = Visibility.Hidden;
+            }
+
+                UserFavoriteProduct();
+            new Task(() => ChangeCounty()).Start();
             Sortierung();
             ButtonBackgroung();
             getCityClient();
             await LoadProduct();
-            LineCount = Line_count_hotel(Products);
-            NumberStroke(null, LineCount);
-            await FillCatalog();
+            NumberStroke();
+            GarbageClean();
 
             animation.Visibility = Visibility.Hidden;
             SearchText.Visibility = Visibility.Hidden;
-
-            GC.Collect();
         }
 
         private void Sort_Click(object sender, RoutedEventArgs e)
@@ -82,7 +96,7 @@ namespace MaimApp.Views
             if (ChangeSortGrid.Visibility == Visibility.Hidden)
             {
                 ChangeSortGrid.Visibility = Visibility.Visible;
-                anim.To = 145;
+                anim.To = 120;
                 anim.Duration = TimeSpan.FromSeconds(0.25);
                 ChangeSortGrid.BeginAnimation(HeightProperty, anim);
             }
@@ -95,27 +109,79 @@ namespace MaimApp.Views
             }
         }
 
-        public void Button_Click(object sender, RoutedEventArgs e)//Используется в методе ChangeSitys
+        public async void ChangeSort_Click(object sender, RoutedEventArgs e)
+        {
+            senderSecondSort = senderNowSort;
+            senderNowSort = sender;
+
+            if (senderSecondSort == senderNowSort)
+            {
+                return;
+            }
+            else
+            {
+                NowSort = int.Parse(((Button)sender).Name.ElementAt(((Button)sender).Name.Length - 1).ToString());
+
+                ChangeListNow.ItemsSource = null;
+                ChangeListNow.ItemsSource = await viewProduct.SortButtonClick(NowSort);
+                Country_Click(senderNowSort, senderSecondSort);
+            }
+        }
+
+        public void County_Click(object sender, RoutedEventArgs e)//Используется в методе ChangeSitys
         {
             //Запись в глобальные переменные кнопок в выподающем списке городов
             senderSecondCou = senderNowCou;
             senderNowCou = sender;
 
-            if (senderSecondCou != null)
+            if (senderSecondCou == senderNowCou)
             {
-                if (senderSecondCou == sender)
-                {
-                    return;
-                }
-                else
-                {
-                    ((Button)sender).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
-                    ((Button)senderSecondCou).Foreground = (Brush)brushConverter.ConvertFrom("#000000");
-                }
+                return;
             }
             else
             {
-                ((Button)sender).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+                Country_Click(senderNowCou, senderSecondCou);
+
+                //Загружает регионы данной области 
+                RegionSP.Children.Clear();
+                LoadRegion(sender);
+            }
+        }
+
+        public void Region_Click(object sender, RoutedEventArgs e)//Используется в методе ChangeSitys
+        {
+            //Запись в глобальные переменные кнопок в выподающем списке городов
+            senderSecondReg = senderNowReg;
+            senderNowReg = sender;
+
+            if (senderSecondReg == senderNowReg)
+            {
+                return;
+            }
+            else
+            {
+                Country_Click(senderNowReg, senderSecondReg);
+            }
+        }
+
+
+        public void City_Click(object sender, RoutedEventArgs e)//Используется в методе ChangeSitys
+        {
+            //Запись в глобальные переменные кнопок в выподающем списке городов
+            senderSecondCou = senderNowCou;
+            senderNowCou = sender;
+
+            if (senderSecondCou == senderNowCou)
+            {
+                return;
+            }
+            else
+            {
+                Country_Click(senderNowCou, senderSecondCou);
+
+                //Загружает регионы данной области 
+                RegionSP.Children.Clear();
+                LoadRegion(sender);
             }
         }
 
@@ -150,77 +216,82 @@ namespace MaimApp.Views
 
         public async void Button2_Click(object sender, RoutedEventArgs e)//Используется в методе NumberStroke
         {
+            if (((Button)sender).Name.ToString() == "Number" + viewProduct.NowPage)
+            {
+                return;
+            }
+            else
+            {
+                ChangeListNow.ItemsSource = null;
+                viewProduct.NowPage = Convert.ToInt32(((Button)sender).Content.ToString());
 
-            list.ItemsSource = null;
-            Cubelist.ItemsSource = null;
+                ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort));
 
-            ViewProduct viewProduct = new ViewProduct();
-            var i = Convert.ToInt32(((Button)sender).Content.ToString());
-            Products = await Task.Run(() => viewProduct.Load40Product(i));
 
-            list.ItemsSource = Products;
-            Cubelist.ItemsSource = Products;
-
-            StrokeNumber.Children.Clear();
-            NumberStroke(i, LineCount);
-            GC.Collect();
+                StrokeNumber.Children.Clear();
+                NumberStroke();
+                GC.Collect();
+            }
         }
 
-        private void City_Click(object sender, RoutedEventArgs e)
+        private void ChangeCity_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation anim = new DoubleAnimation();
             if (ChangeCityGrid.Visibility == Visibility.Hidden)
             {
+
                 ChangeCityGrid.Visibility = Visibility.Visible;
                 anim.To = 305;
                 anim.Duration = TimeSpan.FromSeconds(0.25);
                 ChangeCityGrid.BeginAnimation(HeightProperty, anim);
+                IsEnabled(false);
+                ChangeCityGrid.IsEnabled = true;
+                SearchCity.IsEnabled = true;
             }
             else
             {
+                SearchSity.Text.Trim();
                 anim.To = 0;
                 anim.Duration = TimeSpan.FromSeconds(0.1);
                 ChangeCityGrid.BeginAnimation(HeightProperty, anim);
                 ChangeCityGrid.Visibility = Visibility.Hidden;
+                IsEnabled(true);
             }
+        }
+
+        private void IsEnabled(bool status)
+        {
+            SearchBox.IsEnabled = status;
+            Sorting.IsEnabled = status;
+            SearchCity.IsEnabled = status;
+            VerticalBor.IsEnabled = status;
+            CubeBor.IsEnabled = status;
+            CubeBor.IsEnabled = status;
+            list.IsEnabled = status;
+            Cubelist.IsEnabled = status;
+            Cubelist.IsEnabled = status;
+            StrokeNumber.IsEnabled = status;
+            ChangeSortGrid.IsEnabled = status;
+            ChangeCityGrid.IsEnabled = status;
         }
 
         private void PersonalArea_Click(object sender, RoutedEventArgs e)
         {
-            HelloPanel.Visibility = Visibility.Hidden;
-            PersonalAreaG.Visibility = Visibility.Visible;
-            AuthUser authUser = new AuthUser();
-            if (authUser.AuthOrNo())
-            {
-                Senderar(sender, PersonalAreaG);
-                TakePersonInfo();
-            }
-            else
-            {
-                Authorization authorization = new Authorization();
-                authorization.Show();
-                this.Close();
-            }
+            PersonalAreaLoaded(sender);
         }
 
         private void Adventures_Click(object sender, RoutedEventArgs e)
         {
-            HelloPanel.Visibility = Visibility.Hidden;
-            AdventuresG.Visibility = Visibility.Visible;
             Senderar(sender, AdventuresG);
         }
 
         private void BusTickets_Click(object sender, RoutedEventArgs e)
         {
-            HelloPanel.Visibility = Visibility.Hidden;
-            BusTicketsG.Visibility = Visibility.Visible;
             Senderar(sender, BusTicketsG);
         }
 
         private void Hotels_Click(object sender, RoutedEventArgs e)
         {
-            HelloPanel.Visibility = Visibility.Hidden;
-            HotelsG.Visibility = Visibility.Visible;
             Senderar(sender, HotelsG);
         }
 
@@ -235,8 +306,7 @@ namespace MaimApp.Views
             {
                 var a = ((Grid)sender).DataContext;
                 var IdProduct = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
-                var Product = Products.FirstOrDefault(x => x.ID == Convert.ToInt32(IdProduct));
-                InProduct product = new InProduct(Product);
+                InProduct product = new InProduct(viewProduct.GetInfoHotel(int.Parse(IdProduct.ToString())));
                 product.Show();
                 this.Close();
             }
@@ -244,29 +314,85 @@ namespace MaimApp.Views
 
         private void CubePrB_Click(object sender, RoutedEventArgs e)
         {
+            ChangeListNow = Cubelist;
+
             VerticalPrB.Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
             list.Visibility = Visibility.Hidden;
 
             CubePrB.Background = (Brush)brushConverter.ConvertFrom("#B0BDE9");
             Cubelist.Visibility = Visibility.Visible;
 
+            ChangeListNow.ItemsSource = list.ItemsSource;
             list.ItemsSource = null;
-            Cubelist.ItemsSource = Products;
         }
 
         private void VerticalPrB_Click(object sender, RoutedEventArgs e)
         {
+            ChangeListNow = list;
+
             CubePrB.Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
             Cubelist.Visibility = Visibility.Hidden;
 
             VerticalPrB.Background = (Brush)brushConverter.ConvertFrom("#B0BDE9");
             list.Visibility = Visibility.Visible;
 
+            ChangeListNow.ItemsSource = Cubelist.ItemsSource;
             Cubelist.ItemsSource = null;
-            list.ItemsSource = Products;
+        }
+
+        private async void SearchSity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SearchSity.Text.Trim() == "")
+            {
+                CityInDBSP.Visibility = Visibility.Hidden;
+                CityInDBSP.Children.Clear();
+                return;
+            }
+            else
+            {
+                CityInDBSP.Visibility = Visibility.Visible;
+                CityInDBSP.Children.Clear();
+                CityInDBSP.Background = (Brush)brushConverter.ConvertFrom("#EDEDED");
+
+                using (var db = new DbA96b40MaimfDB())
+                {
+                    if (RegionL.Count == 0)
+                    {
+                        foreach (var i in db.Regions)
+                        {
+                            RegionL.Add(i.Name);
+                        }
+                    }
+                    foreach (var i in RegionL.Where(x => x.Contains($"{((TextBox)sender).Text}")))
+                    {
+                        Label label = new Label
+                        {
+                            Content = i,
+                            // Style = (Style)FindResource("LableMouse")
+                        };
+                        label.MouseEnter += IsMouseEnter;
+                        label.MouseLeave += IsMouseLeave;
+                        CityInDBSP.Children.Add(label);
+                    }
+                }
+            }
+        }
+
+        private void View_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ((Button)sender).Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
+        }
+
+        private void View_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ((Button)sender).Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
         }
 
 
+        private void Favorite_Click(object sender, RoutedEventArgs e)
+        {
+           FavoriteClick(sender);
+        }
 
 
         //Учтасток кода с логикой =(
@@ -275,24 +401,21 @@ namespace MaimApp.Views
         //Метод для убирания лишней ширины
         public void Senderar(object sender, Grid gridName)
         {
+            HelloPanel.Visibility = Visibility.Hidden;
+            gridName.Visibility = Visibility.Visible;
+
             //Запись в глобальные переменные кнопок
             senderSecondLeftP = senderNowLeftP;
             senderNowLeftP = sender;
-            gridName.Visibility = Visibility.Visible;
 
             if (senderSecondLeftP != null)//Если жмякнули на другую кнопку, где не было ВЫДВИНУТО
             {
                 LeaveFromButton(senderSecondLeftP, gridName);
-                SecondGrid = gridName;
-
             }//Т.к. анимация сворачивания не сработает, у кнопки будет Width = 140
-            else
-            {
-                SecondGrid = gridName;//Для дальнейшей проверки на то, какой Grid был visible
-            }
+            SecondGrid = gridName;
         }
 
-        //Анимация выдвижения
+        //Анимация выдвижения с верху в низ
         public void AnimationEnter(Button name)
         {
             DoubleAnimation anim = new DoubleAnimation();
@@ -334,112 +457,148 @@ namespace MaimApp.Views
             }
         }
 
+        //Получает Город пользователя по ip
         public void getCityClient()
         {
-            ViewProduct viewProduct = new ViewProduct();
+            Translator translator = new Translator();
+
             var ip = viewProduct.GetUserCountryByIp();
-            City.Content = $"Ваш город : {ip.City}";
+            var City = translator.Translate(ip.City.Trim());
+            UserCity.Content = $"г.{City}";
+            CityL.Content = $"Ваш город : {City}";
         }
 
         //Метод загрузки товаров
         public async Task LoadProduct()
         {
-            ViewProduct viewProduct = new ViewProduct();
-            Products = await Task.Run(() => viewProduct.FillCatalog());
+            ChangeListNow.ItemsSource = null;
+            ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort));
         }
         //Метод для заполнения каталога
-        public async Task FillCatalog()
-        {
-            ViewProduct viewProduct = new ViewProduct();
-            Products = await Task.Run(() => viewProduct.Load40Product(1));
-            list.ItemsSource = Products;
-        }
-
-        private void View_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ((Button)sender).Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
-        }
-
-        private void View_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ((Button)sender).Background = (Brush)brushConverter.ConvertFrom("#E0E0E0");
-        }
 
         //Метод для заполнения кнопками Грид ChangeSort
         public void Sortierung()
         {
-            var i = new List<string> { "По скидке", "Лучшие отзывы", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
+            var i = new List<string> { "Близко к центру", "Лучшие оценки", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
+            var count = 0;
             foreach (var item in i)
             {
                 Button button = new Button
                 {
+                    Name = "Sort" + count,
                     Content = item,
-                    FontSize = 18,
-                    Height= 30,
-                    Padding = new Thickness(10),
-                    Style = (Style)FindResource("ComboBoxButton")
+                    Height = 30,
+                    FontSize = 14,
+                    Style = (Style)FindResource("ComboBoxButton"),
                 };
+                button.Click += ChangeSort_Click;
+                button.MouseEnter += IsMouseEnter;
+                button.MouseLeave += IsMouseLeave;
                 ChangeSort.Children.Add(button);
+                count++;
+            }
+        }
+        //Метод для заполнения кнопками Грид ChangeSity
+        private void ChangeCounty()
+        {
+            using (var db = new DbA96b40MaimfDB())
+            {
+                foreach (var County in db.Counties)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Button button = new Button
+                        {
+                            Name = "County" + County.Id,
+                            Content = County.Name,
+                            FontSize = 13,
+                            Height = 25.5,
+                            Style = (Style)FindResource("ComboBoxButton"),
+
+                        };
+                        button.Click += County_Click;
+                        button.MouseEnter += IsMouseEnter;
+                        button.MouseLeave += IsMouseLeave;
+                        CountySP.Children.Add(button);
+                    });
+                }
             }
         }
 
-        //Метод для заполнения кнопками Грид ChangeSity
-        private void ChangeSitys()
+        //Выводит все регионы в зависимости от выбранной области
+        private void LoadRegion(object sender)
         {
-            var count = 0;
-            var County = new List<string> { "Дальневосточный", "Приволжский", "Северо - Западный", "Северо - Кавказский", "Сибирский", "Уральский", "Центральный", "Южный" };
-            foreach (var item in County)
+            using (var db = new DbA96b40MaimfDB())
             {
-                Button button = new Button
+                foreach (var Region in db.Regions.Where(x => x.CountyId == int.Parse(string.Join("", ((Button)sender).Name.Where(c => char.IsDigit(c))))))
                 {
-                    Name = "County" + count,
-                    Content = item,
-                    FontSize = 15,
-                    Height = 25.5,
-                    Style = (Style)FindResource("ComboBoxButton"),
-
-                };
-                button.Click += Button_Click;
-                count++;
-                CountySP.Children.Add(button);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Button button = new Button
+                        {
+                            Name = "Region" + Region.Id,
+                            Content = Region.Name,
+                            FontSize = 13,
+                            Height = 25.5,
+                            Style = (Style)FindResource("ComboBoxButton")
+                        };
+                        button.Click += Region_Click;
+                        button.MouseEnter += IsMouseEnter;
+                        button.MouseLeave += IsMouseLeave;
+                        RegionSP.Children.Add(button);
+                    });
+                }
             }
         }
 
         //Для вывода нумерации товаров
-        public void NumberStroke(int? a, int? Stroke)
+        public void NumberStroke()
         {
-            int? nowNumber = 1;
-            if (a == null)//Проверяется, только ли мы открыли программу или нет
+            int? nowNumber = 0;
+            int count = viewProduct.NowPage;
+            if (viewProduct.NowPage == 1)//Проверяется, только ли мы открыли программу или нет
             {
-                if (Stroke < a + 8)
+                if (viewProduct.CountLine < viewProduct.NowPage + 8)
                 {
-                    a = Stroke;
+                    nowNumber = viewProduct.CountLine;
                 }
                 else
                 {
-                    a = 1;
+                    nowNumber = viewProduct.NowPage + 8;
                 }
             }
-            else if (a >= 5)
+            else if (viewProduct.NowPage >= 5)
             {
-                nowNumber = a - 4;
-                a = a - 4;
-                if (Stroke <= a + 8)
+                count = viewProduct.NowPage - 4;
+                nowNumber = count + 8;
+                if (viewProduct.CountLine <= viewProduct.NowPage + 8)
                 {
-                    a = Stroke - 8;
-                    nowNumber = a;
+                    if (viewProduct.NowPage + 4 < viewProduct.CountLine)
+                    {
+                        count = viewProduct.NowPage - 4;
+                        nowNumber = viewProduct.NowPage + 4;
+                    }
+                    else
+                    {
+                        nowNumber = viewProduct.CountLine;
+                        count = viewProduct.CountLine - 8;
+                    }
                 }
             }
             else
             {
-                a = 1;
+                if (viewProduct.NowPage <= 4)
+                {
+                    count = 1;
+                    nowNumber = count + 8;
+                }
             }
-            while (nowNumber < a + 8)
+            while (count <= nowNumber)
             {
                 Button button = new Button
                 {
-                    Name = "Number" + nowNumber,
-                    Content = nowNumber,
+                    Name = "Number" + count,
+                    Content = count,
                     FontSize = 19,
                     Height = 30,
                     Width = 30,
@@ -447,25 +606,163 @@ namespace MaimApp.Views
                     Margin = new Thickness(5, 2, 0, 0),
                 };
                 button.Click += Button2_Click;
-                nowNumber++;
+                count++;
                 StrokeNumber.Children.Add(button);
-                GC.Collect();
             }
-        }
-        public int Line_count_hotel(ObservableCollection<HotelInf> values)
-        {
-            var count = values.Count / 40;
-            return count;
+            GC.Collect();
         }
 
-        public void TakePersonInfo()
+        //Очистка мусора каждые 5 секунд
+        private async void GarbageClean()
         {
-            AuthUser authUser = new AuthUser();
-            using (var db = new DbA96b40MaimfDB())
+            Func<Task> Func = async () =>
             {
-               var i = db.UserPrData.FirstOrDefault(x => x.User.Login == authUser.GetUserLogin());
-                FIO.Content = i.Name + " " + i.LastName;
+                GC.Collect();
+                await Task.Delay(5000);
+            };
+            while (true)
+            {
+                await Func();
             }
+        }
+
+        //При наведении на элемент
+        public void IsMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender.GetType().Name.ToString() == "Button")
+            {
+                ((Button)sender).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            }
+            else
+            {
+                ((Label)sender).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            }
+        }
+
+        //При выходе с элемента
+        public void IsMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender.GetType().Name.ToString() == "Button")
+            {
+                if (((Button)senderNowCou)?.Content == ((Button)sender).Content || ((Button)senderNowReg)?.Content == ((Button)sender).Content || ((Button)senderNowCity)?.Content == ((Button)sender).Content || ((Button)senderNowSort)?.Content == ((Button)sender).Content)
+                {
+                    return;
+                }
+                else
+                {
+                    ((Button)sender).Foreground = (Brush)brushConverter.ConvertFrom("#000000");
+                }
+            }
+            else
+            {
+                ((Label)sender).Foreground = (Brush)brushConverter.ConvertFrom("#000000");
+            }
+        }
+
+        //При выборе закрашивает выбранную кнопку
+        public void Country_Click(object now, object second)
+        {
+            if (second != null)
+            {
+                if (second == now)
+                {
+                    return;
+                }
+                else
+                {
+                    ((Button)now).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+                    ((Button)second).Foreground = (Brush)brushConverter.ConvertFrom("#000000");
+                }
+            }
+            else
+            {
+                ((Button)now).Foreground = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            }
+        }
+
+        //Вызывается при нажатии на кнопку Профиль
+        public void PersonalAreaLoaded(object sender)
+        {
+            HelloPanel.Visibility = Visibility.Hidden;
+
+            if (authUser.AuthOrNo())
+            {
+                if (authUser.GetUserRole() == 2)
+                {
+                    ManagerPersonalArea managerPersonalArea = new ManagerPersonalArea();
+                    managerPersonalArea.FillFIO();
+
+                    ManagerPersonalAreaFrame.Content = managerPersonalArea;
+
+                    Senderar(sender, ManagerAreaGFrame);
+                }
+                else if (authUser.GetUserRole() == 3)
+                {
+
+                }
+                else
+                {
+                    UserPersonalArea userPersonalArea = new UserPersonalArea();
+                    userPersonalArea.FillFIO();
+
+                    UserPersonalAreaFrame.Content = userPersonalArea;
+
+                    Senderar(sender, UserAreaGFrame);
+                }
+            }
+            else
+            {
+                Authorization authorization = new Authorization();
+                authorization.Show();
+                this.Close();
+            }
+        }
+
+        public async Task FavoriteClick(object sender) // При нажатии кнопки Сердца (добавление в избранное)
+        {
+            var a = ((Button)sender).DataContext;
+            var IdProduct = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
+            if (authUser.AuthOrNo())
+            {
+                await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(IdProduct)));
+                ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort));
+            }
+            else
+            {
+                NoAuthUserMessageBox boxView = new NoAuthUserMessageBox();
+                boxView.ShowDialog();
+                if (boxView.DialogResult == false) // Если пользователь вышел из окна подтверждения почты
+                {
+                    return;
+                }
+                else //Если пользователь захотел авторизироваться
+                {
+                    Authorization authorization = new Authorization();
+                    authorization.Show();
+                    this.Close();
+                }
+            }
+        }
+
+        public void UserFavoriteProduct()
+        {
+            if (authUser.AuthOrNo())
+            {
+                using (var db = new DbA96b40MaimfDB())
+                {
+                    foreach (var i in db.UserFavProducts)
+                    {
+                        viewProduct.userFavorite.Add(new UserFavoriteProductC(i.ProductId, i.ProductType)
+                        {
+                            ProductId = i.ProductId,
+                            ProductType = i.ProductType
+                        });
+                    }
+                }
+            }
+            else
+                return;
         }
     }
 }
+

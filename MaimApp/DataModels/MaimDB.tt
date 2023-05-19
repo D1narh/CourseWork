@@ -54,7 +54,7 @@
 
 	// to configure GetSchemaOptions properties, add them here, before load metadata call
 
-		LoadSqlServerMetadata("SQL8005.site4now.net", "db_a96b40_maimf", "db_a96b40_maimf_admin", "1234Denis");
+	LoadSqlServerMetadata("SQL8005.site4now.net", "db_a96b40_maimf", "db_a96b40_maimf_admin", "1234Denis");
 //	LoadSqlServerMetadata(".", "MyDatabase"); // Integrated Security
 //	LoadSqlServerMetadata(string connectionString);
 

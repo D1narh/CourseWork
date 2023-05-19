@@ -6,6 +6,7 @@ using MaimApp.Interfaces;
 using MaimApp.DAL;
 using System;
 using MaimApp.Parser.Class;
+using Catharsis.Commons;
 
 namespace MaimApp.BLL
 {
@@ -13,7 +14,7 @@ namespace MaimApp.BLL
     {
         private readonly IParser _parser = new MainParser();
 
-        private Rootobject _cache = null;
+        private static Rootobject _cache = null;
 
         public async Task WarmUpCache(string url)
         {
@@ -21,38 +22,94 @@ namespace MaimApp.BLL
             _cache = result;
         }
 
-        public async Task<List<string>> GetImagesFromUrl(string url)
-        {
-            Rootobject result;
+     
 
+        public async Task<List<HotelInf>> GetAddressesFromUrl(string url, int sort)
+        {
+            var standartImagePath = "\\Image\\heart-shape.png";
+            Rootobject result;
             if (_cache == null)
             {
                 result = await _parser.Parse(url);
+                _cache = result;
             }
             else
                 result = _cache;
 
-            return result.response.hotels.Select(x => x.image.preview_path).ToList();
-        }
-
-        public async Task<List<HotelInf>> GetAddressesFromUrl(string url)
-        {
-            var result = await _parser.Parse(url);
-
-            return result.response.hotels.Where(x => x.image != null).Select(x => 
-            new HotelInf(x.id,x.name,x.address,x.center_distance.ToString(),x.image.path,x.min_price.ToString(),false,x.rating.ToString(),x.images)
+            switch (sort)
             {
-                ID= x.id,
-                Name= x.name,
-                Adress = x.address,
-                DistanceToCenter = $"До центра { x.center_distance } км",
-                ImagePath= x.image.path,
-                Price = x.min_price.ToString(),
-                Reviews= $"{x.rating}/10",
-                IsFavorite = false,
-                Images = x.images
-            }).ToList();
+                case 0:
+                    return result.response.hotels.Where(x => x.image != null).Select(x =>
+                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
+                    {
+                        ID = x.id,
+                        Name = x.name,
+                        Adress = x.address,
+                        DistanceToCenter = $"До центра {x.center_distance} км",
+                        ImagePath = x.image.path,
+                        Price = x.min_price.ToString(),
+                        Reviews = $"{x.rating}/10",
+                        IsFavorite = standartImagePath,
+                        Images = x.images
+                    }).OrderBy(x => x.DistanceToCenter).ToList();
 
+                case 1:
+                    return result.response.hotels.Where(x => x.image != null).Select(x =>
+                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
+                    {
+                        ID = x.id,
+                        Name = x.name,
+                        Adress = x.address,
+                        DistanceToCenter = $"До центра {x.center_distance} км",
+                        ImagePath = x.image.path,
+                        Price = x.min_price.ToString(),
+                        Reviews = $"{x.rating}/10",
+                        IsFavorite = standartImagePath,
+                        Images = x.images
+                    }).OrderByDescending(x => x.Reviews.Remove(x.Reviews.Length - 3)).ToList();
+                case 2:
+                    return result.response.hotels.Where(x => x.image != null).Select(x =>
+                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
+                    {
+                        ID = x.id,
+                        Name = x.name,
+                        Adress = x.address,
+                        DistanceToCenter = $"До центра {x.center_distance} км",
+                        ImagePath = x.image.path,
+                        Price = x.min_price.ToString(),
+                        Reviews = $"{x.rating}/10",
+                        IsFavorite = standartImagePath,
+                        Images = x.images
+                    }).OrderBy(x => x.Price.ToDouble()).ToList();
+                case 3:
+                    return result.response.hotels.Where(x => x.image != null).Select(x =>
+                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
+                    {
+                        ID = x.id,
+                        Name = x.name,
+                        Adress = x.address,
+                        DistanceToCenter = $"До центра {x.center_distance} км",
+                        ImagePath = x.image.path,
+                        Price = x.min_price.ToString(),
+                        Reviews = $"{x.rating}/10",
+                        IsFavorite = standartImagePath,
+                        Images = x.images
+                    }).OrderByDescending(x => x.Price.ToDouble()).ToList();
+            }
+
+            return result.response.hotels.Where(x => x.image != null).Select(x =>
+                new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
+                {
+                    ID = x.id,
+                    Name = x.name,
+                    Adress = x.address,
+                    DistanceToCenter = $"До центра {x.center_distance} км",
+                    ImagePath = x.image.path,
+                    Price = x.min_price.ToString(),
+                    Reviews = $"{x.rating}/10",
+                    IsFavorite = standartImagePath,
+                    Images = x.images
+                }).ToList();
         }
     }
 }

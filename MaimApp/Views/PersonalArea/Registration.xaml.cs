@@ -105,7 +105,8 @@ namespace MaimApp.Views.PersonalArea
                                         Login = login.Text.Trim(),
                                         Password = password.Password.Trim(),
                                         Mail = email.Text.Trim(),
-                                        DateReg = DateTime.Now
+                                        DateReg = DateTime.Now,
+                                        RoleId = 1
                                     });
 
                                     var id = db.Users.FirstOrDefault(x => x.Login == login.Text.Trim()).Id;
@@ -115,7 +116,6 @@ namespace MaimApp.Views.PersonalArea
                                         Name = name.Text.Trim(),
                                         LastName = sname.Text.Trim(),
                                     });
-
                                     new AuthUser(login.Text.Trim(), password.Password.Trim());
                                     MainProduct mainProduct = new MainProduct();
                                     mainProduct.Show();

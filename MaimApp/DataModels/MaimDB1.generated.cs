@@ -26,18 +26,22 @@ namespace DataModels
 	{
 		public ITable<Approval>            Approvals            { get { return this.GetTable<Approval>(); } }
 		public ITable<ApprovalRequest>     ApprovalRequests     { get { return this.GetTable<ApprovalRequest>(); } }
-		public ITable<BascetLine>          BascetLines          { get { return this.GetTable<BascetLine>(); } }
 		public ITable<Basket>              Baskets              { get { return this.GetTable<Basket>(); } }
+		public ITable<BasketLine>          BasketLines          { get { return this.GetTable<BasketLine>(); } }
 		public ITable<City>                Cities               { get { return this.GetTable<City>(); } }
+		public ITable<CompanyProduct>      CompanyProducts      { get { return this.GetTable<CompanyProduct>(); } }
 		public ITable<County>              Counties             { get { return this.GetTable<County>(); } }
+		public ITable<HotelProduct>        HotelProducts        { get { return this.GetTable<HotelProduct>(); } }
 		public ITable<Link>                Links                { get { return this.GetTable<Link>(); } }
 		public ITable<PersonDataInRequest> PersonDataInRequests { get { return this.GetTable<PersonDataInRequest>(); } }
-		public ITable<Product>             Products             { get { return this.GetTable<Product>(); } }
 		public ITable<ProductCategory>     ProductCategories    { get { return this.GetTable<ProductCategory>(); } }
 		public ITable<ProductComment>      ProductComments      { get { return this.GetTable<ProductComment>(); } }
 		public ITable<Region>              Regions              { get { return this.GetTable<Region>(); } }
 		public ITable<Request>             Requests             { get { return this.GetTable<Request>(); } }
 		public ITable<Role>                Roles                { get { return this.GetTable<Role>(); } }
+		public ITable<Status>              Status               { get { return this.GetTable<Status>(); } }
+		public ITable<Ststu>               Ststus               { get { return this.GetTable<Ststu>(); } }
+		public ITable<TypeProduct>         TypeProducts         { get { return this.GetTable<TypeProduct>(); } }
 		public ITable<User>                Users                { get { return this.GetTable<User>(); } }
 		public ITable<UserFavProduct>      UserFavProducts      { get { return this.GetTable<UserFavProduct>(); } }
 		public ITable<UserPrData>          UserPrData           { get { return this.GetTable<UserPrData>(); } }
@@ -115,51 +119,52 @@ namespace DataModels
 		#endregion
 	}
 
-	[Table(Schema="dbo", Name="BascetLine")]
-	public partial class BascetLine
+	[Table(Schema="dbo", Name="Basket")]
+	public partial class Basket
 	{
-		[PrimaryKey, Identity] public int Id        { get; set; } // int
-		[Column,     NotNull ] public int BasketId  { get; set; } // int
-		[Column,     NotNull ] public int ProductId { get; set; } // int
-		[Column,     NotNull ] public int Amount    { get; set; } // int
+		[PrimaryKey, Identity   ] public int      Id      { get; set; } // int
+		[Column,        Nullable] public int?     UserId  { get; set; } // int
+		[Column,     NotNull    ] public DateTime DateIns { get; set; } // date
+		[Column,     NotNull    ] public bool     Bought  { get; set; } // bit
 
 		#region Associations
 
 		/// <summary>
-		/// FK__BascetLin__Baske__4AB81AF0 (dbo.Basket)
+		/// FK__Basket_Li__Baske__1DB06A4F_BackReference (dbo.Basket_Line)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="BasketId", CanBeNull=true)]
+		public IEnumerable<BasketLine> LiBaske1DB06A4F { get; set; }
+
+		/// <summary>
+		/// FK__Basket__UserId__18EBB532 (dbo.User)
+		/// </summary>
+		[Association(ThisKey="UserId", OtherKey="Id", CanBeNull=true)]
+		public User User { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="Basket_Line")]
+	public partial class BasketLine
+	{
+		[Column, NotNull] public int      BasketId    { get; set; } // int
+		[Column, NotNull] public int      ProductId   { get; set; } // int
+		[Column, NotNull] public int      ProductType { get; set; } // int
+		[Column, NotNull] public DateTime DateIns     { get; set; } // datetime2(7)
+
+		#region Associations
+
+		/// <summary>
+		/// FK__Basket_Li__Baske__1DB06A4F (dbo.Basket)
 		/// </summary>
 		[Association(ThisKey="BasketId", OtherKey="Id", CanBeNull=false)]
 		public Basket Basket { get; set; }
 
 		/// <summary>
-		/// FK__BascetLin__Produ__4BAC3F29 (dbo.Product)
+		/// FK__Basket_Li__Produ__1EA48E88 (dbo.TypeProduct)
 		/// </summary>
-		[Association(ThisKey="ProductId", OtherKey="Id", CanBeNull=false)]
-		public Product Product { get; set; }
-
-		#endregion
-	}
-
-	[Table(Schema="dbo", Name="Basket")]
-	public partial class Basket
-	{
-		[PrimaryKey, Identity] public int      Id      { get; set; } // int
-		[Column,     NotNull ] public int      UserId  { get; set; } // int
-		[Column,     NotNull ] public DateTime DateIns { get; set; } // date
-
-		#region Associations
-
-		/// <summary>
-		/// FK__BascetLin__Baske__4AB81AF0_BackReference (dbo.BascetLine)
-		/// </summary>
-		[Association(ThisKey="Id", OtherKey="BasketId", CanBeNull=true)]
-		public IEnumerable<BascetLine> BascetLinBaske4AB81Afs { get; set; }
-
-		/// <summary>
-		/// FK__Basket__UserId__47DBAE45 (dbo.User)
-		/// </summary>
-		[Association(ThisKey="UserId", OtherKey="Id", CanBeNull=false)]
-		public User User { get; set; }
+		[Association(ThisKey="ProductType", OtherKey="Id", CanBeNull=false)]
+		public TypeProduct BasketLiProdu1EA48E { get; set; }
 
 		#endregion
 	}
@@ -167,17 +172,57 @@ namespace DataModels
 	[Table(Schema="dbo", Name="City")]
 	public partial class City
 	{
-		[PrimaryKey, Identity] public int    Id       { get; set; } // int
-		[Column,     NotNull ] public string Name     { get; set; } // nvarchar(60)
-		[Column,     NotNull ] public int    RegionId { get; set; } // int
+		[PrimaryKey, Identity   ] public int    Id       { get; set; } // int
+		[Column,     NotNull    ] public string Name     { get; set; } // nvarchar(50)
+		[Column,        Nullable] public int?   RegionId { get; set; } // int
+		[Column,        Nullable] public string Link     { get; set; } // nvarchar(2000)
 
 		#region Associations
 
 		/// <summary>
-		/// FK__City__RegionId__656C112C (dbo.Region)
+		/// FK__Hotel_Pro__CityI__1AD3FDA4_BackReference (dbo.Hotel_Product)
 		/// </summary>
-		[Association(ThisKey="RegionId", OtherKey="Id", CanBeNull=false)]
+		[Association(ThisKey="Id", OtherKey="CityId", CanBeNull=true)]
+		public IEnumerable<HotelProduct> HotelProCityI1AD3Fdas { get; set; }
+
+		/// <summary>
+		/// FK__City__RegionId__02084FDA (dbo.Region)
+		/// </summary>
+		[Association(ThisKey="RegionId", OtherKey="Id", CanBeNull=true)]
 		public Region Region { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="Company_Product")]
+	public partial class CompanyProduct
+	{
+		[PrimaryKey, Identity] public int     Id              { get; set; } // int
+		[Column,     NotNull ] public char    Name            { get; set; } // nvarchar(1)
+		[Column,     NotNull ] public char    Description     { get; set; } // nvarchar(1)
+		[Column,     NotNull ] public char    ShorDescription { get; set; } // nvarchar(1)
+		[Column,     NotNull ] public decimal Price           { get; set; } // decimal(18, 2)
+		[Column,     NotNull ] public int     CategoriId      { get; set; } // int
+
+		#region Associations
+
+		/// <summary>
+		/// FK__Product__Categor__412EB0B6 (dbo.ProductCategory)
+		/// </summary>
+		[Association(ThisKey="CategoriId", OtherKey="Id", CanBeNull=false)]
+		public ProductCategory Categori { get; set; }
+
+		/// <summary>
+		/// FK__ProductCo__Produ__44FF419A_BackReference (dbo.ProductComment)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="ProductId", CanBeNull=true)]
+		public IEnumerable<ProductComment> ProductCoProdu44FF419A { get; set; }
+
+		/// <summary>
+		/// FK__Request__Product__534D60F1_BackReference (dbo.Request)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="ProductId", CanBeNull=true)]
+		public IEnumerable<Request> RequestProduct534D60F { get; set; }
 
 		#endregion
 	}
@@ -191,10 +236,31 @@ namespace DataModels
 		#region Associations
 
 		/// <summary>
-		/// FK__Region__CountyId__628FA481_BackReference (dbo.Region)
+		/// FK__Region__CountyId__7F2BE32F_BackReference (dbo.Region)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="CountyId", CanBeNull=true)]
-		public IEnumerable<Region> RegionCountyId628Fas { get; set; }
+		public IEnumerable<Region> RegionCountyId7F2BE32F { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="Hotel_Product")]
+	public partial class HotelProduct
+	{
+		[Column(),                     NotNull    ] public int    Id               { get; set; } // int
+		[Column(),                     NotNull    ] public string Name             { get; set; } // nvarchar(200)
+		[Column(),                     NotNull    ] public double Price            { get; set; } // float
+		[Column(),                     NotNull    ] public int    CityId           { get; set; } // int
+		[Column("Distance_To_Center"), NotNull    ] public double DistanceToCenter { get; set; } // float
+		[Column(),                        Nullable] public string MainImage        { get; set; } // nvarchar(max)
+
+		#region Associations
+
+		/// <summary>
+		/// FK__Hotel_Pro__CityI__1AD3FDA4 (dbo.City)
+		/// </summary>
+		[Association(ThisKey="CityId", OtherKey="Id", CanBeNull=false)]
+		public City City { get; set; }
 
 		#endregion
 	}
@@ -234,51 +300,6 @@ namespace DataModels
 		#endregion
 	}
 
-	[Table(Schema="dbo", Name="Product")]
-	public partial class Product
-	{
-		[PrimaryKey, Identity] public int     Id              { get; set; } // int
-		[Column,     NotNull ] public char    Name            { get; set; } // nvarchar(1)
-		[Column,     NotNull ] public char    Description     { get; set; } // nvarchar(1)
-		[Column,     NotNull ] public char    ShorDescription { get; set; } // nvarchar(1)
-		[Column,     NotNull ] public decimal Price           { get; set; } // decimal(18, 2)
-		[Column,     NotNull ] public int     CategoriId      { get; set; } // int
-
-		#region Associations
-
-		/// <summary>
-		/// FK__BascetLin__Produ__4BAC3F29_BackReference (dbo.BascetLine)
-		/// </summary>
-		[Association(ThisKey="Id", OtherKey="ProductId", CanBeNull=true)]
-		public IEnumerable<BascetLine> BascetLinProdu4BAC3F { get; set; }
-
-		/// <summary>
-		/// FK__Product__Categor__412EB0B6 (dbo.ProductCategory)
-		/// </summary>
-		[Association(ThisKey="CategoriId", OtherKey="Id", CanBeNull=false)]
-		public ProductCategory Categori { get; set; }
-
-		/// <summary>
-		/// FK__ProductCo__Produ__44FF419A_BackReference (dbo.ProductComment)
-		/// </summary>
-		[Association(ThisKey="Id", OtherKey="ProductId", CanBeNull=true)]
-		public IEnumerable<ProductComment> ProductCoProdu44FF419A { get; set; }
-
-		/// <summary>
-		/// FK__Request__Product__534D60F1_BackReference (dbo.Request)
-		/// </summary>
-		[Association(ThisKey="Id", OtherKey="ProductId", CanBeNull=true)]
-		public IEnumerable<Request> Request534D60F { get; set; }
-
-		/// <summary>
-		/// FK__UserFavPr__Produ__4F7CD00D_BackReference (dbo.UserFavProduct)
-		/// </summary>
-		[Association(ThisKey="Id", OtherKey="ProductId", CanBeNull=true)]
-		public IEnumerable<UserFavProduct> UserFavPrProdu4F7CD00D { get; set; }
-
-		#endregion
-	}
-
 	[Table(Schema="dbo", Name="ProductCategory")]
 	public partial class ProductCategory
 	{
@@ -288,10 +309,10 @@ namespace DataModels
 		#region Associations
 
 		/// <summary>
-		/// FK__Product__Categor__412EB0B6_BackReference (dbo.Product)
+		/// FK__Product__Categor__412EB0B6_BackReference (dbo.Company_Product)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="CategoriId", CanBeNull=true)]
-		public IEnumerable<Product> ProductCategor412EB0B { get; set; }
+		public IEnumerable<CompanyProduct> ProductCategor412EB0B { get; set; }
 
 		#endregion
 	}
@@ -307,10 +328,10 @@ namespace DataModels
 		#region Associations
 
 		/// <summary>
-		/// FK__ProductCo__Produ__44FF419A (dbo.Product)
+		/// FK__ProductCo__Produ__44FF419A (dbo.Company_Product)
 		/// </summary>
 		[Association(ThisKey="ProductId", OtherKey="Id", CanBeNull=false)]
-		public Product Product { get; set; }
+		public CompanyProduct Product { get; set; }
 
 		/// <summary>
 		/// FK__ProductCo__UserI__440B1D61 (dbo.User)
@@ -331,13 +352,13 @@ namespace DataModels
 		#region Associations
 
 		/// <summary>
-		/// FK__City__RegionId__656C112C_BackReference (dbo.City)
+		/// FK__City__RegionId__02084FDA_BackReference (dbo.City)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="RegionId", CanBeNull=true)]
-		public IEnumerable<City> CityRegionId656C112C { get; set; }
+		public IEnumerable<City> CityRegionId02084Fdas { get; set; }
 
 		/// <summary>
-		/// FK__Region__CountyId__628FA481 (dbo.County)
+		/// FK__Region__CountyId__7F2BE32F (dbo.County)
 		/// </summary>
 		[Association(ThisKey="CountyId", OtherKey="Id", CanBeNull=false)]
 		public County County { get; set; }
@@ -365,10 +386,10 @@ namespace DataModels
 		public IEnumerable<PersonDataInRequest> PersonDatReque5629CD9C { get; set; }
 
 		/// <summary>
-		/// FK__Request__Product__534D60F1 (dbo.Product)
+		/// FK__Request__Product__534D60F1 (dbo.Company_Product)
 		/// </summary>
 		[Association(ThisKey="ProductId", OtherKey="Id", CanBeNull=false)]
-		public Product Product { get; set; }
+		public CompanyProduct Product { get; set; }
 
 		/// <summary>
 		/// FK__Request__UserId__52593CB8 (dbo.User)
@@ -396,6 +417,53 @@ namespace DataModels
 		#endregion
 	}
 
+	[Table(Schema="dbo", Name="Status")]
+	public partial class Status
+	{
+		[PrimaryKey, Identity] public int    Id   { get; set; } // int
+		[Column,     NotNull ] public string Name { get; set; } // nvarchar(40)
+	}
+
+	[Table(Schema="dbo", Name="Ststus")]
+	public partial class Ststu
+	{
+		[PrimaryKey, Identity] public int    Id   { get; set; } // int
+		[Column,     NotNull ] public string Name { get; set; } // nvarchar(40)
+
+		#region Associations
+
+		/// <summary>
+		/// FK__User__Status__7C4F7684_BackReference (dbo.User)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="Status", CanBeNull=true)]
+		public IEnumerable<User> UserStatus7C4F { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="TypeProduct")]
+	public partial class TypeProduct
+	{
+		[PrimaryKey, Identity] public int    Id   { get; set; } // int
+		[Column,     NotNull ] public string Name { get; set; } // nvarchar(100)
+
+		#region Associations
+
+		/// <summary>
+		/// FK__Basket_Li__Produ__1EA48E88_BackReference (dbo.Basket_Line)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="ProductType", CanBeNull=true)]
+		public IEnumerable<BasketLine> BasketLiProdu1EA48E { get; set; }
+
+		/// <summary>
+		/// FK__UserFavPr__Produ__2180FB33_BackReference (dbo.UserFavProduct)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="ProductType", CanBeNull=true)]
+		public IEnumerable<UserFavProduct> UserFavPrProdu2180Fbs { get; set; }
+
+		#endregion
+	}
+
 	[Table(Schema="dbo", Name="User")]
 	public partial class User
 	{
@@ -405,6 +473,7 @@ namespace DataModels
 		[Column,        Nullable] public int?     RoleId   { get; set; } // int
 		[Column,     NotNull    ] public string   Login    { get; set; } // nvarchar(50)
 		[Column,     NotNull    ] public string   Password { get; set; } // nvarchar(50)
+		[Column,     NotNull    ] public int      Status   { get; set; } // int
 
 		#region Associations
 
@@ -415,10 +484,10 @@ namespace DataModels
 		public IEnumerable<ApprovalRequest> ApprovalUserI5AEE82B { get; set; }
 
 		/// <summary>
-		/// FK__Basket__UserId__47DBAE45_BackReference (dbo.Basket)
+		/// FK__Basket__UserId__18EBB532_BackReference (dbo.Basket)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="UserId", CanBeNull=true)]
-		public IEnumerable<Basket> BasketUserId47Dbaes { get; set; }
+		public IEnumerable<Basket> BasketUserId18Ebbs { get; set; }
 
 		/// <summary>
 		/// FK__ProductCo__UserI__440B1D61_BackReference (dbo.ProductComment)
@@ -439,10 +508,16 @@ namespace DataModels
 		public Role Role { get; set; }
 
 		/// <summary>
-		/// FK__UserFavPr__UserI__4E88ABD4_BackReference (dbo.UserFavProduct)
+		/// FK__User__Status__7C4F7684 (dbo.Ststus)
+		/// </summary>
+		[Association(ThisKey="Status", OtherKey="Id", CanBeNull=false)]
+		public Ststu Status7C4F { get; set; }
+
+		/// <summary>
+		/// FK__UserFavPr__UserI__208CD6FA_BackReference (dbo.UserFavProduct)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="UserId", CanBeNull=true)]
-		public IEnumerable<UserFavProduct> UserFavPrUserI4E88Abds { get; set; }
+		public IEnumerable<UserFavProduct> UserFavPrUserI208CD6Fas { get; set; }
 
 		/// <summary>
 		/// FK__UserPrDat__UserI__3C69FB99_BackReference (dbo.UserPrData)
@@ -456,24 +531,24 @@ namespace DataModels
 	[Table(Schema="dbo", Name="UserFavProduct")]
 	public partial class UserFavProduct
 	{
-		[Column(),           PrimaryKey, Identity] public int      Id        { get; set; } // int
-		[Column("Date_add"), NotNull             ] public DateTime DateAdd   { get; set; } // date
-		[Column(),           NotNull             ] public int      UserId    { get; set; } // int
-		[Column(),           NotNull             ] public int      ProductId { get; set; } // int
+		[Column, NotNull] public int      UserId      { get; set; } // int
+		[Column, NotNull] public int      ProductId   { get; set; } // int
+		[Column, NotNull] public int      ProductType { get; set; } // int
+		[Column, NotNull] public DateTime DateIns     { get; set; } // datetime2(7)
 
 		#region Associations
 
 		/// <summary>
-		/// FK__UserFavPr__Produ__4F7CD00D (dbo.Product)
-		/// </summary>
-		[Association(ThisKey="ProductId", OtherKey="Id", CanBeNull=false)]
-		public Product Product { get; set; }
-
-		/// <summary>
-		/// FK__UserFavPr__UserI__4E88ABD4 (dbo.User)
+		/// FK__UserFavPr__UserI__208CD6FA (dbo.User)
 		/// </summary>
 		[Association(ThisKey="UserId", OtherKey="Id", CanBeNull=false)]
 		public User User { get; set; }
+
+		/// <summary>
+		/// FK__UserFavPr__Produ__2180FB33 (dbo.TypeProduct)
+		/// </summary>
+		[Association(ThisKey="ProductType", OtherKey="Id", CanBeNull=false)]
+		public TypeProduct UserFavPrProdu2180FB { get; set; }
 
 		#endregion
 	}
@@ -481,11 +556,15 @@ namespace DataModels
 	[Table(Schema="dbo", Name="UserPrData")]
 	public partial class UserPrData
 	{
-		[PrimaryKey, NotNull    ] public int    UserId    { get; set; } // int
-		[Column,     NotNull    ] public string Name      { get; set; } // nvarchar(60)
-		[Column,     NotNull    ] public string LastName  { get; set; } // nvarchar(60)
-		[Column,        Nullable] public string Surname   { get; set; } // nvarchar(60)
-		[Column,        Nullable] public int?   TelNumber { get; set; } // int
+		[PrimaryKey, NotNull    ] public int       UserId            { get; set; } // int
+		[Column,     NotNull    ] public string    Name              { get; set; } // nvarchar(60)
+		[Column,     NotNull    ] public string    LastName          { get; set; } // nvarchar(60)
+		[Column,        Nullable] public string    Surname           { get; set; } // nvarchar(60)
+		[Column,        Nullable] public int?      TelNumber         { get; set; } // int
+		[Column,        Nullable] public string    SeriesPasport     { get; set; } // nvarchar(4)
+		[Column,        Nullable] public string    NumberPasport     { get; set; } // nvarchar(6)
+		[Column,        Nullable] public DateTime? IssuedDatePasport { get; set; } // datetime2(7)
+		[Column,        Nullable] public string    IssuedPasport     { get; set; } // nvarchar(300)
 
 		#region Associations
 
@@ -512,12 +591,6 @@ namespace DataModels
 				t.Id == Id);
 		}
 
-		public static BascetLine Find(this ITable<BascetLine> table, int Id)
-		{
-			return table.FirstOrDefault(t =>
-				t.Id == Id);
-		}
-
 		public static Basket Find(this ITable<Basket> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
@@ -525,6 +598,12 @@ namespace DataModels
 		}
 
 		public static City Find(this ITable<City> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static CompanyProduct Find(this ITable<CompanyProduct> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
@@ -543,12 +622,6 @@ namespace DataModels
 		}
 
 		public static PersonDataInRequest Find(this ITable<PersonDataInRequest> table, int Id)
-		{
-			return table.FirstOrDefault(t =>
-				t.Id == Id);
-		}
-
-		public static Product Find(this ITable<Product> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
@@ -584,13 +657,25 @@ namespace DataModels
 				t.Id == Id);
 		}
 
-		public static User Find(this ITable<User> table, int Id)
+		public static Status Find(this ITable<Status> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);
 		}
 
-		public static UserFavProduct Find(this ITable<UserFavProduct> table, int Id)
+		public static Ststu Find(this ITable<Ststu> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static TypeProduct Find(this ITable<TypeProduct> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static User Find(this ITable<User> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);

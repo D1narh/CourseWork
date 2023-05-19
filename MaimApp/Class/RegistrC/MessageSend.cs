@@ -64,7 +64,7 @@ namespace MaimApp.Class.RegistrC
                 throw new ApplicationException
                   ("SmtpException has occured: " + ex.Message);
             }
-            catch (Exception ex)
+            catch
             {
                MessageBox.Show("Что-то не так с адресом почты");
                 return null;
