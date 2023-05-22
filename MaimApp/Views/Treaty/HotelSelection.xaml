@@ -1,0 +1,65 @@
+﻿<Window x:Class="MaimApp.Views.Treaty.HotelSelection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="HotelSelection" Height="450" Width="450"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+           >
+    <Border Width ="450" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--header-->
+            <Label Content="Выбор отеля" FontSize="22" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" FontFamily="Merienda One" Foreground="Gray" Margin="0,26,0,0"/>
+            <Rectangle Fill="Gray" Height="2" Width="250" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Row="1" Margin="0,13,0,0"/>
+            <!--Logo-->
+            <Label Content="Maim" FontFamily="Merienda One" FontSize="60" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Margin="75,26,-175,11">
+                <Label.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Label.RenderTransform>
+            </Label>
+
+            <!--Список товаров-->
+            <ListView x:Name="list" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="6" Margin="10,56,10,56">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl>
+                            <Border Width ="250" Height="50" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6">
+                                <Grid x:Name="grd">
+                                    
+                                </Grid>
+                            </Border>
+                        </ContentControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--Кнопки перехода и отмены-->
+            <Button x:Name="Back" Style="{DynamicResource CornerButton}" Content="Назад" Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="128" Height="44" Margin="18,40,0,0"/>
+            <Button x:Name="NextStep" Style="{DynamicResource CornerButton}" Content="Продолжить" Grid.Row="6" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="194" Height="44" Margin="31,40,0,0"/>
+
+        </Grid>
+    </Border>
+</Window>
