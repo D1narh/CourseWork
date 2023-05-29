@@ -9,8 +9,7 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
-        Background="Transparent" Loaded="Window_Loaded" 
-           >
+        Background="Transparent" Loaded="Window_Loaded">
     <Border Width ="450" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
         <Grid >
             <Grid.ColumnDefinitions>
@@ -35,16 +34,11 @@
             <!--header-->
             <Label Content="Выбор колличества людей" FontSize="22" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="4" FontFamily="Merienda One" Foreground="Gray"/>
             <Rectangle Fill="Gray" Height="2" Width="250" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="4" Margin="0,40,0,0"/>
-            <!--Logo-->
-            <Label Content="Maim" FontFamily="Merienda One" FontSize="60" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Margin="75,26,-175,11">
-                <Label.RenderTransform>
-                    <RotateTransform Angle="90"/>
-                </Label.RenderTransform>
-            </Label>
+
             <!--Name Product-->
-            <Label x:Name="Name" Content="" FontSize="22" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.ColumnSpan="5" Height="45" FontFamily="Merienda One" Margin="22,6,33,5"/>
+            <Label x:Name="Name" Content="" FontSize="22" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.ColumnSpan="5" Height="45" FontFamily="Merienda One" Margin="-10,6,33,5"/>
             <!--Num People-->
-            <Border Style="{DynamicResource BorderStyle}" CornerRadius="10" Background="#EDEDED" Height="50" Width="320" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Margin="-10,0,0,0">
+            <Border Style="{DynamicResource BorderStyle}" CornerRadius="10" Background="#EDEDED" Height="50" Width="320" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Margin="-75,0,0,0">
                 <Button Style="{DynamicResource ChangeButton}" x:Name="People" Width="320" Click="People_Click">
                     <StackPanel Orientation="Horizontal">
                         <Label x:Name="PeopleCount" FontFamily="Merienda One" FontSize="22" Width="320" Height="40"/>
@@ -53,10 +47,10 @@
                 </Button>
             </Border>
             <!--Кнопки перехода и отмены-->
-            <Button x:Name="Back" Style="{DynamicResource CornerButton}" Content="Назад" Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="128" Height="44" Margin="22,40,0,0" Click="Back_Click"/>
-            <Button x:Name="NextStep" Style="{DynamicResource CornerButton}" Content="Продолжить" Grid.Row="6" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="195" Height="44" Margin="29,40,0,0"/>
+            <Button x:Name="Back" Style="{DynamicResource CornerButton}" Content="Назад" Grid.Row="6" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="128" Height="44" Margin="-30,40,0,0" Click="Back_Click"/>
+            <Button x:Name="NextStep" Style="{DynamicResource CornerButton}" Content="Продолжить" Grid.Row="6" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Width="195" Height="44" Margin="-10,40,0,0" Click="NextStep_Click"/>
             <!--Выподающий список выбора людей-->
-            <Grid x:Name="SelNumPeople" Visibility="Hidden" Height="0" Margin="22,3,0,0" VerticalAlignment="Top" Width="320" HorizontalAlignment="Left" Grid.ColumnSpan="5" Grid.Row="4" Grid.RowSpan="3">
+            <Grid x:Name="SelNumPeople" Visibility="Hidden" Height="0" Margin="-10,3,0,0" VerticalAlignment="Top" Grid.Column="1" Width="320" HorizontalAlignment="Left" Grid.ColumnSpan="5" Grid.Row="4" Grid.RowSpan="3">
                 <Border CornerRadius="10" HorizontalAlignment="Left" Background="#EDEDED">
                     <Grid x:Name="NumPeople" Width="320" Height="134">
                         <Grid.RowDefinitions>
@@ -66,13 +60,13 @@
                         <!--Взрослые-->
                         <Label Content="Взрослые" Margin="7,0,203,0" FontSize="20" Grid.Row="0"/>
                         <Label Content="от 18 лет" FontSize="14" Margin="9,26,203,66" Grid.Row="0" Grid.RowSpan="2"/>
-                        <Label Content="1" x:Name="CountOld" Height="35" Width="35" FontSize="18" FontFamily="Merienda One" Margin="206,9,79,23" Grid.Row="0"/>
+                        <Label Content="1" x:Name="CountOld" Height="35" Width="48" FontSize="18" FontFamily="Merienda One" Margin="206,9,79,23" Grid.Row="0"/>
                         <Button x:Name="OldPlus" Content="+" Width="35" Height="35" Margin="268,9,17,23" FontFamily="Merienda One" FontSize="18" Style="{DynamicResource CornerButton}" Grid.Row="0" Click="OldPlus_Click"/>
                         <Button x:Name="OldMinus" Content="-" Width="35" Height="35" Margin="142,9,142,23" FontFamily="Merienda One" FontSize="18" Style="{DynamicResource CornerButton}" Grid.Row="0" Click="OldMinus_Click"/>
                         <!--Дети-->
                         <Label Content="Дети" Margin="7,0,203,13" FontSize="20" Grid.Row="1"/>
                         <Label Content="от 0 до 18 лет" FontSize="14" Margin="7,26,203,9" Grid.Row="1"/>
-                        <Label Content="0" x:Name="CountChild" Height="35" Width="35" FontSize="18" FontFamily="Merienda One" Margin="206,10,79,22" Grid.Row="1"/>
+                        <Label Content="0" x:Name="CountChild" Height="35" Width="48" FontSize="18" FontFamily="Merienda One" Margin="206,10,79,22" Grid.Row="1"/>
                         <Button x:Name="ChildPlus" Content="+" Width="35" Height="35" Margin="268,10,17,22" FontFamily="Merienda One" FontSize="18" Style="{DynamicResource CornerButton}" Grid.Row="1" Click="ChildPlus_Click"/>
                         <Button x:Name="ChildMinus" Content="-" Width="35" Height="35" Margin="142,10,142,22" FontFamily="Merienda One" FontSize="18" Style="{DynamicResource CornerButton}" Grid.Row="1" Click="ChildMinus_Click"/>
                     </Grid>

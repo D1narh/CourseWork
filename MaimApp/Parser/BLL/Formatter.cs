@@ -22,94 +22,60 @@ namespace MaimApp.BLL
             _cache = result;
         }
 
-     
-
         public async Task<List<HotelInf>> GetAddressesFromUrl(string url, int sort)
         {
+            //var i = new List<string> { "Близко к центру", "Лучшие оценки", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
             var standartImagePath = "\\Image\\heart-shape.png";
-            Rootobject result;
-            if (_cache == null)
-            {
-                result = await _parser.Parse(url);
-                _cache = result;
-            }
-            else
-                result = _cache;
+            Rootobject result = await GetParsedData(url);
+
+            var hotels = result.response.hotels.Where(x => x.image != null).Select(x => CreateHotelInf(x, standartImagePath)).ToList();
 
             switch (sort)
             {
                 case 0:
-                    return result.response.hotels.Where(x => x.image != null).Select(x =>
-                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
-                    {
-                        ID = x.id,
-                        Name = x.name,
-                        Adress = x.address,
-                        DistanceToCenter = $"До центра {x.center_distance} км",
-                        ImagePath = x.image.path,
-                        Price = x.min_price.ToString(),
-                        Reviews = $"{x.rating}/10",
-                        IsFavorite = standartImagePath,
-                        Images = x.images
-                    }).OrderBy(x => x.DistanceToCenter).ToList();
-
+                    return hotels.OrderBy(x => x.DistanceToCenter).ToList();
                 case 1:
-                    return result.response.hotels.Where(x => x.image != null).Select(x =>
-                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
-                    {
-                        ID = x.id,
-                        Name = x.name,
-                        Adress = x.address,
-                        DistanceToCenter = $"До центра {x.center_distance} км",
-                        ImagePath = x.image.path,
-                        Price = x.min_price.ToString(),
-                        Reviews = $"{x.rating}/10",
-                        IsFavorite = standartImagePath,
-                        Images = x.images
-                    }).OrderByDescending(x => x.Reviews.Remove(x.Reviews.Length - 3)).ToList();
+                    return hotels.OrderByDescending(x => x.Reviews.Remove(x.Reviews.Length - 3)).ToList();
                 case 2:
-                    return result.response.hotels.Where(x => x.image != null).Select(x =>
-                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
-                    {
-                        ID = x.id,
-                        Name = x.name,
-                        Adress = x.address,
-                        DistanceToCenter = $"До центра {x.center_distance} км",
-                        ImagePath = x.image.path,
-                        Price = x.min_price.ToString(),
-                        Reviews = $"{x.rating}/10",
-                        IsFavorite = standartImagePath,
-                        Images = x.images
-                    }).OrderBy(x => x.Price.ToDouble()).ToList();
+                    return hotels.OrderBy(x => x.Price).ToList();
                 case 3:
-                    return result.response.hotels.Where(x => x.image != null).Select(x =>
-                    new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
-                    {
-                        ID = x.id,
-                        Name = x.name,
-                        Adress = x.address,
-                        DistanceToCenter = $"До центра {x.center_distance} км",
-                        ImagePath = x.image.path,
-                        Price = x.min_price.ToString(),
-                        Reviews = $"{x.rating}/10",
-                        IsFavorite = standartImagePath,
-                        Images = x.images
-                    }).OrderByDescending(x => x.Price.ToDouble()).ToList();
+                    return hotels.OrderByDescending(x => x.Price.ToDouble()).ToList();
+                default:
+                    return hotels;
+            }
+        }
+
+        private async Task<Rootobject> GetParsedData(string url)
+        {
+            if (_cache == null)
+            {
+                _cache = await _parser.Parse(url);
             }
 
-            return result.response.hotels.Where(x => x.image != null).Select(x =>
-                new HotelInf(x.id, x.name, x.address, x.center_distance.ToString(), x.image.path, x.min_price.ToString(), standartImagePath, x.rating.ToString(), x.images)
-                {
-                    ID = x.id,
-                    Name = x.name,
-                    Adress = x.address,
-                    DistanceToCenter = $"До центра {x.center_distance} км",
-                    ImagePath = x.image.path,
-                    Price = x.min_price.ToString(),
-                    Reviews = $"{x.rating}/10",
-                    IsFavorite = standartImagePath,
-                    Images = x.images
-                }).ToList();
+            return _cache;
+        }
+
+        private HotelInf CreateHotelInf(Hotel hotel, string standartImagePath)
+        {
+            var distanceToCenter = $"До центра {hotel.center_distance} км";
+            var rating = $"{hotel.rating}/10";
+            var price = hotel.min_price.ToString();
+
+            return new HotelInf(hotel.id, hotel.name, hotel.address, hotel.center_distance.ToString(), hotel.image.path,
+                hotel.min_price.ToString(), standartImagePath, hotel.rating.ToString(), hotel.images,hotel.stars, hotel.breakfast == 1 ? "В отеле можно позавтракать" : "")
+            {
+                ID = hotel.id,
+                Name = hotel.name,
+                Adress = hotel.address,
+                DistanceToCenter = distanceToCenter,
+                ImagePath = hotel.image.path,
+                Price = price,
+                Reviews = rating,
+                IsFavorite = standartImagePath,
+                Images = hotel.images,
+                CountStars = hotel.stars,
+                Breakefast = hotel.breakfast == 1 ? "В отеле можно позавтракать" : "",
+            };
         }
     }
 }

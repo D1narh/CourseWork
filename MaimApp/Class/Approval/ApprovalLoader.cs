@@ -13,7 +13,7 @@ namespace MaimApp.Class.Approval
         ObservableCollection<ApprovalRequest> ApplovalList = new ObservableCollection<ApprovalRequest>();
         public async Task<ObservableCollection<ApprovalRequest>> Load()
         {
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 var ApprovalData = db.Approvals.Where(x => x.IsOk == 0);
                 var ApprovalRequestData = db.ApprovalRequests;

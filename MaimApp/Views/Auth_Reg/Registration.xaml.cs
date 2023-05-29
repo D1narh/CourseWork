@@ -48,14 +48,12 @@ namespace MaimApp.Views.PersonalArea
         {
             if (((Label)sender).Content.ToString() == "X")
             {
-                MainProduct mainProduct = new MainProduct();
-                mainProduct.Show();
+                DialogResult = false;
                 this.Close();
             }
             else
             {
-                Authorization authorization = new Authorization();
-                authorization.Show();
+                DialogResult = true;
                 this.Close();
             }
         }
@@ -79,7 +77,7 @@ namespace MaimApp.Views.PersonalArea
                 }
                 else
                 {
-                    using (var db = new DbA96b40MaimfDB())
+                    using (var db = new DbA99dc4MaimfDB())
                     {
                         var user = db.Users.FirstOrDefault(x => x.Login == login.Text.Trim() || x.Mail == email.Text.Trim());
                         if (user == null)
@@ -117,8 +115,7 @@ namespace MaimApp.Views.PersonalArea
                                         LastName = sname.Text.Trim(),
                                     });
                                     new AuthUser(login.Text.Trim(), password.Password.Trim());
-                                    MainProduct mainProduct = new MainProduct();
-                                    mainProduct.Show();
+                                    DialogResult = true;
                                     this.Close();
                                 }
                             }

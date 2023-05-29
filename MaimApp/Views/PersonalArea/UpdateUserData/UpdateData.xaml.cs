@@ -33,8 +33,19 @@ namespace MaimApp.Views.PersonalArea.UpdateUserData
             }
             else
             {
-                using (var db = new DbA96b40MaimfDB())
+                using (var db = new DbA99dc4MaimfDB())
                 {
+                    var Data = from u in db.UserPrData
+                               join ar in db.ApprovalRequests on u.UserId equals ar.UserId
+                               join a in db.Approvals on ar.Id equals a.ApprovalRequestId
+                               where a.IsOk == 0 && u.UserId == authUser.GetUserId()
+                               select u.UserId;
+                    if(Data.Count() >= 1)
+                    {
+                        MessageBox.Show("Вы не можете отправить заяву на одобрение\nКогда у вас уже есть активная заявка ","Внимание");
+                        return;
+                    }
+
                     db.Insert(new ApprovalRequest
                     {
                         UserId = Convert.ToInt32(authUser.GetUserId()),
@@ -66,7 +77,7 @@ namespace MaimApp.Views.PersonalArea.UpdateUserData
 
         private void SaveChange()
         {
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 if (NameTB.Text.Trim().Length >= 2 || SureNameTB.Text.Trim().Length >= 4)
                 {
@@ -115,7 +126,7 @@ namespace MaimApp.Views.PersonalArea.UpdateUserData
             else
             {
                 DateTime? date = IssuedDateDP.SelectedDate;
-                using (var db = new DbA96b40MaimfDB())
+                using (var db = new DbA99dc4MaimfDB())
                 {
                     db.UserPrData
                     .Where(x => x.UserId == userData.Id)
@@ -154,7 +165,7 @@ namespace MaimApp.Views.PersonalArea.UpdateUserData
 
         private void LoadInfClient()
         {
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 var PersonalData = db.UserPrData.FirstOrDefault(x => x.UserId == authUser.GetUserId());
 

@@ -8,7 +8,6 @@
       d:DesignHeight="230" d:DesignWidth="794"
       Title="ApprovalF" Loaded="Page_Loaded">
     <Grid>
-        <!--По вертикали-->
         <ListView x:Name="list" Visibility="Visible" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6">
             <ListView.ItemTemplate>
                 <DataTemplate>

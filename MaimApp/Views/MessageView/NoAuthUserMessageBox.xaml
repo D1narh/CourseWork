@@ -13,7 +13,7 @@
         Background="Transparent">
     <Border CornerRadius="8" Background="White">
         <Grid>
-            <Label Content="Вы не можете добавить в избранное пока не авторизируетесь" FontWeight="Bold" FontSize="17" Margin="10,10,10,121"/>
+            <Label x:Name="TextL" FontWeight="Bold" FontSize="17" Margin="10,10,10,121" HorizontalAlignment="Center"/>
             <Label Content="Хотите ли вы авторизироваться?" FontWeight="Bold" FontSize="17" Margin="132,47,132,86"/>
 
             <Button x:Name="Back" FontSize="14" Content="Продолжить просмотр без авторизации" Style="{DynamicResource CornerButton}" Margin="10,90,267,32" Click="Back_Click"/>

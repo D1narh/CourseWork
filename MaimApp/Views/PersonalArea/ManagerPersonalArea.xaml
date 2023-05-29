@@ -32,7 +32,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
+        
         <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         <!--Avatar-->
         <Ellipse x:Name="ImageEl" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Width="140" Height="140" VerticalAlignment="Top" Margin="14,14,72,0">

@@ -15,8 +15,12 @@ namespace MaimApp
     public partial class App : Application
     {
         public static HttpClient HttpClient = new HttpClient();
+        public static readonly string AppDir;
 
-        public static DataModels.DbA96b40MaimfDB Entity = new DataModels.DbA96b40MaimfDB();
-
+        static App()
+        {
+            var splittedPath = System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase.Split('/');
+            AppDir = string.Join(@"\", splittedPath.Skip(2).Take(splittedPath.Length - 4).ToArray()) + "\\";
+        }
     }
 }

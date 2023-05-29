@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaimApp.Class.Approval;
+using MaimApp.Class.MyOrderC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,12 @@ namespace MaimApp.Views.PersonalArea.UserPersonalAreaGrid
         public MyOrder()
         {
             InitializeComponent();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            OrderLoader loader = new OrderLoader();
+            list.ItemsSource = await Task.Run(async () => await loader.Load());
         }
     }
 }

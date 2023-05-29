@@ -19,9 +19,10 @@ namespace MaimApp.Views.MessageView
     /// </summary>
     public partial class NoAuthUserMessageBox : Window
     {
-        public NoAuthUserMessageBox()
+        public NoAuthUserMessageBox(string text)
         {
             InitializeComponent();
+            TextL.Content = text;
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

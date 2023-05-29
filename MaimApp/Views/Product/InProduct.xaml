@@ -17,7 +17,7 @@
         <!--Logo-->
         <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="1"/>
 
-        <Grid Grid.Row="0" Background="Black" Opacity="0.3"/>
+        <Grid Grid.Row="0" Background="#FAF9F9"/>
         <Label x:Name="l_exit" Content="✖" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="1,2" Cursor="Hand" MouseDown="l_exit_MouseDown" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="766,0,0,0" RenderTransformOrigin="0.5,0.5"/>
         <Label x:Name="l_minimized" Content="━" Foreground="Black" Background="Gray" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Padding="7,4" Cursor="Hand" MouseDown="l_exit_minimize" MouseEnter="l_exit_MouseEnter" MouseLeave="l_exit_MouseLeave" Margin="743,0,0,0" RenderTransformOrigin="0.5,0.5"/>
         <Grid Grid.Row="1">
@@ -50,7 +50,7 @@
 
             <Border x:Name="ImageBorder" CornerRadius="10" Grid.Row="1" Grid.RowSpan="8" Grid.ColumnSpan="5" Width="345">
                 <Border.Background>
-                    <ImageBrush x:Name="Image" Stretch="Fill" ImageSource="\Image\LoginImg.jpg"/>
+                    <ImageBrush x:Name="Image" Stretch="Fill"/>
                 </Border.Background>
                 <Grid>
                     <!--Перемотка изображения в лево-->
@@ -79,19 +79,20 @@
                     </Button>
                 </Grid>
             </Border>
-            
+
             <Label x:Name="HotelName" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" FontSize="16" Content="dwadwadwadawddwadwadwa"/>
-            <Label x:Name="CountStar" Grid.Column="5" Grid.Row="2" Height="20" VerticalAlignment="Top" Content="Звед у отеля: 5" FontSize="10" Padding="4,0"/>
+            <Label x:Name="CountStar" Grid.Column="5" Grid.Row="2" Height="20" VerticalAlignment="Top" Content="Звед у отеля: " FontSize="10" Padding="4,0"/>
             <Label x:Name="Price" Content="₽" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="8" FontSize="22" FontWeight="Bold" Width="120" HorizontalAlignment="Left"/>
             <Label x:Name="Grade" Content="Оценка постояльцев: " Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="3" FontSize="13"/>
+            <Label x:Name="BreakeF" Content="У отеля есть завтрак" Grid.Column="4" Grid.ColumnSpan="4" Margin="82,0,82,0" Grid.Row="4"/>
 
-            <Button x:Name="Favorites" Style="{DynamicResource CornerButton}" Grid.Column="7" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent">
+            <Button x:Name="Favorites" Style="{x:Null}" BorderThickness="0" Grid.Column="7" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" Click="Favorites_Click" >
                 <StackPanel>
-                    <Image Source="/Image/heart-shape.png" Width="43"/>
+                    <Image x:Name="IsFavorite" Width="43"/>
                 </StackPanel>
             </Button>
             <Button x:Name="Buy" Content="Купить" Style="{DynamicResource CornerButton}" Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="8" Width="100" FontSize="21" Click="Buy_Click"/>
-           
+
         </Grid>
     </Grid>
 </Window>

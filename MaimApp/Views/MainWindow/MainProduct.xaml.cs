@@ -8,6 +8,7 @@ using MaimApp.Views.MainWindow;
 using MaimApp.Views.MessageView;
 using MaimApp.Views.PersonalArea;
 using MaimApp.Views.Product;
+using MaimApp.Views.TicketsF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,6 +54,18 @@ namespace MaimApp.Views
             LeaveFromButton(sender);
         }
 
+        private void Border_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ((Border)sender).BorderThickness = new Thickness(1, 1, 1, 1);
+            ((Border)sender).BorderBrush = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+        }
+
+        private void Border_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ((Border)sender).BorderThickness = new Thickness(0, 0, 0, 0);
+            ((Border)sender).BorderBrush = (Brush)brushConverter.ConvertFrom("#E0E0E0");
+        }
+
         public void ButtonBackgroung()
         {
             Hotels.Background = new SolidColorBrush(Colors.Black) { Opacity = 0.3 };
@@ -65,7 +78,8 @@ namespace MaimApp.Views
         {
             StartMethod();
         }
-        async void StartMethod()
+
+        public async void StartMethod()
         {
             //При открытии всегда заполняется первым этот лист
             ChangeListNow = list;
@@ -75,17 +89,16 @@ namespace MaimApp.Views
             {
                 HelloPanel.Visibility = Visibility.Hidden;
             }
+            ButtonBackgroung();
 
-            UserFavoriteProduct();
             new Task(() => ChangeCounty()).Start();
             Sortierung();
-            ButtonBackgroung();
             getCityClient();
             await LoadProduct();
             NumberStroke();
             GarbageClean();
 
-            animation.Visibility = Visibility.Hidden;
+            animation.Visibility= Visibility.Hidden;
             SearchText.Visibility = Visibility.Hidden;
         }
 
@@ -98,6 +111,9 @@ namespace MaimApp.Views
                 anim.To = 120;
                 anim.Duration = TimeSpan.FromSeconds(0.25);
                 ChangeSortGrid.BeginAnimation(HeightProperty, anim);
+                IsEnabled(false);
+                ChangeSortGrid.IsEnabled = true;
+                Sorting.IsEnabled = true;
             }
             else
             {
@@ -105,11 +121,13 @@ namespace MaimApp.Views
                 anim.Duration = TimeSpan.FromSeconds(0.1);
                 ChangeSortGrid.BeginAnimation(HeightProperty, anim);
                 ChangeSortGrid.Visibility = Visibility.Hidden;
+                IsEnabled(true);
             }
         }
 
         public async void ChangeSort_Click(object sender, RoutedEventArgs e)
         {
+            var i = new List<string> { "Близко к центру", "Лучшие оценки", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
             senderSecondSort = senderNowSort;
             senderNowSort = sender;
 
@@ -131,7 +149,7 @@ namespace MaimApp.Views
                 {
                     ChangeListNow.ItemsSource = await viewProduct.SortButtonClick(NowSort, SearchBox.Text.Trim());
                 }
-
+                SortChange.Content = i[NowSort];
                 Country_Click(senderNowSort, senderSecondSort);
             }
         }
@@ -300,7 +318,7 @@ namespace MaimApp.Views
 
         private void BusTickets_Click(object sender, RoutedEventArgs e)
         {
-            Senderar(sender, BusTicketsG);
+            BusTicketsLoaded(sender);
         }
 
         private void Hotels_Click(object sender, RoutedEventArgs e)
@@ -313,13 +331,14 @@ namespace MaimApp.Views
             this.DragMove();
         }
 
-        private void View_Click(object sender, MouseButtonEventArgs e)
+        private async void View_Click(object sender, MouseButtonEventArgs e)
         {
             if (sender != null)
             {
-                var a = ((Grid)sender).DataContext;
+                var a = ((Border)sender).DataContext;
                 var IdProduct = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
-                InProduct product = new InProduct(viewProduct.GetInfoHotel(int.Parse(IdProduct.ToString())));
+                var ProductInf = viewProduct.GetProducts();
+                InProduct product = new InProduct(ProductInf.FirstOrDefault(x => x.ID == (int)IdProduct));
                 product.Show();
                 this.Close();
             }
@@ -353,7 +372,7 @@ namespace MaimApp.Views
             Cubelist.ItemsSource = null;
         }
 
-        private async void SearchSity_TextChanged(object sender, TextChangedEventArgs e)
+        private void SearchSity_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (SearchSity.Text.Trim() == "")
             {
@@ -367,7 +386,7 @@ namespace MaimApp.Views
                 CityInDBSP.Children.Clear();
                 CityInDBSP.Background = (Brush)brushConverter.ConvertFrom("#EDEDED");
 
-                using (var db = new DbA96b40MaimfDB())
+                using (var db = new DbA99dc4MaimfDB())
                 {
                     if (RegionL.Count == 0)
                     {
@@ -450,10 +469,21 @@ namespace MaimApp.Views
         public void LeaveFromButton(object sender, Grid gridName)
         {
             //Идет проверка на то, стоит ли выполнять сворачивание кнопки ?
-            if (((Button)senderNowLeftP).Name + "G" != SecondGrid.Name) //Если нажал два раза на одну и туже кнопку то сработает это <-
+            if (SecondGrid.Name.ElementAt(SecondGrid.Name.Length - 1).ToString() == "e")
             {
-                Leave(sender);
-                SecondGrid.Visibility = Visibility.Hidden;
+                if (((Button)senderNowLeftP).Name + "GFrame" != SecondGrid.Name)
+                {
+                    Leave(sender);
+                    SecondGrid.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                if (((Button)senderNowLeftP).Name + "G" != SecondGrid.Name)
+                {
+                    Leave(sender);
+                    SecondGrid.Visibility = Visibility.Hidden;
+                }
             }
         }
 
@@ -473,12 +503,19 @@ namespace MaimApp.Views
         //Получает Город пользователя по ip
         public void getCityClient()
         {
-            Translator translator = new Translator();
+            try
+            {
+                Translator translator = new Translator();
 
-            var ip = viewProduct.GetUserCountryByIp();
-            var City = translator.Translate(ip.City.Trim());
-            UserCity.Content = $"г.{City}";
-            CityL.Content = $"Ваш город : {City}";
+                var ip = viewProduct.GetUserCountryByIp();
+                var City = translator.Translate(ip.City?.Trim());
+                UserCity.Content = $"г.{City}";
+                CityL.Content = $"Ваш город : {City}";
+            }
+            catch
+            {
+                MessageBox.Show("Программе не удалось установить ваш город подключения", "Ошибка");
+            }
         }
 
         //Метод загрузки товаров
@@ -500,6 +537,7 @@ namespace MaimApp.Views
         //Метод для заполнения кнопками Грид ChangeSort
         public void Sortierung()
         {
+
             var i = new List<string> { "Близко к центру", "Лучшие оценки", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
             var count = 0;
             foreach (var item in i)
@@ -522,7 +560,7 @@ namespace MaimApp.Views
         //Метод для заполнения кнопками Грид ChangeSity
         private void ChangeCounty()
         {
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 foreach (var County in db.Counties)
                 {
@@ -572,10 +610,11 @@ namespace MaimApp.Views
             }
         }
 
+
         //Выводит все регионы в зависимости от выбранной области
         private void LoadRegion(object sender)
         {
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 foreach (var Region in db.Regions.Where(x => x.CountyId == int.Parse(string.Join("", ((Button)sender).Name.Where(c => char.IsDigit(c))))))
                 {
@@ -602,52 +641,20 @@ namespace MaimApp.Views
         public void NumberStroke()
         {
             StrokeNumber.Children.Clear();
-            int? nowNumber = 0;
-            int count = viewProduct.NowPage;
-            if (viewProduct.NowPage == 1)//Проверяется, только ли мы открыли программу или нет
+
+            int count, nowNumber;
+
+            if (viewProduct.NowPage <= 4 || viewProduct.NowPage == 1)
             {
-                if (viewProduct.CountLine < viewProduct.NowPage + 8)
-                {
-                    nowNumber = viewProduct.CountLine;
-                }
-                else
-                {
-                    nowNumber = viewProduct.NowPage + 8;
-                }
-            }
-            else if (viewProduct.NowPage >= 5)
-            {
-                count = viewProduct.NowPage - 4;
-                nowNumber = count + 8;
-                if (viewProduct.CountLine <= viewProduct.NowPage + 8)
-                {
-                    if (viewProduct.NowPage + 4 < viewProduct.CountLine)
-                    {
-                        count = viewProduct.NowPage - 4;
-                        nowNumber = viewProduct.NowPage + 4;
-                    }
-                    else
-                    {
-                        nowNumber = viewProduct.CountLine;
-                        count = viewProduct.CountLine - 8;
-                    }
-                }
+                count = 1;
+                nowNumber = 9 <= viewProduct.CountLine ? 9 : viewProduct.CountLine;
             }
             else
             {
-                if (viewProduct.NowPage <= 4)
-                {
-                    count = 1;
-                    if (viewProduct.NowPage + 8 > viewProduct.CountLine)
-                    {
-                        nowNumber = viewProduct.CountLine;
-                    }
-                    else
-                    {
-                        nowNumber = count + 8;
-                    }
-                }
+                count = viewProduct.NowPage - 4;
+                nowNumber = viewProduct.CountLine <= viewProduct.NowPage + 8 ? viewProduct.CountLine : viewProduct.NowPage + 4;
             }
+
             while (count <= nowNumber)
             {
                 Button button = new Button
@@ -664,7 +671,7 @@ namespace MaimApp.Views
                 count++;
                 StrokeNumber.Children.Add(button);
             }
-            GC.Collect();
+        GC.Collect();
         }
 
         //Очистка мусора каждые 5 секунд
@@ -749,7 +756,7 @@ namespace MaimApp.Views
 
                     ManagerPersonalAreaFrame.Content = managerPersonalArea;
 
-                    Senderar(sender, ManagerAreaGFrame);
+                    Senderar(sender, PersonalAreaGFrame);
                 }
                 else if (authUser.GetUserRole() == 3)
                 {
@@ -762,15 +769,27 @@ namespace MaimApp.Views
 
                     UserPersonalAreaFrame.Content = userPersonalArea;
 
-                    Senderar(sender, UserAreaGFrame);
+                    Senderar(sender, PersonalAreaGFrame);
                 }
             }
             else
             {
+                this.Hide();
                 Authorization authorization = new Authorization();
-                authorization.Show();
-                this.Close();
+                authorization.ShowDialog();
+                this.Show();
             }
+        }
+
+
+        //Вызывается при нажатии на кнопку Автобусы
+        public void BusTicketsLoaded(object sender)
+        {
+            BusTicketsF busTickets = new BusTicketsF();
+
+            BusTicketsFrame.Content = busTickets;
+
+            Senderar(sender, BusTicketsGFrame);
         }
 
         public async Task FavoriteClick(object sender) // При нажатии кнопки Сердца (добавление в избранное)
@@ -784,7 +803,7 @@ namespace MaimApp.Views
             }
             else
             {
-                NoAuthUserMessageBox boxView = new NoAuthUserMessageBox();
+                NoAuthUserMessageBox boxView = new NoAuthUserMessageBox("Вы не можете добавить в избранное не авторизировавшись");
                 boxView.ShowDialog();
                 if (boxView.DialogResult == false) // Если пользователь вышел из окна подтверждения почты
                 {
@@ -792,31 +811,21 @@ namespace MaimApp.Views
                 }
                 else //Если пользователь захотел авторизироваться
                 {
+                    this.Hide();
                     Authorization authorization = new Authorization();
-                    authorization.Show();
-                    this.Close();
-                }
-            }
-        }
-
-        public void UserFavoriteProduct()
-        {
-            if (authUser.AuthOrNo())
-            {
-                using (var db = new DbA96b40MaimfDB())
-                {
-                    foreach (var i in db.UserFavProducts)
+                    authorization.ShowDialog();
+                    if(authorization.DialogResult == false)
                     {
-                        viewProduct.userFavorite.Add(new UserFavoriteProductC(i.ProductId, i.ProductType)
-                        {
-                            ProductId = i.ProductId,
-                            ProductType = i.ProductType
-                        });
+                        return;
                     }
+                    else
+                    {
+                        await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(IdProduct)));
+                        ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort));
+                    }
+                    this.Show();
                 }
             }
-            else
-                return;
         }
     }
 }

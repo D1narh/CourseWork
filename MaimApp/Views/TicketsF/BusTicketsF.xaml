@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:MaimApp.Views.TicketsF"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="814" Background="#FAF9F9"
-      Title="BusTicketsF" >
+      Title="BusTicketsF" Loaded="Page_Loaded" >
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -34,65 +34,47 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <!--Logo-->
+        <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Column="8" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
         <Label Content="Автобусы:" FontSize="23" FontWeight="Bold" Foreground="Gray" Grid.ColumnSpan="3" Margin="10,10,74,34" Grid.RowSpan="2"/>
-        <Label Content="Вид продуктов:" FontWeight="Bold" FontSize="11" Grid.ColumnSpan="2" Margin="10,11,39,8" Grid.Row="1"/>
 
-        <!--Вид вывода товаров-->
-        <!--По вертикали-->
-        <Border x:Name="VerticalBor" Grid.Column="1" Grid.Row="1" Height="35" Width="34" Margin="72,1.5,0,0" CornerRadius="3" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-            <Button x:Name="VerticalPrB" Background="#B0BDE9" Style="{DynamicResource ChangeButton}" Click="VerticalPrB_Click">
-                <StackPanel Orientation="Vertical" Width="33" Height="34">
-                    <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="1" Margin="0,5,0,0"/>
-                    <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="1" Margin="0,4,0,0"/>
-                    <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="1" Margin="0,4,0,0"/>
-                    <Rectangle Fill="#FAF9F9" Width="26" Height="3" RadiusX="2" RadiusY="1" Margin="0,4,0,0"/>
-                </StackPanel>
-            </Button>
-        </Border>
-        <!--Кубами-->
-        <Border x:Name="CubeBor" Grid.Column="1" Grid.Row="1" Height="35" Width="35" Margin="32,1,0,8" CornerRadius="3" HorizontalAlignment="Left">
-            <Button x:Name="CubePrB" Style="{DynamicResource ChangeButton}" Background="#D9D9D9" Click="CubePrB_Click">
-                <StackPanel Width="35" Height="35">
-                    <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="-16,2.5,0,0"/>
-                    <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="-16,2,0,0"/>
-                    <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="16,-46,0,0"/>
-                    <Rectangle Fill="#FAF9F9" Width="14" Height="14" RadiusX="2" RadiusY="3" Margin="16,-14,0,0"/>
-                </StackPanel>
-            </Button>
-        </Border>
+        <Label Content="Отправление" Grid.Row="2" Margin="40,-10,0,0" Grid.ColumnSpan="2" Foreground="Gray"/>
+        <Label Content="Прибытие" Grid.Column="3" Grid.Row="2" Margin="20,-10,0,0" Grid.ColumnSpan="2" Foreground="Gray"/>
+        <Label Content="В пути" Grid.Column="4" Grid.Row="2" Margin="33,-10,0,0" Grid.ColumnSpan="2" Foreground="Gray"/>
+        <Label Content="Перевозчик" Grid.Column="5" Grid.Row="2" Margin="50,-10,0,0" Grid.ColumnSpan="2" Foreground="Gray"/>
+        <Label Content="Осталось мест" Grid.Column="7" Grid.Row="2" Margin="-10,-10,0,0" Foreground="Gray"/>
         <!--Список товаров-->
         <!--По вертикали-->
         <ListView x:Name="list" Visibility="Visible" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.ColumnSpan="10" Grid.RowSpan="8" Margin="22,10,51,40">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ContentControl>
-                        <Border x:Name="VerticalProd" Width ="701" Height="125" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6">
-                            <Grid x:Name="VerticalGr" MouseDown="View_Click">
+                        <Border x:Name="VerticalProd" Width ="701" Height="110" Background="#FFFFFF" BorderBrush="Black" CornerRadius="6,6,6,6" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" MouseDown="View_Click">
+                            <Grid x:Name="VerticalGr">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="24"/>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Border CornerRadius="10" Width="170" Height="110" Grid.Column="1" Margin="-20,0,0,0">
-                                    <Border.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
-                                    </Border.Background>
-                                </Border>
                                 <Label x:Name="ID" Content="{Binding ID}" Visibility="Hidden" />
-                                <Label Content="{Binding Name}" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,5,0,0" FontSize="15" FontWeight="Bold"/>
-                                <Label Content="{Binding Description}" Margin="0,25,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="13" />
-                                <Label Content="{Binding ShortDescription}" Margin="0,55,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="13" />
+                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Width="80" Grid.Column="3" Margin="-75,13,0,0" FontSize="15" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding StartCity}" TextWrapping="Wrap" Margin="9,50,0,0" HorizontalAlignment="Left" Grid.Column="0" FontSize="14"/>
+                                <TextBlock Text="{Binding EndCity}" TextWrapping="Wrap" Margin="0,50,5,0" Grid.Column="1" FontSize="14" HorizontalAlignment="Right"/>
                                 <Label Content="{Binding Price}" Grid.Column="4"  Margin="75,40,0,0" FontSize="18" FontWeight="Bold"/>
-                                <!--<Button x:Name="View" Style="{DynamicResource ChangeButton}" Content="Просмотреть" Width="135" Height="32"  FontSize="20" Foreground="#FFFFFF" Grid.Column="4" Margin="20,54,0,0" Background="#B0BDE9" BorderThickness="0" MouseEnter="View_MouseEnter" MouseLeave="View_MouseLeave" Click="View_Click" />-->
-                                <Button x:Name="Favorite" Background="#FFFFFF" Style="{x:Null}" Grid.Column="4" Width="30" Height="30" BorderThickness="0" Margin="130,-80,0,0" Click="Favorite_Click" >
-                                    <StackPanel>
-                                        <Image Source="{Binding IsFavorite}"/>
-                                    </StackPanel>
-                                </Button>
+                                <Label Content="{Binding TravelTime}" Margin="10,16,0,0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="13" />
+                                <Label Content="{Binding NumberSeats}" Margin="-20,15,0,0" Grid.Column="7" FontSize="13" />
+                                <Label Content="{Binding DateStart}" Margin="70,0,0,0" Grid.Column="4" FontSize="13"/>
+                                <Label Content="{Binding TimeStart}" Margin="5,10,0,0" Grid.Column="0" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left"/>
+                                <Label Content="{Binding TimeEnd}" Margin="0,10,0,0" Grid.Column="1" FontSize="20" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                <!--Точки отправления-->
+                                <Border BorderThickness="4" BorderBrush="#B0BDE9" Width="11" Height="11" CornerRadius="80" Opacity="0.9" Margin="20,-52,0,0">
+                                    <Ellipse Fill="#B0BDE9" Opacity="0.0"/>
+                                </Border>
+                                <Line X1="90" Y1="29" X2="200" Y2="29" Stroke="#B0BDE9" Grid.Column="0" Grid.ColumnSpan="2" StrokeDashArray="4 2"/>
+                                <Ellipse Fill="#B0BDE9" Width="14" Height="14" Opacity="0.9" Margin="0,-51.5,0,0" Grid.Column="1"/>
                             </Grid>
                         </Border>
                     </ContentControl>
@@ -101,63 +83,16 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0,5,0,0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <!--Кубами-->
-        <ListView x:Name="Cubelist" Visibility="Hidden" BorderThickness="0" VirtualizingPanel.ScrollUnit="Pixel" Background="#F6F6F6" Grid.Row="2" Grid.ColumnSpan="10" Grid.RowSpan="8" Margin="22,10,51,40">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="3"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ContentControl>
-                        <Border Width ="227" Height="290" Background="#FFFFFF" BorderThickness="1" BorderBrush="#B0BDE9" CornerRadius="6,6,6,6">
-                            <Grid x:Name="VerticalGr" MouseDown="View_Click">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="110"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="37"/>
-                                    <RowDefinition Height="85"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Border CornerRadius="10" Width="210" Height="100" Grid.Column="1" Margin="0,4,0,0">
-                                    <Border.Background>
-                                        <ImageBrush Stretch="Fill" ImageSource="{Binding ImagePath}"/>
-                                    </Border.Background>
-                                </Border>
-                                <Label Content="{Binding ID}" Visibility="Hidden" />
-                                <Label Content="{Binding Name}" Grid.Row="1" Margin="5,0,0,0" FontSize="13" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Adress}" TextWrapping="Wrap" Margin="9,0,0,0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="13" />
-                                <Label Content="{Binding DistanceToCenter}" Margin="5,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" FontSize="13" />
-                                <Label Content="{Binding Price}" Grid.Row="4" Margin="5,-15,0,0" FontSize="18" FontWeight="Bold"/>
-                                <Border Margin="-150,10,0,0" Grid.Row="3" Background="White" BorderBrush="#A09D9D" BorderThickness="2" CornerRadius="7" Width="65" Height="30">
-                                    <Label Content="{Binding Reviews}" FontSize="16" HorizontalAlignment="Center" Margin="0,-3,0,0"/>
-                                </Border>
-                                <Button x:Name="xxx" Width="35" Height="35" Style="{DynamicResource SpecialCorner}" Grid.Row="4" Margin="60,-30,0,0">
-                                    <Grid>
-                                        <Image Source="\Image\heart.png" Width="30" Height="30" Margin="1,0,0,0"/>
-                                    </Grid>
-                                </Button>
-                                <Button x:Name="xxx2" Width="35" Height="35" Style="{DynamicResource SpecialCorner}" Grid.Row="4" Margin="150,-30,0,0">
-                                    <Grid>
-                                        <Image Source="\Image\add-to-basket.png" Width="30" Height="30" Margin="1,0,0,0"/>
-                                    </Grid>
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </ContentControl>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="0,5,0,0"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-
         <!--Нумерация страниц-->
         <StackPanel x:Name="StrokeNumber" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="6" Margin="0,10,0,0"/>
     </Grid>

@@ -39,7 +39,7 @@ namespace MaimApp.Views.PersonalArea.ManagerPersonalAreaFrame
 
         private void LoadData()
         {
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 var PersonalData = db.UserPrData.FirstOrDefault(x => x.UserId == UserID);
                 var UserData = db.Users.FirstOrDefault(x => x.Id == UserID);
@@ -77,7 +77,7 @@ namespace MaimApp.Views.PersonalArea.ManagerPersonalAreaFrame
         {
             DialogResult = false;
 
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 db.Approvals
                 .Where(x => x.ApprovalRequestId == ApprovalID)
@@ -90,7 +90,7 @@ namespace MaimApp.Views.PersonalArea.ManagerPersonalAreaFrame
         {
             DialogResult = true;
 
-            using (var db = new DbA96b40MaimfDB())
+            using (var db = new DbA99dc4MaimfDB())
             {
                 db.Approvals
                 .Where(x => x.ApprovalRequestId == ApprovalID)

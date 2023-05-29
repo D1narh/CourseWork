@@ -28,7 +28,6 @@ namespace MaimApp.Views.Treaty
             InitializeComponent();
 
             Hotel = a;
-
         }
 
         private void People_Click(object sender, RoutedEventArgs e)
@@ -97,6 +96,11 @@ namespace MaimApp.Views.Treaty
             }
             CountChild.Content = int.Parse(CountChild.Content.ToString()) -1;
             PeopleCount.Content = "Колличество людей: " + (int.Parse(CountChild.Content.ToString()) + int.Parse(CountOld.Content.ToString())).ToString();
+        }
+
+        private void NextStep_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

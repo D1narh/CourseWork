@@ -18,16 +18,17 @@ using LinqToDB.Mapping;
 namespace DataModels
 {
 	/// <summary>
-	/// Database       : db_a96b40_maimf
-	/// Data Source    : SQL8005.site4now.net
-	/// Server Version : 16.00.1000
+	/// Database       : db_a99dc4_maimf
+	/// Data Source    : SQL6031.site4now.net
+	/// Server Version : 16.00.4035
 	/// </summary>
-	public partial class DbA96b40MaimfDB : LinqToDB.Data.DataConnection
+	public partial class DbA99dc4MaimfDB : LinqToDB.Data.DataConnection
 	{
 		public ITable<Approval>            Approvals            { get { return this.GetTable<Approval>(); } }
 		public ITable<ApprovalRequest>     ApprovalRequests     { get { return this.GetTable<ApprovalRequest>(); } }
 		public ITable<Basket>              Baskets              { get { return this.GetTable<Basket>(); } }
 		public ITable<BasketLine>          BasketLines          { get { return this.GetTable<BasketLine>(); } }
+		public ITable<BusTicket>           BusTickets           { get { return this.GetTable<BusTicket>(); } }
 		public ITable<City>                Cities               { get { return this.GetTable<City>(); } }
 		public ITable<CompanyProduct>      CompanyProducts      { get { return this.GetTable<CompanyProduct>(); } }
 		public ITable<County>              Counties             { get { return this.GetTable<County>(); } }
@@ -46,27 +47,27 @@ namespace DataModels
 		public ITable<UserFavProduct>      UserFavProducts      { get { return this.GetTable<UserFavProduct>(); } }
 		public ITable<UserPrData>          UserPrData           { get { return this.GetTable<UserPrData>(); } }
 
-		public DbA96b40MaimfDB()
+		public DbA99dc4MaimfDB()
 		{
 			InitDataContext();
 			InitMappingSchema();
 		}
 
-		public DbA96b40MaimfDB(string configuration)
+		public DbA99dc4MaimfDB(string configuration)
 			: base(configuration)
 		{
 			InitDataContext();
 			InitMappingSchema();
 		}
 
-		public DbA96b40MaimfDB(LinqToDBConnectionOptions options)
+		public DbA99dc4MaimfDB(LinqToDBConnectionOptions options)
 			: base(options)
 		{
 			InitDataContext();
 			InitMappingSchema();
 		}
 
-		public DbA96b40MaimfDB(LinqToDBConnectionOptions<DbA96b40MaimfDB> options)
+		public DbA99dc4MaimfDB(LinqToDBConnectionOptions<DbA99dc4MaimfDB> options)
 			: base(options)
 		{
 			InitDataContext();
@@ -125,18 +126,17 @@ namespace DataModels
 		[PrimaryKey, Identity   ] public int      Id      { get; set; } // int
 		[Column,        Nullable] public int?     UserId  { get; set; } // int
 		[Column,     NotNull    ] public DateTime DateIns { get; set; } // date
-		[Column,     NotNull    ] public bool     Bought  { get; set; } // bit
 
 		#region Associations
 
 		/// <summary>
-		/// FK__Basket_Li__Baske__1DB06A4F_BackReference (dbo.Basket_Line)
+		/// FK__Basket_Li__Baske__3E1D39E1_BackReference (dbo.Basket_Line)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="BasketId", CanBeNull=true)]
-		public IEnumerable<BasketLine> LiBaske1DB06A4F { get; set; }
+		public IEnumerable<BasketLine> LiBaske3E1D39E { get; set; }
 
 		/// <summary>
-		/// FK__Basket__UserId__18EBB532 (dbo.User)
+		/// FK__Basket__UserId__3C34F16F (dbo.User)
 		/// </summary>
 		[Association(ThisKey="UserId", OtherKey="Id", CanBeNull=true)]
 		public User User { get; set; }
@@ -147,24 +147,56 @@ namespace DataModels
 	[Table(Schema="dbo", Name="Basket_Line")]
 	public partial class BasketLine
 	{
-		[Column, NotNull] public int      BasketId    { get; set; } // int
-		[Column, NotNull] public int      ProductId   { get; set; } // int
-		[Column, NotNull] public int      ProductType { get; set; } // int
-		[Column, NotNull] public DateTime DateIns     { get; set; } // datetime2(7)
+		[Column,    Nullable] public int? BasketId    { get; set; } // int
+		[Column, NotNull    ] public int  ProductId   { get; set; } // int
+		[Column,    Nullable] public int? ProductType { get; set; } // int
+		[Column,    Nullable] public int? Count       { get; set; } // int
 
 		#region Associations
 
 		/// <summary>
-		/// FK__Basket_Li__Baske__1DB06A4F (dbo.Basket)
+		/// FK__Basket_Li__Baske__3E1D39E1 (dbo.Basket)
 		/// </summary>
-		[Association(ThisKey="BasketId", OtherKey="Id", CanBeNull=false)]
+		[Association(ThisKey="BasketId", OtherKey="Id", CanBeNull=true)]
 		public Basket Basket { get; set; }
 
 		/// <summary>
-		/// FK__Basket_Li__Produ__1EA48E88 (dbo.TypeProduct)
+		/// FK__Basket_Li__Produ__3F115E1A (dbo.ProductCategory)
 		/// </summary>
-		[Association(ThisKey="ProductType", OtherKey="Id", CanBeNull=false)]
-		public TypeProduct BasketLiProdu1EA48E { get; set; }
+		[Association(ThisKey="ProductType", OtherKey="Id", CanBeNull=true)]
+		public ProductCategory BasketLiProdu3F115E1A { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="Bus_Tickets")]
+	public partial class BusTicket
+	{
+		[PrimaryKey, Identity   ] public int      Id          { get; set; } // int
+		[Column,     NotNull    ] public string   Name        { get; set; } // nvarchar(100)
+		[Column,     NotNull    ] public int      StartCity   { get; set; } // int
+		[Column,     NotNull    ] public int      EndCity     { get; set; } // int
+		[Column,     NotNull    ] public decimal  Price       { get; set; } // decimal(18, 0)
+		[Column,     NotNull    ] public int      TravelTime  { get; set; } // int
+		[Column,     NotNull    ] public int      NumberSeats { get; set; } // int
+		[Column,     NotNull    ] public string   BusImage    { get; set; } // nvarchar(2000)
+		[Column,     NotNull    ] public DateTime DateStart   { get; set; } // datetime2(7)
+		[Column,        Nullable] public string   StartAdress { get; set; } // nvarchar(100)
+		[Column,        Nullable] public string   EndAdress   { get; set; } // nvarchar(100)
+
+		#region Associations
+
+		/// <summary>
+		/// FK__Bus_Ticke__EndCi__2DE6D218 (dbo.City)
+		/// </summary>
+		[Association(ThisKey="EndCity", OtherKey="Id", CanBeNull=false)]
+		public City BusTickeEndCi2DE6D { get; set; }
+
+		/// <summary>
+		/// FK__Bus_Ticke__Start__2CF2ADDF (dbo.City)
+		/// </summary>
+		[Association(ThisKey="StartCity", OtherKey="Id", CanBeNull=false)]
+		public City BusTickeStart2CF2ADDF { get; set; }
 
 		#endregion
 	}
@@ -178,6 +210,18 @@ namespace DataModels
 		[Column,        Nullable] public string Link     { get; set; } // nvarchar(2000)
 
 		#region Associations
+
+		/// <summary>
+		/// FK__Bus_Ticke__EndCi__2DE6D218_BackReference (dbo.Bus_Tickets)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="EndCity", CanBeNull=true)]
+		public IEnumerable<BusTicket> BusTickeEndCi2DE6D { get; set; }
+
+		/// <summary>
+		/// FK__Bus_Ticke__Start__2CF2ADDF_BackReference (dbo.Bus_Tickets)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="StartCity", CanBeNull=true)]
+		public IEnumerable<BusTicket> BusTickeStart2CF2Addfs { get; set; }
 
 		/// <summary>
 		/// FK__Hotel_Pro__CityI__1AD3FDA4_BackReference (dbo.Hotel_Product)
@@ -308,6 +352,12 @@ namespace DataModels
 		[Column,     NotNull ] public string Name { get; set; } // nvarchar(45)
 
 		#region Associations
+
+		/// <summary>
+		/// FK__Basket_Li__Produ__3F115E1A_BackReference (dbo.Basket_Line)
+		/// </summary>
+		[Association(ThisKey="Id", OtherKey="ProductType", CanBeNull=true)]
+		public IEnumerable<BasketLine> BasketLiProdu3F115E1A { get; set; }
 
 		/// <summary>
 		/// FK__Product__Categor__412EB0B6_BackReference (dbo.Company_Product)
@@ -451,12 +501,6 @@ namespace DataModels
 		#region Associations
 
 		/// <summary>
-		/// FK__Basket_Li__Produ__1EA48E88_BackReference (dbo.Basket_Line)
-		/// </summary>
-		[Association(ThisKey="Id", OtherKey="ProductType", CanBeNull=true)]
-		public IEnumerable<BasketLine> BasketLiProdu1EA48E { get; set; }
-
-		/// <summary>
 		/// FK__UserFavPr__Produ__2180FB33_BackReference (dbo.UserFavProduct)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="ProductType", CanBeNull=true)]
@@ -485,10 +529,10 @@ namespace DataModels
 		public IEnumerable<ApprovalRequest> ApprovalUserI5AEE82B { get; set; }
 
 		/// <summary>
-		/// FK__Basket__UserId__18EBB532_BackReference (dbo.Basket)
+		/// FK__Basket__UserId__3C34F16F_BackReference (dbo.Basket)
 		/// </summary>
 		[Association(ThisKey="Id", OtherKey="UserId", CanBeNull=true)]
-		public IEnumerable<Basket> BasketUserId18Ebbs { get; set; }
+		public IEnumerable<Basket> BasketUserId3C34F16F { get; set; }
 
 		/// <summary>
 		/// FK__ProductCo__UserI__440B1D61_BackReference (dbo.ProductComment)
@@ -593,6 +637,12 @@ namespace DataModels
 		}
 
 		public static Basket Find(this ITable<Basket> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static BusTicket Find(this ITable<BusTicket> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);

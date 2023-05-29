@@ -1,4 +1,5 @@
 ﻿using DataModels;
+using MaimApp.Class.MainProductC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace MaimApp.Class.User
 {
     public class AuthUser
     {
-        public static int UserId { get; set; }
+        public static int? UserId { get; set; }
         public static string Login { get; set; }
         public static string Password { get; set; }
         public static string Name { get; set; }
         public static string LastName { get; set; }
         public static string SurName { get; set; }
-        public static int UserRoleID { get; set; }
+        public static int? UserRoleID { get; set; }
         public static string Email { get; set; }
         public static string Status { get; set; }
 
@@ -34,7 +35,7 @@ namespace MaimApp.Class.User
             }
             else
             {
-                using (var db = new DbA96b40MaimfDB())
+                using (var db = new DbA99dc4MaimfDB())
                 {
                     var result = db.Users.FirstOrDefault(x => x.Login == Login && x.Password == Password);
                     int? idstatus = result?.Status;
@@ -49,6 +50,7 @@ namespace MaimApp.Class.User
                         UserRoleID = result.RoleId ?? 1;
                         UserId = result.Id;
                         Status = status.Name.ToString();
+                        FavoriteProduct();
                         return true;
                     }
                     else
@@ -57,6 +59,28 @@ namespace MaimApp.Class.User
                     }
                 }
             }
+        }
+
+        async void FavoriteProduct()
+        {
+            ViewProduct product = new ViewProduct();
+            await product.GetAllFavorite();
+        }
+
+        public bool ExitAcc()
+        {
+            UserId = null;
+            Status = null;
+            Login= null;
+            Password= null;
+            Name= null;
+            LastName= null;
+            SurName= null;
+            Email = null;
+            Status= null;
+            UserRoleID= null;
+
+            return true;
         }
 
         public int? GetUserRole()

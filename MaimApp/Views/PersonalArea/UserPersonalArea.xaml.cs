@@ -20,9 +20,6 @@ namespace MaimApp.Views.PersonalArea
         static Grid SecondGrid;
         static object senderNowLeftP, senderSecondLeftP;
 
-
-
-
         public UserPersonalArea()
         {
             InitializeComponent();
@@ -36,15 +33,6 @@ namespace MaimApp.Views.PersonalArea
         private void LeftPMouseLeave(object sender, MouseEventArgs e)
         {
             LeaveFromButton(sender);
-        }
-
-        private void Consideration_Click(object sender, RoutedEventArgs e)
-        {
-            Consideration consideration = new Consideration();
-
-            ConsiderationFrame.Content = consideration;
-
-            Senderar(sender, ConsiderationGFrame);
         }
 
         private void UnderConsideration_Click(object sender, RoutedEventArgs e)
@@ -127,6 +115,11 @@ namespace MaimApp.Views.PersonalArea
         {
             UpdateData updateData = new UpdateData();
             updateData.ShowDialog();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         public void FillFIO()

@@ -238,16 +238,20 @@
     <Compile Include="Class\Approval\ApprovalRequest.cs" />
     <Compile Include="Class\BusTicketsC\Tickets.cs" />
     <Compile Include="Class\BusTicketsC\TicketsLoader.cs" />
+    <Compile Include="Class\Favorite\Favorite.cs" />
+    <Compile Include="Class\Favorite\FindFavorite.cs" />
     <Compile Include="Class\IpInfo.cs" />
     <Compile Include="Class\MainProductC\ViewProduct.cs" />
+    <Compile Include="Class\MyOrderC\MyOrder.cs" />
+    <Compile Include="Class\MyOrderC\OrderLoader.cs" />
     <Compile Include="Class\RegistrC\MessageSend.cs" />
     <Compile Include="Class\Translator\Translator.cs" />
     <Compile Include="Class\User\UserFavoriteProductC.cs" />
     <Compile Include="Class\User\AuthUser.cs" />
-    <Compile Include="DataModels\MaimDB1.generated.cs">
+    <Compile Include="DataModels\KoliDB1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MaimDB.tt</DependentUpon>
+      <DependentUpon>KoliDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Parser\BLL\Formatter.cs" />
     <Compile Include="Parser\Class\HotelInf.cs" />
@@ -288,9 +292,6 @@
     <Compile Include="Views\PersonalArea\UserPersonalArea.xaml.cs">
       <DependentUpon>UserPersonalArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PersonalArea\UserPersonalAreaFrame\Consideration.xaml.cs">
-      <DependentUpon>Consideration.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PersonalArea\UserPersonalAreaFrame\MyOrder.xaml.cs">
       <DependentUpon>MyOrder.xaml</DependentUpon>
     </Compile>
@@ -303,17 +304,14 @@
     <Compile Include="Views\TicketsF\BusTicketsF.xaml.cs">
       <DependentUpon>BusTicketsF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Treaty\HotelSelection.xaml.cs">
-      <DependentUpon>HotelSelection.xaml</DependentUpon>
+    <Compile Include="Views\Treaty\Bus_Tickets\TicketBooking.xaml.cs">
+      <DependentUpon>TicketBooking.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Treaty\Paperwork.xaml.cs">
+    <Compile Include="Views\Treaty\Hotel\Paperwork.xaml.cs">
       <DependentUpon>Paperwork.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Treaty\SettingNumPeople.xaml.cs">
+    <Compile Include="Views\Treaty\Hotel\SettingNumPeople.xaml.cs">
       <DependentUpon>SettingNumPeople.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Treaty\ViewHotel.xaml.cs">
-      <DependentUpon>ViewHotel.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow\MainProduct.xaml">
       <SubType>Designer</SubType>
@@ -355,10 +353,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PersonalArea\UserPersonalAreaFrame\Consideration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\PersonalArea\UserPersonalAreaFrame\MyOrder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -375,19 +369,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Treaty\HotelSelection.xaml">
+    <Page Include="Views\Treaty\Bus_Tickets\TicketBooking.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Treaty\Paperwork.xaml">
+    <Page Include="Views\Treaty\Hotel\Paperwork.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Treaty\SettingNumPeople.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Treaty\ViewHotel.xaml">
+    <Page Include="Views\Treaty\Hotel\SettingNumPeople.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -469,15 +459,12 @@
   <ItemGroup>
     <Folder Include="Fonts\" />
     <Folder Include="Views\AdventuresF\" />
+    <Folder Include="Views\Treaty\Adventures\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="LinqToDB.Templates\CopyMe.SqlServer.tt.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataModels\MaimDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MaimDB1.generated.cs</LastGenOutput>
-    </Content>
     <Resource Include="Image\LoginImg.jpg" />
     <Resource Include="Image\add-to-basket.png" />
     <Resource Include="Image\heart.png" />
@@ -500,6 +487,13 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataModels\KoliDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KoliDB1.generated.cs</LastGenOutput>
+    </Content>
+    <Resource Include="Image\Exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
