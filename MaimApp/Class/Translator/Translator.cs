@@ -10,7 +10,7 @@ namespace MaimApp.Class.Translator
 {
     public class Translator
     {
-        public String Translate(String word)
+        public string Translate(String word)
         {
             var toLanguage = "ru";//Russian
             var fromLanguage = "en";//English

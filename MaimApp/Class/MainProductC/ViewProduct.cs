@@ -4,8 +4,6 @@ using MaimApp.BLL;
 using MaimApp.Class.Favorite;
 using MaimApp.Class.User;
 using MaimApp.Parser.Class;
-using MaimApp.Parser.Models;
-using MaimApp.Views.Product;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,24 +11,21 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Web.ModelBinding;
-using System.Web.UI.WebControls;
 using System.Windows;
-using System.Windows.Media;
 
 namespace MaimApp.Class.MainProductC
 {
     public class ViewProduct
     {
-        static ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
-        private readonly Formatter _formatter = new Formatter();
         public int NowPage { get; set; } = 1;
         public int CountLine { get; set; } = 0;
+
+        static ObservableCollection<HotelInf> Products = new ObservableCollection<HotelInf>();
+        private readonly Formatter _formatter = new Formatter();
         public static List<HotelInf> result;
         public static List<UserFavoriteProductC> favorite;
+        static IpInfo ipInfo = new IpInfo();
 
         public async Task<ObservableCollection<HotelInf>> Load40Product(int sort, string searchText = "")
         {
@@ -38,12 +33,17 @@ namespace MaimApp.Class.MainProductC
             {
                 Products.Clear();
             });
-            if (result == null)
+
+            if (result == null || result[1].City != ipInfo.GetCity())
             {
                 await GetAllSite(sort);
             }
+            var filteredResults = result;
 
-            var filteredResults = result.Where(x => x.Name.Contains(searchText)).ToList();
+            if(searchText != "")
+            {
+                filteredResults = result.Where(x => x.Name.Contains(searchText)).ToList();
+            }
             CountLine = filteredResults.Count / 21;
 
             if (NowPage > CountLine)
@@ -62,29 +62,33 @@ namespace MaimApp.Class.MainProductC
             while (count < lastQuantity)
             {
                 var item = filteredResults[count];
-
                 var isFavorite = "\\Image\\heart-shape.png";
+
                 if (favorite != null && favorite.FirstOrDefault(x => x.ProductId == item.ID && x.ProductType == 1) != null)
                 {
                     isFavorite = "\\Image\\heart.png";
                 }
-                Application.Current.Dispatcher.Invoke(() =>
+
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    Products.Add(new HotelInf(item.ID, item.Name, item.Adress, item.DistanceToCenter, item.ImagePath, item.Price, isFavorite, item.Reviews, item.Images, item.CountStars, item.Breakefast));
+                    Products.Add(new HotelInf(item.ID, item.Name, item.Adress, item.DistanceToCenter, item.ImagePath, item.Price, isFavorite, item.Reviews, item.Images, item.CountStars, item.Breakefast, item.City));
                 });
+
                 count++;
             }
+
             return Products;
         }
 
-        public async Task<List<HotelInf>> GetAllSite(int sort)
+        public async Task GetAllSite(int sort)
         {
-            result = await _formatter.GetAddressesFromUrl(
-                 "https://101hotels.com/api/hotel/search?r=0.1345066605085845&params=%7B%22city_ids%22%3A%5B2%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D", sort);
-            //"https://101hotels.com/api/hotel/search?r=0.5406233108723135&params=%7B%22city_ids%22%3A%5B75%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D" Астрахань id=75
-            //"https://101hotels.com/api/hotel/search?r=0.8865264677573255&params=%7B%22city_ids%22%3A%5B2%5D%2C%22hotel_ids%22%3A%5B%5D%2C%22destination%22%3A%7B%7D%7D" Москва
+            result = await _formatter.GetAddressesFromUrl(ipInfo.GetCity(), sort);
             CountLine = result.Count / 21;
-            return result;
+        }
+
+        public ObservableCollection<HotelInf> GetProducts()
+        {
+            return Products;
         }
 
         public async Task<List<UserFavoriteProductC>> GetAllFavorite()
@@ -94,14 +98,9 @@ namespace MaimApp.Class.MainProductC
 
             return favorite;
         }
-        public ObservableCollection<HotelInf> GetProducts()
-        {
-            return Products;
-        }
 
         public IpInfo GetUserCountryByIp()
         {
-            IpInfo ipInfo = new IpInfo();
             try
             {
                 string info = new WebClient().DownloadString("http://ipinfo.io");
@@ -115,11 +114,10 @@ namespace MaimApp.Class.MainProductC
             }
             return ipInfo;
         }
-
-        public async Task<ObservableCollection<HotelInf>> SortButtonClick(int sort, string SearchText = "")
+        public async Task<ObservableCollection<HotelInf>> SortButtonClick(int sort, string searchText = "")
         {
             await GetAllSite(sort);
-            return await Load40Product(sort, SearchText);
+            return await Load40Product(sort, searchText);
         }
 
         public HotelInf GetInfoHotel(int id)

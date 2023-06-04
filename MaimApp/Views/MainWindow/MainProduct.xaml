@@ -334,8 +334,9 @@
                          Stroke="Gray"  
                          StrokeThickness="2" />
                         <Label Content="Город" Grid.Column="2" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="10,0,0,0"/>
-
-                        <StackPanel Visibility="Hidden" x:Name="CityInDBSP" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="Transparent"/>
+                        <ScrollViewer  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="Transparent">
+                            <StackPanel Visibility="Visible" VirtualizingPanel.ScrollUnit="Pixel" x:Name="CityInDBSP"/>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
             </Grid>

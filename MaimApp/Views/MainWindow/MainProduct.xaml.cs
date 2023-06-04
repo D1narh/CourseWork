@@ -4,6 +4,7 @@ using MaimApp.Class;
 using MaimApp.Class.MainProductC;
 using MaimApp.Class.Translator;
 using MaimApp.Class.User;
+using MaimApp.Parser.Models;
 using MaimApp.Views.MainWindow;
 using MaimApp.Views.MessageView;
 using MaimApp.Views.PersonalArea;
@@ -34,7 +35,7 @@ namespace MaimApp.Views
         private static BrushConverter brushConverter = new BrushConverter();
         static int NowSort = 0;
         private static ListView ChangeListNow;
-        List<string> RegionL = new List<string>();
+        List<string> CitysL = new List<string>();
         ViewProduct viewProduct = new ViewProduct();
         AuthUser authUser = new AuthUser();
 
@@ -388,26 +389,34 @@ namespace MaimApp.Views
 
                 using (var db = new DbA99dc4MaimfDB())
                 {
-                    if (RegionL.Count == 0)
+                    if (CitysL.Count == 0)
                     {
-                        foreach (var i in db.Regions)
+                        foreach (var i in db.Cities)
                         {
-                            RegionL.Add(i.Name);
+                            CitysL.Add(i.Name);
                         }
                     }
-                    foreach (var i in RegionL.Where(x => x.Contains($"{((TextBox)sender).Text}")))
+                    foreach (var i in CitysL.Where(x => x.Contains($"{((TextBox)sender).Text}")))
                     {
                         Label label = new Label
                         {
                             Content = i,
-                            // Style = (Style)FindResource("LableMouse")
                         };
                         label.MouseEnter += IsMouseEnter;
                         label.MouseLeave += IsMouseLeave;
+                        label.MouseDown += CityDown;
                         CityInDBSP.Children.Add(label);
                     }
                 }
             }
+        }
+
+        public async void CityDown(object sender, RoutedEventArgs e)
+        {
+            IpInfo ipInfo = new IpInfo();
+            ipInfo.ChangeCity(((Label)sender).Content.ToString());
+
+            await LoadProduct();
         }
 
         private void View_MouseEnter(object sender, MouseEventArgs e)
@@ -506,9 +515,9 @@ namespace MaimApp.Views
             try
             {
                 Translator translator = new Translator();
-
+                 
                 var ip = viewProduct.GetUserCountryByIp();
-                var City = translator.Translate(ip.City?.Trim());
+                var City = translator.Translate(ip.GetCity()?.Trim());
                 UserCity.Content = $"г.{City}";
                 CityL.Content = $"Ваш город : {City}";
             }
@@ -652,7 +661,12 @@ namespace MaimApp.Views
             else
             {
                 count = viewProduct.NowPage - 4;
-                nowNumber = viewProduct.CountLine <= viewProduct.NowPage + 8 ? viewProduct.CountLine : viewProduct.NowPage + 4;
+                nowNumber = viewProduct.CountLine <= viewProduct.NowPage + 4 ? viewProduct.CountLine : viewProduct.NowPage + 4;
+                if(viewProduct.NowPage + 4 > viewProduct.CountLine)
+                {
+                    nowNumber = viewProduct.CountLine;
+                    count = viewProduct.CountLine - 8;
+                }
             }
 
             while (count <= nowNumber)

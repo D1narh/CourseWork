@@ -26,40 +26,47 @@ namespace MaimApp.Views.PersonalArea.UpdateUserData
 
         private void AcceptB_Click(object sender, RoutedEventArgs e) //|| DateIssuedTB.Text.Trim() == "" 
         {
-            DateTime? date = IssuedDateDP.SelectedDate;
-            if (IssuedTB.Text.Trim() == "" || date == null || SeriesTB.Text.Trim() == "" || NumberTB.Text.Trim() == "")
+            if (RadioB.IsChecked.Value == true)
             {
-                MessageBox.Show("Внимание", "Введите паспортные данные чтобы отправить на одобрение");
+                DateTime? date = IssuedDateDP.SelectedDate;
+                if (IssuedTB.Text.Trim() == "" || date == null || SeriesTB.Text.Trim() == "" || NumberTB.Text.Trim() == "")
+                {
+                    MessageBox.Show("Внимание", "Введите паспортные данные чтобы отправить на одобрение");
+                }
+                else
+                {
+                    using (var db = new DbA99dc4MaimfDB())
+                    {
+                        var Data = from u in db.UserPrData
+                                   join ar in db.ApprovalRequests on u.UserId equals ar.UserId
+                                   join a in db.Approvals on ar.Id equals a.ApprovalRequestId
+                                   where a.IsOk == 0 && u.UserId == authUser.GetUserId()
+                                   select u.UserId;
+                        if (Data.Count() >= 1)
+                        {
+                            MessageBox.Show("Вы не можете отправить заяву на одобрение\nКогда у вас уже есть активная заявка ", "Внимание");
+                            return;
+                        }
+
+                        db.Insert(new ApprovalRequest
+                        {
+                            UserId = Convert.ToInt32(authUser.GetUserId()),
+                            Date = DateTime.Now
+                        });
+
+                        var ApprovalRequestID = db.ApprovalRequests.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.UserId == authUser.GetUserId());
+
+                        db.Insert(new Approval
+                        {
+                            ApprovalRequestId = ApprovalRequestID.Result.Id,
+                            IsOk = 0
+                        });
+                    }
+                }
             }
             else
             {
-                using (var db = new DbA99dc4MaimfDB())
-                {
-                    var Data = from u in db.UserPrData
-                               join ar in db.ApprovalRequests on u.UserId equals ar.UserId
-                               join a in db.Approvals on ar.Id equals a.ApprovalRequestId
-                               where a.IsOk == 0 && u.UserId == authUser.GetUserId()
-                               select u.UserId;
-                    if(Data.Count() >= 1)
-                    {
-                        MessageBox.Show("Вы не можете отправить заяву на одобрение\nКогда у вас уже есть активная заявка ","Внимание");
-                        return;
-                    }
-
-                    db.Insert(new ApprovalRequest
-                    {
-                        UserId = Convert.ToInt32(authUser.GetUserId()),
-                        Date = DateTime.Now
-                    });
-
-                    var ApprovalRequestID = db.ApprovalRequests.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.UserId == authUser.GetUserId());
-
-                    db.Insert(new Approval
-                    {
-                        ApprovalRequestId = ApprovalRequestID.Result.Id,
-                        IsOk = 0
-                    });
-                }
+                MessageBox.Show("Вы не можете отправить на одобрение\nНе дав согласие на обработку пер.данных","Внимание");
             }
         }
 

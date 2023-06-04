@@ -7,6 +7,9 @@ using MaimApp.DAL;
 using System;
 using MaimApp.Parser.Class;
 using Catharsis.Commons;
+using MaimApp.Class.Translator;
+using DataModels;
+using System.ComponentModel;
 
 namespace MaimApp.BLL
 {
@@ -22,9 +25,10 @@ namespace MaimApp.BLL
             _cache = result;
         }
 
-        public async Task<List<HotelInf>> GetAddressesFromUrl(string url, int sort)
+        public async Task<List<HotelInf>> GetAddressesFromUrl(string city, int sort)
         {
-            //var i = new List<string> { "Близко к центру", "Лучшие оценки", "Цена: Сначала дешевле", "Цена: Сначала дороже" };
+            var url = URL(city);
+
             var standartImagePath = "\\Image\\heart-shape.png";
             Rootobject result = await GetParsedData(url);
 
@@ -47,10 +51,7 @@ namespace MaimApp.BLL
 
         private async Task<Rootobject> GetParsedData(string url)
         {
-            if (_cache == null)
-            {
-                _cache = await _parser.Parse(url);
-            }
+            _cache = await _parser.Parse(url);
 
             return _cache;
         }
@@ -62,7 +63,7 @@ namespace MaimApp.BLL
             var price = hotel.min_price.ToString();
 
             return new HotelInf(hotel.id, hotel.name, hotel.address, hotel.center_distance.ToString(), hotel.image.path,
-                hotel.min_price.ToString(), standartImagePath, hotel.rating.ToString(), hotel.images,hotel.stars, hotel.breakfast == 1 ? "В отеле можно позавтракать" : "")
+                hotel.min_price.ToString(), standartImagePath, hotel.rating.ToString(), hotel.images, hotel.stars, hotel.breakfast == 1 ? "В отеле можно позавтракать" : "", hotel.city_name)
             {
                 ID = hotel.id,
                 Name = hotel.name,
@@ -75,7 +76,19 @@ namespace MaimApp.BLL
                 Images = hotel.images,
                 CountStars = hotel.stars,
                 Breakefast = hotel.breakfast == 1 ? "В отеле можно позавтракать" : "",
+                City = hotel.city_name,
             };
+        }
+
+
+        public string URL(string city)
+        {
+            Translator translator = new Translator();
+            var transCity = translator.Translate(city);
+            using (var db = new DbA99dc4MaimfDB())
+            {
+                return db.Cities.FirstOrDefault(x => x.Name.Contains(transCity)).Link;
+            }
         }
     }
 }

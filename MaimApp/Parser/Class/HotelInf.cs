@@ -23,9 +23,12 @@ namespace MaimApp.Parser.Class
         public Image1[] Images { get; set; }
         public int CountStars { get; set; }
         public string Breakefast { get; set; }
+        public string City { get; set; }
 
 
-        public HotelInf(int iD, string name, string adress, string distanceToCenter, string imagePath, string price, string isFavorite, string reviews, Image1[] images, int countStars, string breakefast)
+        public HotelInf(int iD, string name, string adress, string distanceToCenter, string imagePath,
+                        string price, string isFavorite, string reviews, Image1[] images, int countStars,
+                        string breakefast,string city)
         {
             ID = iD;
             Name = name;
@@ -40,7 +43,7 @@ namespace MaimApp.Parser.Class
             IdHotelInClass = CountHotel;
             CountStars = countStars;
             Breakefast = breakefast;
-
+            City = city;
         }
     }
 }

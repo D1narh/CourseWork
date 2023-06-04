@@ -265,6 +265,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\PersonalArea\AdminPersonalArea.xaml.cs">
+      <DependentUpon>AdminPersonalArea.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PersonalArea\ManagerPersonalArea.xaml.cs">
       <DependentUpon>ManagerPersonalArea.xaml</DependentUpon>
     </Compile>
@@ -314,6 +317,10 @@
       <DependentUpon>SettingNumPeople.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow\MainProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PersonalArea\AdminPersonalArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -493,6 +500,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>KoliDB1.generated.cs</LastGenOutput>
     </Content>
+    <Resource Include="Image\Avatar.jpg" />
     <Resource Include="Image\Exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

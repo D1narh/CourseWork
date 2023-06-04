@@ -16,7 +16,7 @@ namespace MaimApp.Class
         public string Hostname { get; set; }
 
         [JsonProperty("city")]
-        public string City { get; set; }
+        public static string City { get; set; }
 
         [JsonProperty("region")]
         public string Region { get; set; }
@@ -32,5 +32,14 @@ namespace MaimApp.Class
 
         [JsonProperty("postal")]
         public string Postal { get; set; }
+
+        public string GetCity()
+        {
+            return City;
+        }
+        public void ChangeCity(string NewName)
+        {
+            City = NewName;
+        }
     }
 }
