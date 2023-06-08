@@ -99,8 +99,8 @@ namespace MaimApp.Views
             NumberStroke();
             GarbageClean();
 
-            animation.Visibility= Visibility.Hidden;
-            SearchText.Visibility = Visibility.Hidden;
+            animation.Visibility = Visibility.Hidden;
+            SearchTextL.Visibility = Visibility.Hidden;
         }
 
         private void Sort_Click(object sender, RoutedEventArgs e)
@@ -317,9 +317,11 @@ namespace MaimApp.Views
             Senderar(sender, AdventuresG);
         }
 
-        private void BusTickets_Click(object sender, RoutedEventArgs e)
+        private async void BusTickets_Click(object sender, RoutedEventArgs e)
         {
-            BusTicketsLoaded(sender);
+
+            BusTicketsLoaded();
+            await Senderar(sender, BusTicketsGFrame);
         }
 
         private void Hotels_Click(object sender, RoutedEventArgs e)
@@ -411,10 +413,23 @@ namespace MaimApp.Views
             }
         }
 
-        public async void CityDown(object sender, RoutedEventArgs e)
+        public async void CityDown(object sender, RoutedEventArgs e)//При выборе города из списка
         {
+            DoubleAnimation anim = new DoubleAnimation();
             IpInfo ipInfo = new IpInfo();
             ipInfo.ChangeCity(((Label)sender).Content.ToString());
+
+            //Уберем выпадающий список городов
+            SearchSity.Text = "";
+            anim.To = 0;
+            anim.Duration = TimeSpan.FromSeconds(0.1);
+            ChangeCityGrid.BeginAnimation(HeightProperty, anim);
+            ChangeCityGrid.Visibility = Visibility.Hidden;
+            IsEnabled(true);
+
+            //Поменяем предыдущий город на нынешний
+            UserCity.Content = $"г.{ipInfo.GetCity()}";
+            CityL.Content = $"Ваш город : {ipInfo.GetCity()}";
 
             await LoadProduct();
         }
@@ -438,22 +453,29 @@ namespace MaimApp.Views
 
         //Учтасток кода с логикой =(
 
-
-        //Метод для убирания лишней ширины
-        public void Senderar(object sender, Grid gridName)
+        // Метод для убирания лишней ширины
+        public async Task Senderar(object sender, Grid gridName)
         {
             HelloPanel.Visibility = Visibility.Hidden;
             gridName.Visibility = Visibility.Visible;
 
-            //Запись в глобальные переменные кнопок
+            // Запись в глобальные переменные кнопок
             senderSecondLeftP = senderNowLeftP;
             senderNowLeftP = sender;
 
-            if (senderSecondLeftP != null)//Если жмякнули на другую кнопку, где не было ВЫДВИНУТО
+            if (senderSecondLeftP != null) // Если жмякнули на другую кнопку, где не было ВЫДВИНУТО
             {
-                LeaveFromButton(senderSecondLeftP, gridName);
-            }//Т.к. анимация сворачивания не сработает, у кнопки будет Width = 140
+                await LeaveFromButtonAsync(senderSecondLeftP, gridName); // Асинхронный вызов метода LeaveFromButton
+            } // Т.к. анимация сворачивания не сработает, у кнопки будет Width = 140
+
             SecondGrid = gridName;
+        }
+
+        // Асинхронная версия метода LeaveFromButton
+        public async Task LeaveFromButtonAsync(object sender, Grid gridName)
+        {
+            LeaveFromButton(senderSecondLeftP, gridName);
+            await Task.Delay(0); // Просто для примера, можете выполнить нужные вам асинхронные операции
         }
 
         //Анимация выдвижения с верху в низ
@@ -512,14 +534,23 @@ namespace MaimApp.Views
         //Получает Город пользователя по ip
         public void getCityClient()
         {
+            IpInfo ipInfo = new IpInfo();
             try
             {
-                Translator translator = new Translator();
-                 
-                var ip = viewProduct.GetUserCountryByIp();
-                var City = translator.Translate(ip.GetCity()?.Trim());
-                UserCity.Content = $"г.{City}";
-                CityL.Content = $"Ваш город : {City}";
+                if (ipInfo.GetCity() != null)
+                {
+                    UserCity.Content = $"г.{ipInfo.GetCity()}";
+                    CityL.Content = $"Ваш город : {ipInfo.GetCity()}";
+                }
+                else
+                {
+                    Translator translator = new Translator();
+
+                    var ip = viewProduct.GetUserCountryByIp();
+                    ipInfo.ChangeCity(translator.Translate(ip.GetCity()?.Trim()));
+                    UserCity.Content = $"г.{ipInfo.GetCity()}";
+                    CityL.Content = $"Ваш город : {ipInfo.GetCity()}";
+                }
             }
             catch
             {
@@ -530,7 +561,12 @@ namespace MaimApp.Views
         //Метод загрузки товаров
         public async Task LoadProduct(string SearchText = null)
         {
+            //Очистим все что может быть связано с поиском
             ChangeListNow.ItemsSource = null;
+            animation.Visibility = Visibility.Visible;
+            SearchTextL.Visibility = Visibility.Visible;
+            StrokeNumber.Children.Clear();
+
 
             if (SearchText == null)
             {
@@ -540,6 +576,10 @@ namespace MaimApp.Views
             {
                 ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort, SearchText));
             }
+
+            NumberStroke();
+            animation.Visibility = Visibility.Hidden;
+            SearchTextL.Visibility = Visibility.Hidden;
         }
         //Метод для заполнения каталога
 
@@ -596,7 +636,7 @@ namespace MaimApp.Views
         private async void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             animation.Visibility = Visibility.Hidden;
-            SearchText.Visibility = Visibility.Hidden;
+            SearchTextL.Visibility = Visibility.Hidden;
 
             if (SearchBox.Text.Trim() == "")
             {
@@ -662,7 +702,7 @@ namespace MaimApp.Views
             {
                 count = viewProduct.NowPage - 4;
                 nowNumber = viewProduct.CountLine <= viewProduct.NowPage + 4 ? viewProduct.CountLine : viewProduct.NowPage + 4;
-                if(viewProduct.NowPage + 4 > viewProduct.CountLine)
+                if (viewProduct.NowPage + 4 > viewProduct.CountLine)
                 {
                     nowNumber = viewProduct.CountLine;
                     count = viewProduct.CountLine - 8;
@@ -685,7 +725,7 @@ namespace MaimApp.Views
                 count++;
                 StrokeNumber.Children.Add(button);
             }
-        GC.Collect();
+            GC.Collect();
         }
 
         //Очистка мусора каждые 5 секунд
@@ -757,7 +797,7 @@ namespace MaimApp.Views
         }
 
         //Вызывается при нажатии на кнопку Профиль
-        public void PersonalAreaLoaded(object sender)
+        public async void PersonalAreaLoaded(object sender)
         {
             HelloPanel.Visibility = Visibility.Hidden;
 
@@ -770,7 +810,7 @@ namespace MaimApp.Views
 
                     ManagerPersonalAreaFrame.Content = managerPersonalArea;
 
-                    Senderar(sender, PersonalAreaGFrame);
+                    await Senderar(sender, PersonalAreaGFrame);
                 }
                 else if (authUser.GetUserRole() == 3)
                 {
@@ -783,7 +823,7 @@ namespace MaimApp.Views
 
                     UserPersonalAreaFrame.Content = userPersonalArea;
 
-                    Senderar(sender, PersonalAreaGFrame);
+                    await Senderar(sender, PersonalAreaGFrame);
                 }
             }
             else
@@ -797,13 +837,10 @@ namespace MaimApp.Views
 
 
         //Вызывается при нажатии на кнопку Автобусы
-        public void BusTicketsLoaded(object sender)
+        public async Task BusTicketsLoaded()
         {
             BusTicketsF busTickets = new BusTicketsF();
-
             BusTicketsFrame.Content = busTickets;
-
-            Senderar(sender, BusTicketsGFrame);
         }
 
         public async Task FavoriteClick(object sender) // При нажатии кнопки Сердца (добавление в избранное)
@@ -828,7 +865,7 @@ namespace MaimApp.Views
                     this.Hide();
                     Authorization authorization = new Authorization();
                     authorization.ShowDialog();
-                    if(authorization.DialogResult == false)
+                    if (authorization.DialogResult == false)
                     {
                         return;
                     }

@@ -24,7 +24,7 @@ namespace MaimApp.Views.PersonalArea.UpdateUserData
             InitializeComponent();
         }
 
-        private void AcceptB_Click(object sender, RoutedEventArgs e) //|| DateIssuedTB.Text.Trim() == "" 
+        private void AcceptB_Click(object sender, RoutedEventArgs e)
         {
             if (RadioB.IsChecked.Value == true)
             {

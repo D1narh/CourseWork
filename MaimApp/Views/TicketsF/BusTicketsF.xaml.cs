@@ -22,33 +22,29 @@ namespace MaimApp.Views.TicketsF
     /// </summary>
     public partial class BusTicketsF : Page
     {
-        private static BrushConverter brushConverter = new BrushConverter();
-        AuthUser authUser = new AuthUser();
-        TicketsLoader loader = new TicketsLoader();
+        private static readonly BrushConverter brushConverter = new BrushConverter();
+        private readonly AuthUser authUser = new AuthUser();
+        private readonly TicketsLoader loader = new TicketsLoader();
 
         public BusTicketsF()
         {
             InitializeComponent();
         }
 
-        private async void View_Click(object sender, MouseButtonEventArgs e)
+        private void View_Click(object sender, MouseButtonEventArgs e)
         {
             if (authUser.AuthOrNo())
             {
-                if (sender != null)
+                if (sender is Border clickedBorder)
                 {
-                    var a = ((Border)sender).DataContext;
+                    var a = clickedBorder.DataContext;
                     var IdProduct = int.Parse(TypeDescriptor.GetProperties(a)["ID"].GetValue(a).ToString());
                     TicketBooking tickets = new TicketBooking(loader.GetTicket(IdProduct));
                     tickets.ShowDialog();
 
-                    if(tickets.DialogResult == true)
+                    if (tickets.DialogResult == true)
                     {
-                        await LoadApproval();
-                    }
-                    else
-                    {
-                        return;
+                        LoadApproval();
                     }
                 }
             }
@@ -56,11 +52,8 @@ namespace MaimApp.Views.TicketsF
             {
                 NoAuthUserMessageBox messageBox = new NoAuthUserMessageBox("Вы не можете перейти к покупке без авторизации");
                 messageBox.ShowDialog();
-                if (messageBox.DialogResult == false) // Если пользователь вышел из окна подтверждения почты
-                {
-                    return;
-                }
-                else //Если пользователь захотел авторизироваться
+
+                if (messageBox.DialogResult == true) // Если пользователь захотел авторизироваться
                 {
                     Authorization authorization = new Authorization();
                     authorization.ShowDialog();
@@ -70,24 +63,91 @@ namespace MaimApp.Views.TicketsF
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-           await LoadApproval();
+            await LoadApproval();
+            NumberStroke();
         }
 
         public async Task LoadApproval()
         {
-            list.ItemsSource = await Task.Run(async () => await loader.Load());
+            list.ItemsSource = await loader.Load21Product();
         }
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)
         {
-            ((Border)sender).BorderThickness = new Thickness(1, 1, 1, 1);
-            ((Border)sender).BorderBrush = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            if (sender is Border border)
+            {
+                border.BorderThickness = new Thickness(1, 1, 1, 1);
+                border.BorderBrush = (Brush)brushConverter.ConvertFrom("#B0BDE9");
+            }
         }
 
         private void Border_MouseLeave(object sender, MouseEventArgs e)
         {
-            ((Border)sender).BorderThickness = new Thickness(0, 0, 0, 0);
-            ((Border)sender).BorderBrush = (Brush)brushConverter.ConvertFrom("#E0E0E0");
+            if (sender is Border border)
+            {
+                border.BorderThickness = new Thickness(0, 0, 0, 0);
+                border.BorderBrush = (Brush)brushConverter.ConvertFrom("#E0E0E0");
+            }
+        }
+
+        //Для вывода нумерации товаров
+        public void NumberStroke()
+        {
+            StrokeNumber.Children.Clear();
+
+            int count, nowNumber;
+
+            if (loader.NowPage <= 4 || loader.NowPage == 1)
+            {
+                count = 1;
+                nowNumber = 9 <= loader.CountLine ? 9 : loader.CountLine;
+            }
+            else
+            {
+                count = loader.NowPage - 4;
+                nowNumber = loader.CountLine <= loader.NowPage + 4 ? loader.CountLine : loader.NowPage + 4;
+                if (loader.NowPage + 4 > loader.CountLine)
+                {
+                    nowNumber = loader.CountLine;
+                    count = loader.CountLine - 8;
+                }
+            }
+
+            while (count <= nowNumber)
+            {
+                Button button = new Button
+                {
+                    Name = "Number" + count,
+                    Content = count,
+                    FontSize = 19,
+                    Height = 30,
+                    Width = 30,
+                    Style = (Style)FindResource("CornerButton"),
+                    Margin = new Thickness(5, 2, 0, 0),
+                };
+                button.Click += Button2_Click;
+                count++;
+                StrokeNumber.Children.Add(button);
+            }
+            GC.Collect();
+        }
+
+        public async void Button2_Click(object sender, RoutedEventArgs e)//Используется в методе NumberStroke
+        {
+            if (((Button)sender).Name.ToString() == "Number" + loader.NowPage)
+            {
+                return;
+            }
+            else
+            {
+                loader.NowPage = Convert.ToInt32(((Button)sender).Content.ToString());
+
+                await loader.Load21Product();
+
+                StrokeNumber.Children.Clear();
+                NumberStroke();
+                GC.Collect();
+            }
         }
     }
 }

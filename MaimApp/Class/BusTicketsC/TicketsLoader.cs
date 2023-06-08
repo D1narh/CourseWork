@@ -1,4 +1,6 @@
 ﻿using DataModels;
+using MaimApp.Class.Favorite;
+using MaimApp.Parser.Class;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,17 +8,65 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Tavis.UriTemplates;
 
 namespace MaimApp.Class.BusTickets
 {
     public class TicketsLoader
     {
+        public int NowPage { get; set; } = 1;
+        public int CountLine { get; set; } = 0;
+
         public static ObservableCollection<Tickets> TicketsList = new ObservableCollection<Tickets>();
-        public async Task<ObservableCollection<Tickets>> Load()
+        ObservableCollection<Tickets> First21Tickets = new ObservableCollection<Tickets>();
+
+        public async Task<ObservableCollection<Tickets>> Load21Product()
         {
-            await Application.Current.Dispatcher.InvokeAsync(() =>
+            if (TicketsList.Count == 0)
             {
-                TicketsList.Clear();
+                await Task.Run(() => Load());
+            }
+
+            await Application.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                First21Tickets.Clear();
+            });
+
+            double countLineDouble = (double)TicketsList.Count / 21;
+            CountLine = (int)Math.Ceiling(countLineDouble);
+
+            if (NowPage > CountLine)
+            {
+                NowPage = CountLine + 1;
+            }
+
+            var count = (NowPage - 1) * 21;
+
+            var lastQuantity = NowPage * 21;
+            if (TicketsList.Count < lastQuantity)
+            {
+                lastQuantity = TicketsList.Count;
+            }
+
+            while (count < lastQuantity)
+            {
+                var i = TicketsList[count];
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    First21Tickets.Add(i);
+                });
+
+                count++;
+            }
+
+            return First21Tickets;
+        }
+
+        public void Load()
+        {
+            if (TicketsList.Count == 0)
+            {
                 using (var db = new DbA99dc4MaimfDB())
                 {
                     var data = db.BusTickets.Where(x => x.DateStart >= DateTime.Now && x.NumberSeats > 0).ToList();
@@ -43,8 +93,7 @@ namespace MaimApp.Class.BusTickets
                         });
                     }
                 }
-            });
-            return TicketsList;
+            }
         }
 
         public Tickets GetTicket(int id)

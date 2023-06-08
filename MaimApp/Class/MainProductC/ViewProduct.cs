@@ -34,17 +34,16 @@ namespace MaimApp.Class.MainProductC
                 Products.Clear();
             });
 
-            if (result == null || result[1].City != ipInfo.GetCity())
-            {
-                await GetAllSite(sort);
-            }
+            await GetAllSite(sort);
             var filteredResults = result;
 
-            if(searchText != "")
+            if (searchText != "")
             {
                 filteredResults = result.Where(x => x.Name.Contains(searchText)).ToList();
             }
-            CountLine = filteredResults.Count / 21;
+
+            double countLineDouble = (double)filteredResults.Count / 21;
+            CountLine = (int)Math.Ceiling(countLineDouble);
 
             if (NowPage > CountLine)
             {
@@ -82,7 +81,9 @@ namespace MaimApp.Class.MainProductC
 
         public async Task GetAllSite(int sort)
         {
+
             result = await _formatter.GetAddressesFromUrl(ipInfo.GetCity(), sort);
+
             CountLine = result.Count / 21;
         }
 

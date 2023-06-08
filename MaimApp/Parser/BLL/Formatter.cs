@@ -10,6 +10,8 @@ using Catharsis.Commons;
 using MaimApp.Class.Translator;
 using DataModels;
 using System.ComponentModel;
+using MaimApp.Class;
+using System.Windows;
 
 namespace MaimApp.BLL
 {
@@ -17,20 +19,52 @@ namespace MaimApp.BLL
     {
         private readonly IParser _parser = new MainParser();
 
+        IpInfo ipInfo = new IpInfo();
         private static Rootobject _cache = null;
+        string url;
 
-        public async Task WarmUpCache(string url)
+        public async Task<Rootobject> WarmUpCache(string city)
         {
-            var result = await _parser.Parse(url);
-            _cache = result;
+            if (_cache != null && _cache.response.hotels.Count() > 0)
+            {
+                int i = 0;
+                int maxAttempts;
+                if (_cache.response.hotels.Length < 10)
+                {
+                    maxAttempts = _cache.response.hotels.Length;
+                }
+                else
+                {
+                    maxAttempts = 10;
+                }
+
+                while (i < maxAttempts)
+                {
+                    if (_cache.response.hotels[i].city_name == ipInfo.GetCity())
+                    {
+                        return _cache;
+                    }
+                    i++;
+                }
+            }
+
+            url = URL(city);
+            if (url == "")
+            {
+                MessageBox.Show("У нас нет информации по отелям в вашем городе", "Извините");
+            }
+            else
+            {
+                return _cache = await _parser.Parse(url);
+            }
+            return _cache;
         }
 
         public async Task<List<HotelInf>> GetAddressesFromUrl(string city, int sort)
         {
-            var url = URL(city);
-
             var standartImagePath = "\\Image\\heart-shape.png";
-            Rootobject result = await GetParsedData(url);
+
+            Rootobject result = await WarmUpCache(city);
 
             var hotels = result.response.hotels.Where(x => x.image != null).Select(x => CreateHotelInf(x, standartImagePath)).ToList();
 
@@ -47,13 +81,6 @@ namespace MaimApp.BLL
                 default:
                     return hotels;
             }
-        }
-
-        private async Task<Rootobject> GetParsedData(string url)
-        {
-            _cache = await _parser.Parse(url);
-
-            return _cache;
         }
 
         private HotelInf CreateHotelInf(Hotel hotel, string standartImagePath)
@@ -85,9 +112,18 @@ namespace MaimApp.BLL
         {
             Translator translator = new Translator();
             var transCity = translator.Translate(city);
+            ipInfo.ChangeCity(transCity);
             using (var db = new DbA99dc4MaimfDB())
             {
-                return db.Cities.FirstOrDefault(x => x.Name.Contains(transCity)).Link;
+                var link = db.Cities?.FirstOrDefault(x => x.Name.Contains(transCity))?.Link;
+                if (link != null)
+                {
+                    return link;
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
     }
