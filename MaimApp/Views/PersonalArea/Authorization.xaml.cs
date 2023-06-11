@@ -36,7 +36,9 @@ namespace MaimApp.Views.PersonalArea
             AuthUser authUser = new AuthUser(tb_login.Text, tb_password.Password);
             if (authUser.AuthOrNo())
             {
-                DialogResult = true;
+                MainProduct mainProduct = new MainProduct();
+                mainProduct.Show();
+                this.Close();
             }
             else
             {
@@ -46,17 +48,15 @@ namespace MaimApp.Views.PersonalArea
 
         private void l_exit_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DialogResult = false;
+            MainProduct mainProduct = new MainProduct();
+            mainProduct.Show();
+            this.Close();
         }
 
         private void l_exit_MouseEnter(object sender, MouseEventArgs e)
         {
             SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(137, 131, 255));
             ((Label)sender).Foreground = brush;
-        }
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
         }
 
         private void l_exit_MouseLeave(object sender, MouseEventArgs e)
@@ -65,14 +65,16 @@ namespace MaimApp.Views.PersonalArea
             ((Label)sender).Foreground = brush;
         }
 
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
         private void Registr_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Registration registration = new Registration();
-            registration.ShowDialog();
-            if(registration.DialogResult == false)
-            {
-                this.Close();
-            }
+            registration.Show();
+            this.Close();
         }
     }
 }

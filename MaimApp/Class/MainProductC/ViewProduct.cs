@@ -35,56 +35,70 @@ namespace MaimApp.Class.MainProductC
             });
 
             await GetAllSite(sort);
-            var filteredResults = result;
 
-            if (searchText != "")
+            if (result == null)
             {
-                filteredResults = result.Where(x => x.Name.Contains(searchText)).ToList();
+                return null;
             }
-
-            double countLineDouble = (double)filteredResults.Count / 21;
-            CountLine = (int)Math.Ceiling(countLineDouble);
-
-            if (NowPage > CountLine)
+            else
             {
-                NowPage = CountLine + 1;
-            }
+                var filteredResults = result;
 
-            var count = (NowPage - 1) * 21;
-
-            var lastQuantity = NowPage * 21;
-            if (filteredResults.Count < lastQuantity)
-            {
-                lastQuantity = filteredResults.Count;
-            }
-
-            while (count < lastQuantity)
-            {
-                var item = filteredResults[count];
-                var isFavorite = "\\Image\\heart-shape.png";
-
-                if (favorite != null && favorite.FirstOrDefault(x => x.ProductId == item.ID && x.ProductType == 1) != null)
+                if (searchText != "")
                 {
-                    isFavorite = "\\Image\\heart.png";
+                    filteredResults = result.Where(x => x.Name.Contains(searchText)).ToList();
                 }
 
-                await Application.Current.Dispatcher.InvokeAsync(() =>
+                double countLineDouble = (double)filteredResults.Count / 21;
+                CountLine = (int)Math.Ceiling(countLineDouble);
+
+                if (NowPage > CountLine)
                 {
-                    Products.Add(new HotelInf(item.ID, item.Name, item.Adress, item.DistanceToCenter, item.ImagePath, item.Price, isFavorite, item.Reviews, item.Images, item.CountStars, item.Breakefast, item.City));
-                });
+                    NowPage = CountLine + 1;
+                }
 
-                count++;
+                var count = (NowPage - 1) * 21;
+
+                var lastQuantity = NowPage * 21;
+                if (filteredResults.Count < lastQuantity)
+                {
+                    lastQuantity = filteredResults.Count;
+                }
+
+                while (count < lastQuantity)
+                {
+                    var item = filteredResults[count];
+                    var isFavorite = "\\Image\\heart-shape.png";
+
+                    if (favorite != null && favorite.FirstOrDefault(x => x.ProductId == item.ID && x.ProductType == 1) != null)
+                    {
+                        isFavorite = "\\Image\\heart.png";
+                    }
+
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        Products.Add(new HotelInf(item.ID, item.Name, item.Adress, item.DistanceToCenter, item.ImagePath, item.Price, isFavorite, item.Reviews, item.Images, item.CountStars, item.Breakefast, item.City));
+                    });
+
+                    count++;
+                }
+
+                return Products;
             }
-
-            return Products;
         }
 
         public async Task GetAllSite(int sort)
         {
 
             result = await _formatter.GetAddressesFromUrl(ipInfo.GetCity(), sort);
-
-            CountLine = result.Count / 21;
+            if (result == null)
+            {
+                CountLine = 0;
+            }
+            else
+            {
+                CountLine = result.Count / 21;
+            }
         }
 
         public ObservableCollection<HotelInf> GetProducts()

@@ -10,8 +10,7 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
-        Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown">
-    
+        Background="Transparent">
     <Border Width ="600" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
         <Grid>
 
@@ -116,6 +115,7 @@
             <Button x:Name="btn_register"
             Style="{StaticResource MaterialDesignFlatMidBgButton}"
             FontSize="15px"
+            ToolTip="Resource name: MaterialDesignFlatMidButton"
             Content="Зарегистрироваться" Height="50" Background="#B0BDE9" BorderBrush="{x:Null}" Foreground="#DDFFFFFF" Margin="50,288,50,62" Grid.ColumnSpan="2" Click="btn_register_Click" />
         </Grid>
     </Border>

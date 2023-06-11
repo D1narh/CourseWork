@@ -65,21 +65,27 @@ namespace MaimApp.BLL
             var standartImagePath = "\\Image\\heart-shape.png";
 
             Rootobject result = await WarmUpCache(city);
-
-            var hotels = result.response.hotels.Where(x => x.image != null).Select(x => CreateHotelInf(x, standartImagePath)).ToList();
-
-            switch (sort)
+            if (result == null)
             {
-                case 0:
-                    return hotels.OrderBy(x => x.DistanceToCenter).ToList();
-                case 1:
-                    return hotels.OrderByDescending(x => x.Reviews.Remove(x.Reviews.Length - 3)).ToList();
-                case 2:
-                    return hotels.OrderBy(x => x.Price).ToList();
-                case 3:
-                    return hotels.OrderByDescending(x => x.Price.ToDouble()).ToList();
-                default:
-                    return hotels;
+                return null;
+            }
+            else
+            {
+                var hotels = result.response.hotels.Where(x => x.image != null).Select(x => CreateHotelInf(x, standartImagePath)).ToList();
+
+                switch (sort)
+                {
+                    case 0:
+                        return hotels.OrderBy(x => x.DistanceToCenter).ToList();
+                    case 1:
+                        return hotels.OrderByDescending(x => x.Reviews.Remove(x.Reviews.Length - 3)).ToList();
+                    case 2:
+                        return hotels.OrderBy(x => x.Price).ToList();
+                    case 3:
+                        return hotels.OrderByDescending(x => x.Price.ToDouble()).ToList();
+                    default:
+                        return hotels;
+                }
             }
         }
 

@@ -35,7 +35,7 @@ namespace MaimApp.Parser.Class
             Adress = adress;
             DistanceToCenter = distanceToCenter;
             ImagePath = imagePath;
-            Price = price;
+            Price = price + "₽";
             IsFavorite = isFavorite;
             Reviews = reviews;
             Images = images;

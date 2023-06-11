@@ -258,6 +258,9 @@
     <Compile Include="Parser\DAL\MainParser.cs" />
     <Compile Include="Parser\Interfaces\IParser.cs" />
     <Compile Include="Parser\Models\CopyJSON.cs" />
+    <Compile Include="Views\AdventuresF\Adventures.xaml.cs">
+      <DependentUpon>Adventures.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow\MainProduct.xaml.cs">
       <DependentUpon>MainProduct.xaml</DependentUpon>
     </Compile>
@@ -316,6 +319,10 @@
     <Compile Include="Views\Treaty\Hotel\SettingNumPeople.xaml.cs">
       <DependentUpon>SettingNumPeople.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AdventuresF\Adventures.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow\MainProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -465,7 +472,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fonts\" />
-    <Folder Include="Views\AdventuresF\" />
     <Folder Include="Views\Treaty\Adventures\" />
   </ItemGroup>
   <ItemGroup>

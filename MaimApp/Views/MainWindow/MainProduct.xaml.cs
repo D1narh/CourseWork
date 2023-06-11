@@ -151,7 +151,7 @@ namespace MaimApp.Views
                     ChangeListNow.ItemsSource = await viewProduct.SortButtonClick(NowSort, SearchBox.Text.Trim());
                 }
                 SortChange.Content = i[NowSort];
-                Country_Click(senderNowSort, senderSecondSort);
+                ChangeCity_Click(senderNowSort, senderSecondSort);
             }
         }
 
@@ -167,7 +167,7 @@ namespace MaimApp.Views
             }
             else
             {
-                Country_Click(senderNowCou, senderSecondCou);
+                ChangeCity_Click(senderNowCou, senderSecondCou);
 
                 //Загружает регионы данной области 
                 RegionSP.Children.Clear();
@@ -187,7 +187,11 @@ namespace MaimApp.Views
             }
             else
             {
-                Country_Click(senderNowReg, senderSecondReg);
+                ChangeCity_Click(senderNowReg, senderSecondReg);
+
+                //Загружает города данной области 
+                CitySP.Children.Clear();
+                LoadCity(sender);
             }
         }
 
@@ -204,11 +208,8 @@ namespace MaimApp.Views
             }
             else
             {
-                Country_Click(senderNowCou, senderSecondCou);
+                ChangeCity_Click(senderNowCou, senderSecondCou);
 
-                //Загружает регионы данной области 
-                RegionSP.Children.Clear();
-                LoadRegion(sender);
             }
         }
 
@@ -279,6 +280,7 @@ namespace MaimApp.Views
                 IsEnabled(false);
                 ChangeCityGrid.IsEnabled = true;
                 SearchCity.IsEnabled = true;
+                CountySP.IsEnabled = true;
             }
             else
             {
@@ -379,12 +381,14 @@ namespace MaimApp.Views
         {
             if (SearchSity.Text.Trim() == "")
             {
+                CityInDBSP_SV.Visibility = Visibility.Hidden;
                 CityInDBSP.Visibility = Visibility.Hidden;
                 CityInDBSP.Children.Clear();
                 return;
             }
             else
             {
+                CityInDBSP_SV.Visibility = Visibility.Visible;
                 CityInDBSP.Visibility = Visibility.Visible;
                 CityInDBSP.Children.Clear();
                 CityInDBSP.Background = (Brush)brushConverter.ConvertFrom("#EDEDED");
@@ -417,8 +421,15 @@ namespace MaimApp.Views
         {
             DoubleAnimation anim = new DoubleAnimation();
             IpInfo ipInfo = new IpInfo();
-            ipInfo.ChangeCity(((Label)sender).Content.ToString());
 
+            if (sender.GetType().Name.ToString() == "Button")
+            {
+                ipInfo.ChangeCity(((Button)sender).Content.ToString());
+            }
+            else
+            {
+                ipInfo.ChangeCity(((Label)sender).Content.ToString());
+            }
             //Уберем выпадающий список городов
             SearchSity.Text = "";
             anim.To = 0;
@@ -686,6 +697,31 @@ namespace MaimApp.Views
             }
         }
 
+        private void LoadCity(object sender)
+        {
+            using (var db = new DbA99dc4MaimfDB())
+            {
+                foreach (var City in db.Cities.Where(x => x.RegionId == int.Parse(string.Join("", ((Button)sender).Name.Where(c => char.IsDigit(c))))))
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Button button = new Button
+                        {
+                            Name = "City" + City.Id,
+                            Content = City.Name,
+                            FontSize = 13,
+                            Height = 25.5,
+                            Style = (Style)FindResource("ComboBoxButton")
+                        };
+                        button.Click += CityDown;
+                        button.MouseEnter += IsMouseEnter;
+                        button.MouseLeave += IsMouseLeave;
+                        CitySP.Children.Add(button);
+                    });
+                }
+            }
+        }
+
         //Для вывода нумерации товаров
         public void NumberStroke()
         {
@@ -776,7 +812,7 @@ namespace MaimApp.Views
         }
 
         //При выборе закрашивает выбранную кнопку
-        public void Country_Click(object now, object second)
+        public void ChangeCity_Click(object now, object second)
         {
             if (second != null)
             {
@@ -867,6 +903,7 @@ namespace MaimApp.Views
                     authorization.ShowDialog();
                     if (authorization.DialogResult == false)
                     {
+                        this.Show();
                         return;
                     }
                     else

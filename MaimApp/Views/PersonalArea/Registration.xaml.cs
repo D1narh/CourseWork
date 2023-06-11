@@ -32,11 +32,6 @@ namespace MaimApp.Views.PersonalArea
             InitializeComponent();
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-
         private void Label_MouseEnter(object sender, MouseEventArgs e)
         {
             SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(137, 131, 255));
@@ -53,12 +48,14 @@ namespace MaimApp.Views.PersonalArea
         {
             if (((Label)sender).Content.ToString() == "X")
             {
-                DialogResult = false;
+                MainProduct mainProduct = new MainProduct();
+                mainProduct.Show();
                 this.Close();
             }
             else
             {
-                DialogResult = true;
+                Authorization authorization = new Authorization();
+                authorization.Show();
                 this.Close();
             }
         }
@@ -82,7 +79,7 @@ namespace MaimApp.Views.PersonalArea
                 }
                 else
                 {
-                    using (var db = new DbA99dc4MaimfDB())
+                    using (var db = new DbA96b40MaimfDB())
                     {
                         var user = db.Users.FirstOrDefault(x => x.Login == login.Text.Trim() || x.Mail == email.Text.Trim());
                         if (user == null)
@@ -120,7 +117,8 @@ namespace MaimApp.Views.PersonalArea
                                         LastName = sname.Text.Trim(),
                                     });
                                     new AuthUser(login.Text.Trim(), password.Password.Trim());
-                                    DialogResult = true;
+                                    MainProduct mainProduct = new MainProduct();
+                                    mainProduct.Show();
                                     this.Close();
                                 }
                             }

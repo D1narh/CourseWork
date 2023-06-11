@@ -67,13 +67,13 @@
         <!--Logo-->
         <Image Source="/Image/Logo.png" Height="64" HorizontalAlignment="Right" VerticalAlignment="Top" Width="147" Grid.Row="1" Grid.Column="1"/>
 
-        <Grid x:Name="HelloPanel" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Width="562" Height="300" Margin="40,0,0,0" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="HelloPanel" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" Width="562" Height="300" Margin="40,0,0,0" Grid.Row="1" Grid.Column="1">
             <Label Content="Добро пожаловать!" FontSize="28" FontWeight="Bold" Margin="162,75,80,177"/>
             <Label Content="Это стартовая страница" FontSize="22" Margin="178,128,95,128"/>
             <Label Content="Выберите один из элементов с лева" FontSize="20" Margin="132,177,50,81"/>
         </Grid>
         <!--Hotels-->
-        <Grid x:Name="HotelsG" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="HotelsG" Visibility="Visible" Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70.5"/>
                 <ColumnDefinition Width="70.5"/>
@@ -286,7 +286,7 @@
                 </Border>
             </Grid>
             <!--Выпадающий список городов-->
-            <Grid x:Name="ChangeCityGrid" Visibility="Hidden" Grid.Row="2" Grid.ColumnSpan="9" Margin="27,10,0,0" VerticalAlignment="Top" Width="673" Height="305" HorizontalAlignment="Left" Grid.RowSpan="7">
+            <Grid x:Name="ChangeCityGrid" Visibility="Visible" Grid.Row="2" Grid.ColumnSpan="9" Margin="27,10,0,0" VerticalAlignment="Top" Width="673" Height="305" HorizontalAlignment="Left" Grid.RowSpan="7">
                 <Border CornerRadius="3" Background="#EDEDED">
                     <Grid x:Name="ChangeSity">
                         <Grid.ColumnDefinitions>
@@ -299,12 +299,13 @@
                             <RowDefinition Height="28*"/>
                             <RowDefinition Height="206*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" x:Name="CountySP" Grid.Column="0" Grid.Row="2" Background="#EDEDED" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="212" Height="204"/>
+
+                        <StackPanel Orientation="Vertical" x:Name="CountySP" Grid.Column="0" Grid.Row="2" Background="#EDEDED" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="165" Height="204"/>
                         <ScrollViewer HorizontalAlignment="Left" Background="Transparent" Width="250" Height="204" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Margin="10,0,0,0">
                             <StackPanel Orientation="Vertical" x:Name="RegionSP" Grid.Row="2" Grid.Column="1" Background="#EDEDED" VirtualizingPanel.ScrollUnit="Pixel" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         </ScrollViewer>
                         <ScrollViewer HorizontalAlignment="Left" Background="Transparent" Width="212" Height="204" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Margin="10,0,0,0">
-                            <StackPanel Orientation="Vertical" x:Name="CitySP" Background="#EDEDED" VirtualizingPanel.ScrollUnit="Pixel" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <StackPanel Orientation="Vertical" x:Name="CitySP" Background="#EDEDED" VirtualizingPanel.ScrollUnit="Pixel" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         </ScrollViewer>
 
                         <!--Search-->
@@ -334,8 +335,8 @@
                          Stroke="Gray"  
                          StrokeThickness="2" />
                         <Label Content="Город" Grid.Column="2" Grid.Row="1"  FontSize="13" Foreground="Gray" Margin="10,0,0,0"/>
-                        <ScrollViewer  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="Transparent">
-                            <StackPanel Visibility="Visible" VirtualizingPanel.ScrollUnit="Pixel" x:Name="CityInDBSP"/>
+                        <ScrollViewer x:Name="CityInDBSP_SV" Grid.Row="1" Visibility="Hidden" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="Transparent">
+                            <StackPanel VirtualizingPanel.ScrollUnit="Pixel" x:Name="CityInDBSP" Width="673"/>
                         </ScrollViewer>
                     </Grid>
                 </Border>
