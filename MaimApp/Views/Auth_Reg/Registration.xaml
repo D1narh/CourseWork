@@ -1,0 +1,122 @@
+﻿<Window x:Class="MaimApp.Views.PersonalArea.Registration"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MaimApp.Views.PersonalArea"
+        mc:Ignorable="d"
+        Title="HotelSelection" Height="450" Width="650"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    
+    <Border Width ="600" Height="450" Background="#FFFFFF" BorderBrush="Black" CornerRadius="14">
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="l_exit" Content="X" Foreground="gray" FontWeight="Bold" FontSize="15px" FontFamily="Montserrat" HorizontalAlignment="Left" Margin="555,4,0,0" VerticalAlignment="Top" Padding="15px,10" Width="40" Height="40" Cursor="Hand" Grid.ColumnSpan="2" MouseDown="Label_MouseDown" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave"/>
+            <Label Content="Регистрация" Foreground="#B0BDE9"  FontSize="25px" FontWeight="Bold" HorizontalAlignment="Left" Margin="60,23,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+            <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="190" Margin="50,78,0,0" VerticalAlignment="Top" Width="240">
+                <TextBox x:Name="login"
+            BorderBrush="LightGray"
+            Foreground="Gray"
+            FontSize="15px"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Background="White"
+            VerticalAlignment="Top"
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            MaxWidth="400"
+            materialDesign:HintAssist.Hint="Логин"
+            materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+            materialDesign:HintAssist.Foreground="#B0BDE9"
+            IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Height="50" Margin="0"/>
+                <PasswordBox x:Name="password"
+                Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                BorderBrush="LightGray"
+                Foreground="Gray"
+                Background="White"
+                FontSize="15px"
+                materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                materialDesign:HintAssist.Foreground="#B0BDE9"
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Пароль"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}" Height="50" Margin="0,20,0,0"/>
+                <PasswordBox x:Name="password2"
+                Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                BorderBrush="LightGray"
+                Foreground="Gray"
+                Background="White"
+                FontSize="15px"
+                materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                materialDesign:HintAssist.Foreground="#B0BDE9"
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Повторите пароль"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}" Height="50" Margin="0,20,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="190" Margin="310,78,0,0" VerticalAlignment="Top" Width="240">
+                <TextBox x:Name="name"
+                BorderBrush="LightGray"
+                Foreground="Gray"
+                FontSize="15px"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                Background="White"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                MaxWidth="400"
+                materialDesign:HintAssist.Hint="Имя"
+                materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                materialDesign:HintAssist.Foreground="#B0BDE9"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Height="50" Margin="0" PreviewTextInput="LetterValidationTextBox"/>
+                <TextBox x:Name="sname"
+            BorderBrush="LightGray"
+            Foreground="Gray"
+            FontSize="15px"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Background="White"
+            VerticalAlignment="Top"
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            MaxWidth="400"
+            materialDesign:HintAssist.Hint="Фамилия"
+            materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+            materialDesign:HintAssist.Foreground="#B0BDE9"
+            IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Height="50" Margin="0,20,0,0" PreviewTextInput="LetterValidationTextBox"/>
+                <TextBox x:Name="email"
+                BorderBrush="LightGray"
+                Foreground="Gray"
+                FontSize="15px"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                Background="White"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                MaxWidth="400"
+                materialDesign:HintAssist.Hint="Почта"
+                materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9"
+                materialDesign:HintAssist.Foreground="#B0BDE9"
+                IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Height="50" Margin="0,20,0,0"/>
+            </StackPanel>
+            <Grid Margin="50,355,400,25" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Есть аккаунт ?" Foreground="Gray"  FontSize="10px" FontWeight="Regular" HorizontalAlignment="left" VerticalAlignment="Center"/>
+                <Label Grid.Column="1" Content="Авторизация" Foreground="#B0BDE9"  FontSize="10px" FontWeight="Regular" HorizontalAlignment="left" VerticalAlignment="Center" Cursor="Hand" MouseDown="Label_MouseDown" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave" />
+            </Grid>
+            <Button x:Name="btn_register"
+            Style="{StaticResource MaterialDesignFlatMidBgButton}"
+            FontSize="15px"
+            Content="Зарегистрироваться" Height="50" Background="#B0BDE9" BorderBrush="{x:Null}" Foreground="#DDFFFFFF" Margin="50,288,50,62" Grid.ColumnSpan="2" Click="btn_register_Click" />
+        </Grid>
+    </Border>
+</Window>
