@@ -15,10 +15,7 @@ namespace MaimApp.Class.Favorite
 
         public async Task<List<UserFavoriteProductC>> LoadFavorite()
         {
-            if (userFavorite == null)
-            {
-                userFavorite = await favorite.LoadFavorite();
-            }
+            userFavorite = await favorite.LoadFavorite();
             return userFavorite;
         }
     }

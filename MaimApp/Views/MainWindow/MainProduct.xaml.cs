@@ -440,11 +440,11 @@ namespace MaimApp.Views
             ChangeCityGrid.Visibility = Visibility.Hidden;
             IsEnabled(true);
 
+            await LoadProduct();
+
             //Поменяем предыдущий город на нынешний
             UserCity.Content = $"г.{ipInfo.GetCity()}";
-            CityL.Content = $"Ваш город : {ipInfo.GetCity()}";
-
-            await LoadProduct();
+            CityL.Content = $"Ваш город : {UserCity.Content}";
         }
 
         private void View_MouseEnter(object sender, MouseEventArgs e)
@@ -898,7 +898,7 @@ namespace MaimApp.Views
             var IdProduct = TypeDescriptor.GetProperties(a)["ID"].GetValue(a);
             if (authUser.AuthOrNo())
             {
-                await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(IdProduct)));
+                await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(IdProduct),1));
                 ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort));
             }
             else
@@ -921,7 +921,7 @@ namespace MaimApp.Views
                     }
                     else
                     {
-                        await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(IdProduct)));
+                        await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(IdProduct),1));
                         ChangeListNow.ItemsSource = await Task.Run(() => viewProduct.Load40Product(NowSort));
                     }
                     this.Show();

@@ -221,7 +221,7 @@ namespace MaimApp.Views.Product
             ViewProduct viewProduct = new ViewProduct();
             if (authUser.AuthOrNo())
             {
-                if (await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(Hotel.ID))))
+                if (await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(Hotel.ID),1)))
                 {
                     IsFavorite.Source = new ImageSourceConverter().ConvertFromString("pack://application:,,,/Image/heart.png") as ImageSource;
                 }
@@ -245,7 +245,7 @@ namespace MaimApp.Views.Product
                     authorization.ShowDialog();
                     this.Show();
 
-                    if (await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(Hotel.ID))))
+                    if (await Task.Run(() => viewProduct.DelOrIns(Convert.ToInt32(Hotel.ID), 1)))
                     {
                         IsFavorite.Source = new ImageSourceConverter().ConvertFromString("pack://application:,,,/Image/heart.png") as ImageSource;
                     }

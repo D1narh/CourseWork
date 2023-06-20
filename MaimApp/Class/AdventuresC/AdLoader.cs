@@ -1,6 +1,7 @@
 ﻿using DataModels;
 using MaimApp.Class.BusTickets;
 using MaimApp.Class.Favorite;
+using MaimApp.Parser.Class;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +24,7 @@ namespace MaimApp.Class.AdventuresC
 
         public async Task<ObservableCollection<Adventures>> Load21Product()
         {
+            GetAllFavorite();
             if (AdventuresList.Count == 0)
             {
                 await Task.Run(() => Load());
@@ -49,18 +51,17 @@ namespace MaimApp.Class.AdventuresC
                 lastQuantity = AdventuresList.Count;
             }
 
-            while (count < lastQuantity)
+            for(int j = count; j < lastQuantity; j++) 
             {
-                var i = AdventuresList[count];
+                var i = AdventuresList[j];
+                i.IsFavorite = "\\Image\\heart-shape.png";
 
-                Application.Current.Dispatcher.Invoke(() =>
+                if (favorite != null && favorite.FirstOrDefault(x => x.ProductId == i.ID && x.ProductType == 3) != null)
                 {
-                    First21Adventures.Add(i);
-                });
-
-                count++;
+                    i.IsFavorite = "\\Image\\heart.png";
+                }
+                First21Adventures.Add(i);
             }
-
             return First21Adventures;
         }
 
@@ -96,12 +97,10 @@ namespace MaimApp.Class.AdventuresC
             }
         }
 
-        public async Task<List<UserFavoriteProductC>> GetAllFavorite()
+        public async void GetAllFavorite()
         {
             FindFavorite fav = new FindFavorite();
             favorite = await fav.LoadFavorite();
-
-            return favorite;
         }
     }
 }

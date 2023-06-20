@@ -5,9 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MaimApp.Views.PersonalArea.AdminPanel"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Background="Transparent"
         Width="450" Height="450" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStartupLocation="CenterScreen">
-    <Border Background="#FAF9F9" CornerRadius="4">
+    <Border Background="#FAF9F9" CornerRadius="4" Margin="0,0,0,0">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -28,32 +28,32 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Label Content="Добавление нового продукта" FontSize="15" FontWeight="Bold" Foreground="Gray" Grid.ColumnSpan="4" Margin="10,10,0,0"/>
-
-            <TextBox x:Name="DescroptionTB" BorderBrush="LightGray" BorderThickness="0"
-                    Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
-                    materialDesign:HintAssist.Hint="Описание" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
-                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="7" Margin="10,37,10,26" Grid.Row="1" Grid.RowSpan="3"/>
-            <TextBox x:Name="NameTB" BorderBrush="LightGray" BorderThickness="0" 
+            <Label Content="Добавление нового продукта" FontSize="15" FontWeight="Bold" Foreground="Gray" Grid.ColumnSpan="5" Margin="10,10,0,0"/>
+            <TextBox x:Name="NameTB" BorderBrush="LightGray" BorderThickness="0" Style="{StaticResource MaterialDesignOutlinedTextBox}" 
                     Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
                     materialDesign:HintAssist.Hint="Название" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
-                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="7" Margin="10,64,10,33" Grid.RowSpan="2"/>
-            <TextBox x:Name="ShortDescroptionTB" BorderBrush="LightGray" BorderThickness="0"
+                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="10" Margin="10,64,10,33" Grid.RowSpan="2"/>
+            <TextBox x:Name="DescroptionTB" BorderBrush="LightGray" BorderThickness="0" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
+                    materialDesign:HintAssist.Hint="Описание" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
+                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="10" Margin="10,37,10,26" Grid.Row="1" Grid.RowSpan="3"/>
+            <TextBox x:Name="ShortDescroptionTB" BorderBrush="LightGray" BorderThickness="0" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                     Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
                     materialDesign:HintAssist.Hint="Короткое описание" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="7" Margin="10,43,10,63" Grid.Row="3" Grid.RowSpan="3"/>
-            <TextBox x:Name="Price" BorderBrush="LightGray" BorderThickness="0"
+            <TextBox x:Name="Price" BorderBrush="LightGray" BorderThickness="0" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                     Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
                     materialDesign:HintAssist.Hint="Цена" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="2" Margin="10,7,10,25" Grid.Row="5" PreviewTextInput="Price_PreviewTextInput"/>
-            <TextBox x:Name="Image" BorderBrush="LightGray" BorderThickness="0"
+            <TextBox x:Name="ImagePath" BorderBrush="LightGray" BorderThickness="0" Style="{StaticResource MaterialDesignOutlinedTextBox}"
                     Background="#EDEDED" AcceptsReturn="True" TextWrapping="Wrap" materialDesign:HintAssist.Background="Transparent"
-                    materialDesign:HintAssist.Hint="Изображение" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
+                    materialDesign:HintAssist.Hint="Ссылка на изображение" materialDesign:TextFieldAssist.UnderlineBrush="#B0BDE9" materialDesign:HintAssist.Foreground="#A09D9D"
                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}" Padding="6" Foreground="Black" VerticalContentAlignment="Center" FontSize="12" Grid.ColumnSpan="6" Margin="60,7,12,24" Grid.Row="5" Grid.Column="1"/>
 
-            <Button x:Name="SaveChangeB" Style="{DynamicResource ChangeButton}" Grid.Row="6" Height="37" Grid.ColumnSpan="3" FontSize="12" Margin="10,17,10,0" Background="#B0BDE9" VerticalAlignment="Top" Content="Добавить новый продукт" Foreground="White" Grid.Column="4" Click="SaveChangeB_Click"/>
-            <Button x:Name="BackB" Style="{DynamicResource ChangeButton}" Grid.Row="6" Height="37" Grid.ColumnSpan="3" FontSize="12" Margin="10,17,47,0" Background="#B0BDE9" VerticalAlignment="Top" Content="Вернуться назад" Foreground="White" Click="BackB_Click"/>
+            <Image x:Name="PrImage" Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="41,43,5,5"/>
 
+            <Button x:Name="SaveChangeB" Style="{DynamicResource ChangeButton}" Grid.Row="6" Height="37" Grid.ColumnSpan="3" FontSize="12" Margin="10,17,10,0" Background="#B0BDE9" VerticalAlignment="Top" Content="Добавить новый продукт" Foreground="White" Grid.Column="4" Click="SaveChangeB_Click"/>
+            <Button x:Name="BackB" Style="{DynamicResource ChangeButton}" Grid.Row="6" Height="37" Grid.ColumnSpan="3" FontSize="12" Margin="10,17,40,0" Background="#B0BDE9" VerticalAlignment="Top" Content="Вернуться назад" Foreground="White" Click="BackB_Click"/>
         </Grid>
     </Border>
 </Window>

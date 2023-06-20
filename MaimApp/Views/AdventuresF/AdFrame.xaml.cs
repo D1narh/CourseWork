@@ -1,7 +1,10 @@
 ﻿using MaimApp.Class.AdventuresC;
+using MaimApp.Class.MainProductC;
 using MaimApp.Class.User;
+using MaimApp.Views.MessageView;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +28,7 @@ namespace MaimApp.Views.AdventuresF
         private static readonly BrushConverter brushConverter = new BrushConverter();
         private readonly AuthUser authUser = new AuthUser();
         private readonly AdLoader loader = new AdLoader();
+        ViewProduct viewProduct = new ViewProduct();
 
         public AdFrame()
         {

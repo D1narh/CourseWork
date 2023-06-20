@@ -1,20 +1,12 @@
 ﻿using DataModels;
 using LinqToDB;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MaimApp.Views.PersonalArea.AdminPanel
 {
@@ -35,9 +27,9 @@ namespace MaimApp.Views.PersonalArea.AdminPanel
 
         private void SaveChangeB_Click(object sender, RoutedEventArgs e)
         {
-            if(NameTB.Text.Trim() == "" || DescroptionTB.Text.Trim() == "" || ShortDescroptionTB.Text.Trim() == "" || int.Parse(Price.Text.ToString()) <= 0 || Image.Text.Trim() == "")
+            if (NameTB.Text.Trim() == "" || DescroptionTB.Text.Trim() == "" || ShortDescroptionTB.Text.Trim() == "" || int.Parse(Price.Text.ToString()) <= 0 || ImagePath.Text.Trim() == "")
             {
-                MessageBox.Show("Вы не ввели некоторые параметры","Внимание");
+                MessageBox.Show("Вы не ввели некоторые параметры", "Внимание");
             }
             else
             {
@@ -47,7 +39,7 @@ namespace MaimApp.Views.PersonalArea.AdminPanel
                 }
                 else
                 {
-                    if(NameTB.Text.Trim().Length == 1 || DescroptionTB.Text.Trim().Length == 1 || ShortDescroptionTB.Text.Trim().Length == 1)
+                    if (NameTB.Text.Trim().Length == 1 || DescroptionTB.Text.Trim().Length == 1 || ShortDescroptionTB.Text.Trim().Length == 1)
                     {
                         MessageBox.Show("Вы ввели только один символ в одно из полей ", "Внимание");
                     }
@@ -61,14 +53,14 @@ namespace MaimApp.Views.PersonalArea.AdminPanel
                                 Description = DescroptionTB.Text.Trim(),
                                 ShorDescription = ShortDescroptionTB.Text.Trim(),
                                 Price = int.Parse(Price.Text.ToString().Trim()),
-                                Image = Image.Text.Trim(),
+                                Image = ImagePath.Text.Trim(),
                                 CategoriId = 3
                             });
+                            DialogResult = true;
                         }
                     }
                 }
             }
-            DialogResult = true;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

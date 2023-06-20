@@ -63,11 +63,6 @@
                                 <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Width="300" Grid.Column="2" Grid.ColumnSpan="3" Margin="110,15,0,0" FontSize="15" FontWeight="DemiBold"/>
                                 <TextBlock Text="Описание:" Grid.Column="2" Grid.ColumnSpan="3" Margin="115,63,0,0" FontSize="15"/>
                                 <TextBlock Text="{Binding ShortDescroption}" TextWrapping="Wrap" Grid.Column="2" Grid.ColumnSpan="3" Margin="115,83,0,0" FontSize="15"/>
-                                <Button x:Name="Favorite" Background="#FFFFFF" Style="{x:Null}" Grid.Column="4" Width="40" Height="40" BorderThickness="0" Margin="50,210,0,0">
-                                    <StackPanel>
-                                        <Image Source="{Binding IsFavorite}"/>
-                                    </StackPanel>
-                                </Button>
                                 <Label Content="Цена :" Grid.Column="3" Width="55" Height="30" BorderThickness="0" FontSize="14" Margin="-140,210,0,0"/>
                                 <Label Content="{Binding Price}" Grid.Column="3" Width="100" Height="30" BorderThickness="0" FontSize="17" Margin="0,205,0,0"/>
                             </Grid>

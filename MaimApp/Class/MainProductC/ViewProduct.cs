@@ -141,32 +141,32 @@ namespace MaimApp.Class.MainProductC
             return result.FirstOrDefault(x => x.ID == id);
         }
 
-        public bool DelOrIns(int IdProduct)
+        public bool DelOrIns(int IdProduct,int ProductType)
         {
             AuthUser user = new AuthUser();
             using (var db = new DbA99dc4MaimfDB())
             {
-                if (db.UserFavProducts.FirstOrDefault(x => x.ProductId == IdProduct && x.ProductType == 1) == null)
+                if (db.UserFavProducts.FirstOrDefault(x => x.ProductId == IdProduct && x.ProductType == ProductType) == null)
                 {
-                    favorite.Add(new UserFavoriteProductC(IdProduct, 1)
+                    favorite.Add(new UserFavoriteProductC(IdProduct, ProductType)
                     {
                         ProductId = IdProduct,
-                        ProductType = 1
+                        ProductType = ProductType
                     });
                     db.Insert(new UserFavProduct
                     {
                         UserId = (int)(user.GetUserId()),
                         ProductId = IdProduct,
-                        ProductType = 1,
+                        ProductType = ProductType,
                         DateIns = DateTime.Now
                     });
                     return true;
                 }
                 else
                 {
-                    var itemForDel = favorite.FirstOrDefault(x => x.ProductId == IdProduct && x.ProductType == 1);
+                    var itemForDel = favorite.FirstOrDefault(x => x.ProductId == IdProduct && x.ProductType == ProductType);
                     favorite.Remove(itemForDel);
-                    db.UserFavProducts.Where(x => x.ProductId == IdProduct && x.ProductType == 1).Delete();
+                    db.UserFavProducts.Where(x => x.ProductId == IdProduct && x.ProductType == ProductType).Delete();
                     return false;
                 }
             }

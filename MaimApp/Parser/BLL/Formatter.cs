@@ -51,7 +51,7 @@ namespace MaimApp.BLL
             url = URL(city);
             if (url == "")
             {
-                MessageBox.Show("У нас нет информации по отелям в вашем городе", "Извините");
+                MessageBox.Show("У нас нет информации по отелям в выбраном городе", "Извините");
             }
             else
             {
@@ -118,7 +118,6 @@ namespace MaimApp.BLL
         {
             Translator translator = new Translator();
             var transCity = translator.Translate(city);
-            ipInfo.ChangeCity(transCity);
             using (var db = new DbA99dc4MaimfDB())
             {
                 var link = db.Cities?.FirstOrDefault(x => x.Name.Contains(transCity))?.Link;
@@ -128,6 +127,7 @@ namespace MaimApp.BLL
                 }
                 else
                 {
+                    ipInfo.ReturnCity();
                     return "";
                 }
             }

@@ -35,12 +35,20 @@ namespace MaimApp.Class
         [JsonProperty("postal")]
         public string Postal { get; set; }
 
+        public static string PrewCity { get; set; }
+
         public string GetCity()
         {
             return City;
         }
+        public void ReturnCity()
+        {
+            City = PrewCity;
+        }
+
         public void ChangeCity(string NewName)
         {
+            PrewCity = City;
             City = NewName;
         }
     }
