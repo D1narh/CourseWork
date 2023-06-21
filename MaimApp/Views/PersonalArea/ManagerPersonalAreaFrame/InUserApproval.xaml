@@ -28,7 +28,7 @@
 
             <Ellipse x:Name="ImageEl" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Width="120" Height="120">
                 <Ellipse.Fill>
-                    <ImageBrush x:Name="ImageI" ImageSource="/Image/IqGjWuAdGoQ.jpg" />
+                    <ImageBrush x:Name="ImageI" ImageSource="/Image/Avatar.jpg" />
                 </Ellipse.Fill>
             </Ellipse>
 

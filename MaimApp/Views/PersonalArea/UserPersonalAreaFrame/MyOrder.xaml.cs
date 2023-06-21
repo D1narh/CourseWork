@@ -30,7 +30,7 @@ namespace MaimApp.Views.PersonalArea.UserPersonalAreaGrid
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             OrderLoader loader = new OrderLoader();
-            list.ItemsSource = await Task.Run(async () => await loader.Load());
+            list.ItemsSource = await loader.Load();
         }
     }
 }

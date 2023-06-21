@@ -63,6 +63,11 @@ namespace MaimApp.Views.TicketsF
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            Loaders();
+        }
+
+        public async void Loaders()
+        {
             await LoadApproval();
             NumberStroke();
         }

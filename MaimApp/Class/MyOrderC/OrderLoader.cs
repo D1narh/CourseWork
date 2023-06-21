@@ -1,5 +1,6 @@
 ﻿using DataModels;
 using MaimApp.Class.BusTickets;
+using MaimApp.Class.User;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,7 @@ namespace MaimApp.Class.MyOrderC
     public class OrderLoader
     {
         public static ObservableCollection<MyOrder> OrderList = new ObservableCollection<MyOrder>();
+        AuthUser authUser = new AuthUser();
         public async Task<ObservableCollection<MyOrder>> Load()
         {
             await Application.Current.Dispatcher.InvokeAsync(() =>
@@ -21,7 +23,7 @@ namespace MaimApp.Class.MyOrderC
 
                 using (var db = new DbA99dc4MaimfDB())
                 {
-                    var data = db.Baskets.Join(db.BasketLines,
+                    var data = db.Baskets.Where(x => x.UserId == authUser.GetUserId()).Join(db.BasketLines,
                         b => b.Id,
                         bl => bl.BasketId,
                         (b, bl) => new

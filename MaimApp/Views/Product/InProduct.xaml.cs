@@ -160,8 +160,8 @@ namespace MaimApp.Views.Product
                     db.Insert(new HotelProduct
                     {
                         Name = Hotel.Name,
-                        Price = Convert.ToDouble(Hotel.Price),
-                        CityId = db.Cities.FirstOrDefault(x => x.Name == "Москва").Id,
+                        Price = Convert.ToDouble(Hotel.Price.Remove(Hotel.Price.Length - 1)),
+                        CityId = db.Cities.FirstOrDefault(x => x.Name == Hotel.City).Id,
                         DistanceToCenter = Convert.ToDouble(string.Join("", Hotel.DistanceToCenter.Where(c => char.IsDigit(c)))),
                         MainImage = Hotel.ImagePath
                     });
